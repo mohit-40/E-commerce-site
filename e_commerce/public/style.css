@@ -3,3 +3,8 @@
 	font-family: 'Urbanist', sans-serif;
 	/* color: rgba(250, 246, 4, 0.527); */
   }
+
+.text-link {
+    color: inherit;
+    text-decoration: inherit;
+}

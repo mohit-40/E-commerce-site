@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link } from 'react-router-dom'
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from 'styled-components'
@@ -66,13 +67,13 @@ const Navbar = () => {
 						<Search />
 					</SearchContainer>
 				</Left>
-				<Center><Logo>LAMA DEV</Logo></Center>
+				<Center><Link className='text-link' to="/"><Logo>LAMA DEV</Logo> </Link></Center>
 				<Right>
-					<RightItem>REGISTER</RightItem>
-					<RightItem>SIGN IN</RightItem>
+					<RightItem><Link className='text-link' to="/register">REGISTER</Link></RightItem>
+					<RightItem><Link className='text-link' to="/login">SIGN IN</Link></RightItem>
 					<RightItem> 
 						<Badge badgeContent={4} color="primary" >
-							<ShoppingCartOutlined style={{fontSize: 30 }}/>
+							<Link className='text-link' to="/cart"><ShoppingCartOutlined style={{fontSize: 30 }}/></Link>
 						</Badge>
 					</RightItem>
 				</Right>
