@@ -83,11 +83,12 @@ const CountContainer = styled.div`
 	display: flex;
 	align-items: center;
 	`
-const Count = styled.div`
+const Count = styled.input`
 	font-size: 20px;
 	border: 2px solid blue;
 	width:40px;
 	border-radius: 10px;
+	outline:none;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -140,7 +141,7 @@ const Product = () => {
 					<AddContainer>
 						<CountContainer>
 							<Remove />
-							<Count>2</Count>
+							<Count defaultValue={1}/>
 							<Add />
 						</CountContainer>
 						<Button>ADD TO CART</Button>
