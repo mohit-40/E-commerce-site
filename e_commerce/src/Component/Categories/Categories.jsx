@@ -16,13 +16,13 @@ const Item=styled.div`
 const ImageContainer=styled.div``
 const Image=styled.img`
 	height:700px;
-	`
+`
 const InfoContainer=styled.div`
 	position:absolute;
 	top:0;
 	height:100%;
 	width:100%;
-	display: flex;
+	display: flex;																	
 	flex-direction:column;
 	align-items: center;
 	justify-content: center;
