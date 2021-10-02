@@ -6,7 +6,9 @@ const Container = styled.div`
 	align-items: center;
 	justify-content:center;
 	background: green;
-	height:60px;
+	height:40px;
+	font-weight: 500;
+	font-size: 20px;
 `
 
 
