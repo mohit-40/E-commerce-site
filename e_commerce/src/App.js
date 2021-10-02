@@ -12,7 +12,6 @@ function App() {
       <Router>
         <Switch>
           <Route path="/"> <Home /> </Route>
-          
         </Switch>
       </Router> 
   );
