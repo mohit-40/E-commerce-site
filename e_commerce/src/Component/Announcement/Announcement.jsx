@@ -15,7 +15,7 @@ const Container = styled.div`
 const Announcement = () => {
 	return (
 		<Container>
-			<p>	Sale will start at sharp 5:30 PM </p>
+			<p>Super Deal! Free Shipping on Orders Over Rs 500 </p>
 		</Container>
 	)
 }
