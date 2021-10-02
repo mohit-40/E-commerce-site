@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-
 const Container=styled.div``
 
-
-const Register = () => {
+const Cart = () => {
 	return (
 		<Container>
 			
@@ -12,4 +10,4 @@ const Register = () => {
 	)
 }
 
-export default Register
+export default Cart
