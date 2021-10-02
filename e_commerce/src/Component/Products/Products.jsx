@@ -80,10 +80,10 @@ const Circle = styled.div`
 	z-index:0;
 `
 
-const Products = () => {
+const Products = ({title}) => {
 	return (
 		<Container>
-			<Heading>Popular Products</Heading>
+			<Heading>{title}</Heading>
 			<Wrapper>
 
 				{popularProducts.map((item) => {
