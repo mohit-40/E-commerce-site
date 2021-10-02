@@ -87,12 +87,7 @@ const Footer = () => {
 					<ListItem>My Account</ListItem>
 					<ListItem>Sign Up</ListItem>
 					<ListItem>Sign In</ListItem>
-					<ListItem>My Account</ListItem>
-					<ListItem>Sign Up</ListItem>
-					<ListItem>Sign In</ListItem>
-					<ListItem>My Account</ListItem>
-					<ListItem>Sign Up</ListItem>
-					<ListItem>Sign In</ListItem>
+					<ListItem>Product-List</ListItem>
 				</List>
 			</Center>
 			<Right>
