@@ -31,14 +31,12 @@ const Input = styled.input`
 	height: 30px;
 	font-size: 18px;
 `
-const ButtonContainer = styled.div`
-	margin-top: 10px;
-`
+
 const Button = styled.button`
 	padding:5px;
 	font-size: 18px;
 	width:100%;
-	margin:5px;
+	margin:5px 0;
 	background-color: ${(props)=> props.type==="signin"? "rgba(96, 243, 60, 0.836)" : "rgba(13, 81, 228, 0.836);"};
 `
 const Agreement = styled.div`
@@ -55,10 +53,8 @@ const Login = () => {
 				<Form>
 					<Input placeholder="Username" />
 					<Input placeholder="Password" />
-					<ButtonContainer>
-						<Button type="signin">SIGN IN</Button>
-						<Button type="register">Register</Button>
-					</ButtonContainer>
+					<Button type="signin">SIGN IN</Button>
+					<Button type="register">Register</Button>
 				</Form>
 				<Agreement>By signing in you agree to the term and condition.</Agreement>
 			</Wrapper>
