@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 import styled from 'styled-components'
+import { sliderItems } from '../../data'
 
 const Container = styled.div`
 	position:relative;
@@ -76,8 +77,8 @@ const Arrow = styled.div`
 	top:0;
 	bottom:0;
 	margin:auto;
-	left: ${(props) => props.dir=== "left" && "10px"};
-  	right: ${(props) => props.dir  === "right" && "10px"};
+	left: ${(props) => props.dir === "left" && "10px"};
+  	right: ${(props) => props.dir === "right" && "10px"};
 	z-index:1000;
 
 `
@@ -94,65 +95,42 @@ const Circle = styled.div`
 `
 
 const Slider = () => {
-	const [sliderIndex,setSliderIndex]=useState(0);
-	const handleClick=(dir)=>{
-		if(dir==="right") {setSliderIndex((sliderIndex+1) % 3);  console.log(sliderIndex);}
-		else if(dir==="left") {sliderIndex===0 ? setSliderIndex(2):setSliderIndex((sliderIndex-1) % 3); console.log(sliderIndex); }
+	const [sliderIndex, setSliderIndex] = useState(0);
+	const handleClick = (dir) => {
+		if (dir === "right") { setSliderIndex((sliderIndex + 1) % 3); console.log(sliderIndex); }
+		else if (dir === "left") { sliderIndex === 0 ? setSliderIndex(2) : setSliderIndex((sliderIndex - 1) % 3); console.log(sliderIndex); }
 	}
 
 
 	return (
 		<Container>
-			<Arrow dir="left" onClick={()=>handleClick("left")}>
+			<Arrow dir="left" onClick={() => handleClick("left")}>
 				<ArrowLeftOutlined />
 			</Arrow>
 
 			<Wrapper sliderIndex={sliderIndex}>
-				<Slide>
-					<ImageContainer>
-						<Circle />
-						<Image src="https://i.ibb.co/DG69bQ4/2.png" alt="image" />
-					</ImageContainer>
-					<InfoContainer >
-						<Title>Summer Collection</Title>
-						<Desc>mohit</Desc>
-						<Button>
-							<div>SHOP NOW</div>
-							<ArrowRightOutlined />
-						</Button>
-					</InfoContainer>
-				</Slide>
-				<Slide>
-					<ImageContainer>
-						<Circle />
-						<Image src="https://i.ibb.co/DG69bQ4/2.png" alt="image" />
-					</ImageContainer>
-					<InfoContainer >
-						<Title>Summer Collection</Title>
-						<Desc>asdfasdf</Desc>
-						<Button>
-							<div>SHOP NOW</div>
-							<ArrowRightOutlined />
-						</Button>
-					</InfoContainer>
-				</Slide>
-				<Slide>
-					<ImageContainer>
-						<Circle />
-						<Image src="https://i.ibb.co/DG69bQ4/2.png" alt="image" />
-					</ImageContainer>
-					<InfoContainer >
-						<Title>Summer Collection</Title>
-						<Desc>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam, mollitia.</Desc>
-						<Button>
-							<div>SHOP NOW</div>
-							<ArrowRightOutlined />
-						</Button>
-					</InfoContainer>
-				</Slide>
+				{sliderItems.map((item) => {
+					return (
+						<Slide>
+							<ImageContainer>
+								<Circle />
+								<Image src={item.img} alt="image" />
+							</ImageContainer>
+							<InfoContainer >
+								<Title>{item.title}</Title>
+								<Desc>{item.desc}</Desc>
+								<Button>
+									<div>SHOP NOW</div>
+									<ArrowRightOutlined />
+								</Button>
+							</InfoContainer>
+						</Slide>
+
+					);
+				})}
 			</Wrapper>
 
-			<Arrow dir="right" onClick={()=>handleClick("right")}>
+			<Arrow dir="right" onClick={() => handleClick("right")}>
 				<ArrowRightOutlined />
 			</Arrow>
 		</Container>
