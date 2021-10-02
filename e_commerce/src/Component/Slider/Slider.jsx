@@ -19,7 +19,7 @@ const Slide = styled.div`
 	display: flex;
 	align-content: center;
 	justify-content: center;
-	background-color: khaki;
+	background-color: ${(props) => props.bg};;
 	`
 const ImageContainer = styled.div`
 	flex:1;
@@ -55,7 +55,7 @@ const Button = styled.button`
 	font-weight:600;
 	cursor: pointer;
 	&:hover{
-		background: white;
+		background: #c0c0c0;
 		color:black;
 	}
 `
@@ -111,7 +111,7 @@ const Slider = () => {
 			<Wrapper sliderIndex={sliderIndex}>
 				{sliderItems.map((item) => {
 					return (
-						<Slide>
+						<Slide key={item.id} bg={item.bg}>
 							<ImageContainer>
 								<Circle />
 								<Image src={item.img} alt="image" />
