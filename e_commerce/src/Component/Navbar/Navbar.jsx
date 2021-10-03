@@ -44,7 +44,7 @@ const Left = styled.div`
 		color:white;
 		font-size:2rem;
 		position: relative;
-		z-index:1000;
+		z-index:1002;
 	}
 	.hamburger{
 		display: none;
@@ -64,13 +64,14 @@ const Right = styled.div`
 	${mobile({ 
 		display:(props)=> props.click? "flex" : "none", 
 		width:"100%", 
-		height:"20vh",
+		height:"50vh",
 		flexDirection: "column",
 		justifyContent: "space-evenly",
 		background:"#000",
 		color:"white",
 		position:"absolute",
 		top:"0",
+		zIndex:"1001",
 	})}
 	`
 const RightItem = styled.div`
