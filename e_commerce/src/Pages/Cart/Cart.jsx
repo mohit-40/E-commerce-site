@@ -8,6 +8,7 @@ import { Add, Remove } from '@material-ui/icons'
 
 const Container = styled.div``
 const Wrapper = styled.div`
+	min-height: calc(100vh - 120px);
 	display: flex;
 	flex-direction:column;
 	margin:20px 20px;

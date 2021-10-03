@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link } from 'react-router-dom'	
 import {
 	FavoriteBorderOutlined,
 	SearchOutlined,
@@ -95,7 +96,7 @@ const Products = ({title}) => {
 							</ImageContainer>
 							<IconContainer>
 								<Icon> <FavoriteBorderOutlined style={{ fontSize: 30 }} /></Icon>
-								<Icon> <SearchOutlined style={{ fontSize: 30 }} /> </Icon>
+								<Icon> <Link className='text-link' to="/product"><SearchOutlined style={{ fontSize: 30 }} /></Link></Icon>
 								<Icon> <ShoppingCartOutlined style={{ fontSize: 30 }} /></Icon>
 							</IconContainer>
 						</Item>

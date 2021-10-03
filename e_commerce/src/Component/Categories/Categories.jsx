@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { categories } from '../../data'
 
@@ -59,7 +60,7 @@ const Categories = () => {
 							</ImageContainer>
 							<InfoContainer>
 								<Title>{category.title}</Title>
-								<Button>SHOP NOW</Button>
+								<Button><Link className='text-link' to="/product-list">SHOP NOW</Link></Button>
 							</InfoContainer>
 						</Item>
 					)
