@@ -13,8 +13,9 @@ const Container = styled.div`
 `
 const Wrapper = styled.div`
 	background-color: white;
-	width:20%;
-	height:50%;
+	max-width:400px;
+	width:100% 0;
+	height:fit-content;
 	padding:20px 20px;
 `
 const Title = styled.div`

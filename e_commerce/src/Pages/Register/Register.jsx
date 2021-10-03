@@ -13,7 +13,8 @@ const Container = styled.div`
 `
 const Wrapper = styled.div`
 	background-color: white;
-	width:50%;
+	max-width:800px;
+	width:100% 0;
 	height:fit-content;
 	padding:20px 20px;
 `

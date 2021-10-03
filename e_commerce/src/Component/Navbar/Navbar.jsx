@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Link } from 'react-router-dom'
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import { Menu,Close, Search, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from 'styled-components'
+import { mobile } from "../../responsive";
 
 const Container = styled.div`
 	height:60px;
@@ -12,6 +13,7 @@ const Wrapper = styled.div`
 	padding: 10px 15px;
 	justify-content: center;
 	align-content: center;
+	position: relative;
 	`
 const Language = styled.div`
 	font-weight:600;
@@ -32,11 +34,22 @@ const SearchContainer = styled.div`
 		outline:none;
 		border:none;
 	}
+	${mobile({ display:"none", })}
 	`
 const Left = styled.div`
 	flex:1;
 	display: flex;
 	align-items: center;
+	.close{
+		color:white;
+		font-size:2rem;
+		position: relative;
+		z-index:1000;
+	}
+	.hamburger{
+		display: none;
+		${mobile({display:"inline",})}
+	}
 	`
 const Center = styled.div`
 	flex:1;
@@ -48,6 +61,17 @@ const Right = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content:flex-end;
+	${mobile({ 
+		display:(props)=> props.click? "flex" : "none", 
+		width:"100%", 
+		height:"20vh",
+		flexDirection: "column",
+		justifyContent: "space-evenly",
+		background:"#000",
+		color:"white",
+		position:"absolute",
+		top:"0",
+	})}
 	`
 const RightItem = styled.div`
 	font-weight:600;
@@ -56,11 +80,18 @@ const RightItem = styled.div`
 	cursor: pointer;
 	`
 
+
 const Navbar = () => {
+
+	const [click, setClick] = useState(false);
+	const handleClick=()=> setClick(!click);
+	const closeMobileMenu = () => setClick(false);
+
 	return (
 		<Container>
 			<Wrapper>
 				<Left>
+					{click? <Close onClick={handleClick} className="hamburger close"/> : <Menu onClick={handleClick} className="hamburger"/>}
 					<Language>EN</Language>
 					<SearchContainer>
 						<input type="text" />
@@ -68,7 +99,7 @@ const Navbar = () => {
 					</SearchContainer>
 				</Left>
 				<Center><Link className='text-link' to="/"><Logo>LAMA DEV</Logo> </Link></Center>
-				<Right>
+				<Right click={click} className={click? "active" : ""}>
 					<RightItem><Link className='text-link' to="/register">REGISTER</Link></RightItem>
 					<RightItem><Link className='text-link' to="/login">SIGN IN</Link></RightItem>
 					<RightItem> 
