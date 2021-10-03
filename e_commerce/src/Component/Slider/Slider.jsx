@@ -15,8 +15,8 @@ const Wrapper = styled.div`
 	transform: translateX(${(props) => props.sliderIndex * -100}vw);
 	`
 const Slide = styled.div`
-	min-height:500px;
-	min-width: 100vw;
+	min-height:400px;
+	min-width: 100vw;	
 	width:100vw;
 	height: calc(100vh - 120px) ;
 	display: flex;

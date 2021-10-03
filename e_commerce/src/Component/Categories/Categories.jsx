@@ -15,9 +15,11 @@ const Item=styled.div`
 	position:relative;
 	`
 const ImageContainer=styled.div`
+	height:700px;
 `
 const Image=styled.img`
-	height:700px;
+	height: 100%;
+	width:100%;
 `
 const InfoContainer=styled.div`
 	position:absolute;
