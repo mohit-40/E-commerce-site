@@ -31,6 +31,7 @@ const Logo=styled.div`
 	font-size: 30px;
 	font-weight: 600;
 	margin-bottom:10px;
+	color:brown;
 	`
 const Desc=styled.div`
 	font-size: 20px;
@@ -50,7 +51,8 @@ const Title=styled.div`
 	font-size: 25px;
 	font-weight: 600;
 	margin-bottom:10px;
-`
+	color:brown;
+	`
 const List=styled.div`
 	display: flex;
 	flex-wrap: wrap;
@@ -82,6 +84,12 @@ const Footer = () => {
 				</SocialContainer>
 			</Left>
 			<Center>
+				<Title>Contact</Title>
+				<ContactItem> <Room /> 504-A ShreeNath Puram Kota Rajasthan 324010 </ContactItem>
+				<ContactItem> <Phone/>+91-8505018619 </ContactItem>
+				<ContactItem> <MailOutline /> 2019285@iiitdmj.ac.in </ContactItem>
+			</Center>
+			<Right>
 				<Title>Usefull Links</Title>
 				<List>
 					<ListItem>My Account</ListItem>
@@ -89,12 +97,6 @@ const Footer = () => {
 					<ListItem>Sign In</ListItem>
 					<ListItem>Product-List</ListItem>
 				</List>
-			</Center>
-			<Right>
-				<Title>Contact</Title>
-				<ContactItem> <Room /> 504-A ShreeNath Puram Kota Rajasthan 324010 </ContactItem>
-				<ContactItem> <Phone/>+91-8505018619 </ContactItem>
-				<ContactItem> <MailOutline /> 2019285@iiitdmj.ac.in </ContactItem>
 
 			</Right>
 		</Container>

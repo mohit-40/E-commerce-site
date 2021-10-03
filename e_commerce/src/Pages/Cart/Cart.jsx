@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Navbar from '../../Component/Navbar/Navbar'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
@@ -40,6 +41,7 @@ const TopLink = styled.div`
 	`
 const Bottom = styled.div`
 	display:flex;
+	flex-wrap: wrap;
 	`
 const ProductContainer = styled.div`
 	flex:3;
@@ -218,7 +220,7 @@ const Cart = () => {
 							</SummaryItem>
 						</SummaryItemContainer>
 						<Button>CHECKOUT NOW</Button>
-						<Button>CONTINUE SHOPPING</Button>
+						<Button><Link className='text-link' to="/product-list">CONTINUE SHOPPING</Link></Button>
 					</Summary>
 				</Bottom>
 

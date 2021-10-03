@@ -3,22 +3,31 @@ import { Send } from "@material-ui/icons";
 import styled from 'styled-components'
 
 const Container=styled.div`
+box-sizing: border-box;
+	min-height: 300px;
 	height:60vh;
+	justify-content: center;
+	background-color:rgb(248, 214, 62);
+	display: flex;
+	align-items: center;
+	`
+const Wrapper=styled.div`
+	margin:30px;
 	display: flex;
 	flex-direction:column;
 	align-items: center;
 	justify-content: center;
-	background-color:rgb(248, 214, 62);
 `
 const Title=styled.div`
-	font-size:80px;
+	font-size:4rem;
 	font-weight: 600;
-	margin-bottom:40px;
+	margin-bottom:2rem;
 	`
 const Desc=styled.div`
-	font-size:30px;
+	text-align:center;
+	font-size:2rem;
 	font-weight: 400;
-	margin-bottom: 40px;
+	margin-bottom:2rem;
 `
 const InputContainer=styled.div`
 	display: flex;
@@ -44,12 +53,14 @@ const Button=styled.button`
 const NewsLetter = () => {
 	return (
 		<Container>
+		<Wrapper>
 			<Title>NewsLetter</Title>
 			<Desc>Get timely update from your favourite products.</Desc>
 			<InputContainer>
 				<input type="text" placeholder="Your Email"/>
 				<Button><Send /> </Button>
 			</InputContainer>
+		</Wrapper>
 		</Container>
 	)
 }

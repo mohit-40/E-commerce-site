@@ -7,6 +7,7 @@ import { mobile } from "../../responsive";
 
 const Container = styled.div`
 	height:60px;
+	height: fit-content;
 `
 const Wrapper = styled.div`
 	display: flex;

@@ -3,17 +3,20 @@ import {Link } from 'react-router-dom'
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 import styled from 'styled-components'
 import { sliderItems } from '../../data'
+import { mobile } from "../../responsive";
 
 const Container = styled.div`
 	position:relative;
 	overflow:hidden;
+	/* ${mobile({ display:"none", })} */
 	`
 const Wrapper = styled.div`
 	display: flex;
 	transition:all 1.5s ease;
 	transform: translateX(${(props) => props.sliderIndex * -100}vw);
-`
+	`
 const Slide = styled.div`
+	min-height:500px;
 	min-width: 100vw;
 	width:100vw;
 	height: calc(100vh - 120px) ;
@@ -37,15 +40,17 @@ const InfoContainer = styled.div`
 	display: flex;
 	flex-direction:column;
 	justify-content: center;
-`
+	`
 const Title = styled.h1`
-	font-size:100px;
+	font-size:4rem;
 	margin-bottom:40px;
-`
+	${mobile({ fontSize:"1.5rem" })}
+	`
 const Desc = styled.div`
-	font-size:26px;
+	font-size:1.5rem;
 	margin-bottom: 40px;
-`
+	${mobile({ fontSize:"1rem" })}
+	`
 const Button = styled.button`
 	width:155px;
 	display: flex;
@@ -59,7 +64,8 @@ const Button = styled.button`
 		background: #c0c0c0;
 		color:black;
 	}
-`
+	${mobile({ fontSize:"0.9rem" })}
+	`
 
 const Arrow = styled.div`
 	height:30px;
@@ -84,8 +90,8 @@ const Arrow = styled.div`
 
 `
 const Circle = styled.div`
-	height:400px;
-	width:400px;
+	height:50%;
+	width:50%;
 	border-radius:50%;
 	background:green;
 	position:absolute;
@@ -93,6 +99,7 @@ const Circle = styled.div`
 	bottom:0;
 	margin:auto;
 	z-index:0;
+	${mobile({ display:"none", })}
 `
 
 const Slider = () => {
