@@ -37,6 +37,7 @@ const IconContainer = styled.div`
 const Item = styled.div`
 	flex:1;
 	max-width: 500px;
+	width:100%;
 	background-color: rgba(0, 0, 0, 0.2);
 	margin:10px 20px;
 	position:relative;
@@ -56,7 +57,7 @@ const ImageContainer = styled.div`
 	position:relative;
 `
 const Image = styled.img`
-	height:300px;
+	height:80%;
 	position:relative;
 	z-index:999;
 `
@@ -68,8 +69,8 @@ const Icon = styled.div`
 	}
 `
 const Circle = styled.div`
-	height: 350px;
-	width: 350px;
+	height: 85%;
+	width: 85%;
 	border-radius:50%;
 	background-color:#fca103;
 	position:absolute;

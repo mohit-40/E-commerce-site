@@ -14,7 +14,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
 	background-color: white;
 	max-width:400px;
-	width:100% 0;
+	width:100%;
 	height:fit-content;
 	padding:20px 20px;
 `

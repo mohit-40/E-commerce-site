@@ -3,9 +3,9 @@ import { Send } from "@material-ui/icons";
 import styled from 'styled-components'
 
 const Container=styled.div`
-box-sizing: border-box;
-	min-height: 300px;
-	height:60vh;
+	box-sizing: border-box;
+	min-height: 400px;
+	height:50vh;
 	justify-content: center;
 	background-color:rgb(248, 214, 62);
 	display: flex;

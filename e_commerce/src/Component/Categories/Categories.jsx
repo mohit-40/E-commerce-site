@@ -14,7 +14,8 @@ const Item=styled.div`
 	margin:20px 10px;
 	position:relative;
 	`
-const ImageContainer=styled.div``
+const ImageContainer=styled.div`
+`
 const Image=styled.img`
 	height:700px;
 `

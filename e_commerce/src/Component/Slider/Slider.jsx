@@ -8,7 +8,6 @@ import { mobile } from "../../responsive";
 const Container = styled.div`
 	position:relative;
 	overflow:hidden;
-	/* ${mobile({ display:"none", })} */
 	`
 const Wrapper = styled.div`
 	display: flex;
@@ -28,7 +27,7 @@ const Slide = styled.div`
 const ImageContainer = styled.div`
 	flex:1;
 	position:relative;
-`
+	`
 const Image = styled.img`
 	height:100%;
 	width:100%;
