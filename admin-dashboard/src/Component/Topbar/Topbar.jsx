@@ -3,7 +3,11 @@ import styled from 'styled-components'
 import { NotificationsNone, Language, Settings, AccountCircle, Menu, Close } from "@mui/icons-material";
 import { mobile } from '../../responsive'
 
-const Container = styled.div``
+const Container = styled.div`
+	position: sticky;
+	top:0;
+	z-index:1;
+`
 const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
