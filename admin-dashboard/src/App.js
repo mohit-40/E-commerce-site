@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Home from './Pages/Home/Home'
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     <>
       <Router>
         <Switch>
-          <Route exact path="/"></Route>
+          <Route exact path="/"> <Home /> </Route>
         </Switch>
       </Router>
     </>
