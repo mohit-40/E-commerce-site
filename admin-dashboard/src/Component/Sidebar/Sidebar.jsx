@@ -17,6 +17,7 @@ import {
 
 const Container =styled.div`
 	flex:1;
+	background-color: #c3cfeb;
 `
 const Wrapper =styled.div`
 	display: flex;
@@ -28,7 +29,7 @@ const Section =styled.div`
 `
 const SectionTitle =styled.div`
 	font-size: 1rem;
-  	color: rgb(187, 186, 186);
+  	color: brown;
 `
 const SectionItemContainer =styled.div`
 	margin-left:1rem;
@@ -36,7 +37,7 @@ const SectionItemContainer =styled.div`
 const SectionItem =styled.div`
 	display: flex;
 	align-items: center;
-	margin-top: 0.3rem;
+	margin-top: 0.4rem;
   	cursor:pointer;
 `
 const SectionItemText=styled.div`
