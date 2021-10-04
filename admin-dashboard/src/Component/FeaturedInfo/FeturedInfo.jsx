@@ -1,10 +1,8 @@
-import { ArrowDownward, ArrowUpward, DownhillSkiing, FormatIndentIncrease } from '@mui/icons-material'
+import { ArrowDownward, ArrowUpward } from '@mui/icons-material'
 import React from 'react'
 import styled from 'styled-components'
 
-const Container = styled.div`
-	flex:4;
-`
+const Container = styled.div``
 const Wrapper = styled.div``
 const BoxContainer = styled.div`
 	display: flex;
@@ -14,8 +12,7 @@ const BoxContainer = styled.div`
 `
 const Box = styled.div`
 	flex:1;
-	min-width:250px;    /* for wrap */
-	min-height: 150px;  /* for jc:space-around*/ 
+	min-width:150px;    /* for wrap */
 	margin:1rem 1rem;
 	padding: 1rem;
 	border-radius:10px;
@@ -25,7 +22,6 @@ const Box = styled.div`
 
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
 
 `
 const BoxTop = styled.div``
@@ -36,11 +32,13 @@ const BoxTopTitle = styled.div`
 const BoxCenter = styled.div`
 	display: flex;
 	align-items: center;
+	margin:15px 0;
 	`
 const BoxAmount = styled.div`
-	font-size: 2.5rem;
+	font-size: 2.0rem;
 	font-weight: 700;
 	margin-right: 10px;
+	white-space: nowrap;
 `
 const BoxIncrement = styled.div`
 	display: flex;
