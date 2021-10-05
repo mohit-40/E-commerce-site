@@ -45,6 +45,12 @@ const SectionItem = styled.div`
 	align-items: center;
 	margin-top: 0.4rem;
   	cursor:pointer;
+
+	&:hover{
+		background-color: blue;
+		border-radius: 10px;
+		color: white;
+	}
 `
 const SectionItemText = styled.div`
 	margin-left: 0.3rem;
