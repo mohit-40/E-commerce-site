@@ -27,9 +27,13 @@ const Input=styled.input`
 	outline:none;
 	height:30px;
 	color:gray;
+	font-size: 1rem;
+	padding:5px;
 	`
 const Select=styled.select`
 	height:40px;
+	font-size: 1rem;
+	color: gray;
 `
 const Option=styled.option``
 const CreateButton=styled.button`
