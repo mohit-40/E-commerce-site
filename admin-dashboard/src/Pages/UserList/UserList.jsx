@@ -24,6 +24,7 @@ const Button=styled.button`
 	border-radius: 5px;
 	outline: none;
 	background-color: blueviolet;
+	color:white;
 	font-size: 1rem;
 	cursor:pointer;
 `
