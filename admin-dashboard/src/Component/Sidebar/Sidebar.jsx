@@ -18,11 +18,16 @@ import {
 const Container =styled.div`
 	flex:1;
 	background-color: #c3cfeb;
+	position: sticky;
+	top:60px;
+	z-index:0.9;
+	height: calc(100vh - 60px);
+	overflow-y: auto;
+	
 `
 const Wrapper =styled.div`
 	display: flex;
 	flex-direction: column;
-  	min-height:calc(100vh - 60px);
 `
 const Section =styled.div`
 	margin:1rem 0 0 1rem;

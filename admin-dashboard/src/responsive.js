@@ -10,9 +10,6 @@ export const mobile = (props) => {
 
 
 /*
-
-
-
 export const tv = (props) => {
   return css`
     @media screen and (max-width: 1024px) {
@@ -41,9 +38,9 @@ export const mobile = (props) => {
     }
   `;
 };
-
-
 */
+
+
 
 /*
 

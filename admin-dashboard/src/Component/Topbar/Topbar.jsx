@@ -43,7 +43,7 @@ const Right = styled.div`
 const IconContainer = styled.div`
 	display: flex;
 	.icon{
-		font-size: 2rem;
+		font-size: 1.8rem;
 	}	
 	${mobile({
 		display: "flex",

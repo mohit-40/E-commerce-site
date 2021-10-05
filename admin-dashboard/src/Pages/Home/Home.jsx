@@ -1,29 +1,26 @@
 import React from 'react'
-import Topbar from '../../Component/Topbar/Topbar'
-import Sidebar from '../../Component/Sidebar/Sidebar'
 import FeturedInfo from '../../Component/FeaturedInfo/FeturedInfo'
-import Table from '../../Component/Table/Table'
 import Chart from '../../Component/Chart/Chart'
 import styled from 'styled-components'
+import { userData } from '../../DummyData'
+import HomeWigetSm from '../../Component/HomeWigetSm/HomeWigetSm'
+import HomeWigetLg from '../../Component/HomeWigetLg/HomeWigetLg'
 
-const Container = styled.div`
-	.mainSection{ 
-		display: flex;
-		.other{ flex:4; }
-	}
+const Container = styled.div``
+const HomeWigetContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
 `
 
 const Home = () => {
 	return (
 		<Container>
-			<Topbar />
-			<div className="mainSection">
-				<Sidebar className="home-sidebar" />
-				<div className="other">
-					<FeturedInfo className="other" />
-					{/* <Chart /> */}
-				</div>
-			</div>
+			<FeturedInfo />
+			<Chart title="Users Analytics" data={userData} />
+			<HomeWigetContainer>
+				<HomeWigetSm />
+				<HomeWigetLg />
+			</HomeWigetContainer>
 		</Container>
 	)
 }
