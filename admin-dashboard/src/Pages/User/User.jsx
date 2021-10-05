@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import {
 	PermIdentity,
@@ -149,7 +150,7 @@ const User = () => {
 		<Container>
 			<Top>
 				<TopTitle>Edit User</TopTitle>
-				<CreateButton>Create</CreateButton>
+				<Link to="/createUser" ><CreateButton>Create</CreateButton></Link>
 			</Top>
 			<MainSection>
 				<Left>

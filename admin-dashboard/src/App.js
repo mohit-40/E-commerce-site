@@ -5,6 +5,7 @@ import Sidebar from './Component/Sidebar/Sidebar'
 import Home from './Pages/Home/Home'
 import UserList from './Pages/UserList/UserList'
 import User from './Pages/User/User'
+import CreateUser from './Pages/CreateUser/CreateUser'
 import styled from 'styled-components'
 
 const Container = styled.div``
@@ -28,6 +29,7 @@ function App() {
                      <Route exact path="/"> <Home /> </Route>
                      <Route exact path="/users"> <UserList /> </Route>
                      <Route exact path="/user/:userId"> <User /> </Route>
+                     <Route exact path="/createUser"> <CreateUser /> </Route>
                   </Switch>
                </Router>
 
