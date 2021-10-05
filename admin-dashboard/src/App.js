@@ -10,6 +10,7 @@ import CreateUser from './Pages/CreateUser/CreateUser'
 import CreateProduct from './Pages/CreateProduct/CreateProduct'
 import ProductList from './Pages/ProductList/ProductList'
 import styled from 'styled-components'
+import Transaction from './Pages/Transaction/Transaction';
 
 const Container = styled.div``
 const MainSection = styled.div` 
@@ -37,6 +38,7 @@ function App() {
                      <Route exact path="/product/:productId"> <Product /> </Route>
                      <Route exact path="/createUser"> <CreateUser /> </Route>
                      <Route exact path="/createProduct"> <CreateProduct /> </Route>
+                     <Route exact path="/transaction"> <Transaction /> </Route>
                   </Switch>
 
 

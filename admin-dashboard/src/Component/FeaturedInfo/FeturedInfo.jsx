@@ -67,7 +67,7 @@ const FeturedInfo = () => {
 					</Box>
 					<Box>
 						<BoxTop>
-							<BoxTopTitle>Revenue</BoxTopTitle>
+							<BoxTopTitle>Sales</BoxTopTitle>
 						</BoxTop>
 						<BoxCenter>
 							<BoxAmount> Rs 25,035</BoxAmount>
@@ -77,7 +77,7 @@ const FeturedInfo = () => {
 					</Box>
 					<Box>
 						<BoxTop>
-							<BoxTopTitle>Revenue</BoxTopTitle>
+							<BoxTopTitle>Cost</BoxTopTitle>
 						</BoxTop>
 						<BoxCenter>
 							<BoxAmount> Rs 25,035</BoxAmount>

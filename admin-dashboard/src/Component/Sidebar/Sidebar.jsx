@@ -74,15 +74,15 @@ const Sidebar = () => {
 					<SectionItemContainer>
 						<Link to="/users" className="text-link"><SectionItem><PermIdentity /><SectionItemText>Users </SectionItemText></SectionItem></Link>
 						<Link to="/productList" className="text-link"><SectionItem><Storefront /><SectionItemText>Products </SectionItemText></SectionItem></Link>
-						<Link to="/" className="text-link"><SectionItem><AttachMoney /><SectionItemText>Transactions </SectionItemText></SectionItem></Link>
+						<Link to="/transaction" className="text-link"><SectionItem><AttachMoney /><SectionItemText>Transactions </SectionItemText></SectionItem></Link>
 						<Link to="/" className="text-link"><SectionItem><BarChart /><SectionItemText>Reports </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
 				</Section>
 				<Section>
 					<SectionTitle>Notification</SectionTitle>
 					<SectionItemContainer>
-						<Link to="/" className="text-link"><SectionItem><MailOutline /><SectionItemText>Mail </SectionItemText></SectionItem></Link>
-						<Link to="/" className="text-link"><SectionItem><WorkOutline /><SectionItemText>Feedback </SectionItemText></SectionItem></Link>
+						<Link to="/createProduct" className="text-link"><SectionItem><MailOutline /><SectionItemText> New Product </SectionItemText></SectionItem></Link>
+						<Link to="/createUser" className="text-link"><SectionItem><WorkOutline /><SectionItemText> New User </SectionItemText></SectionItem></Link>
 						<Link to="/" className="text-link"><SectionItem><ChatBubbleOutline /><SectionItemText>Messages </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
 				</Section>
