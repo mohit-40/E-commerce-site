@@ -16,7 +16,7 @@ const Home = () => {
 	return (
 		<Container>
 			<FeturedInfo />
-			<Chart title="Users Analytics" data={userData} />
+			<Chart title="Users Analytics" data={userData}  xDataKey="name" lineDataKey="Active User"  data={userData}/>
 			<HomeWigetContainer>
 				<HomeWigetSm />
 				<HomeWigetLg />

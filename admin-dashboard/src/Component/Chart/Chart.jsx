@@ -14,14 +14,15 @@ const ChartTitle=styled.div`
 	margin:0 0 15px 1rem;
 `
 
-const Chart = ({title,data}) => {
+const Chart = ({title,xDataKey,lineDataKey,data}) => {
+
 	return (
 		<Container>
 			<ChartTitle>{title}</ChartTitle>
 			<ResponsiveContainer width="100%" height={300}>
 				<LineChart data={data} height="100%">
-					<XAxis dataKey="name" stroke="#5550bd"/>
-					<Line dataKey="Active User" stroke="#5550bd" type="monotone"/>
+					<XAxis dataKey={xDataKey} stroke="#5550bd"/>
+					<Line dataKey={lineDataKey} stroke="#5550bd" type="monotone"/>
 					<Tooltip/>
 					<CartesianGrid stroke="#e0dfdf" />
 				</LineChart>

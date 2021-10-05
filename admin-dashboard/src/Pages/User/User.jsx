@@ -8,6 +8,7 @@ import {
 	PhoneAndroid,
 	LocationSearching,
 	Publish,
+	Upload,
   } from '@mui/icons-material'
 const Container=styled.div`
 	margin: 1rem;
@@ -206,6 +207,7 @@ const User = () => {
 							<Display>
 								<DisplayImageContainer>
 									<DisplayImage src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"/>
+										<Upload style={{cursor:"pointer",fontSize:"1.8rem"}}/>
 								</DisplayImageContainer>
 							</Display>
 							<UpdateButton>Update</UpdateButton>
