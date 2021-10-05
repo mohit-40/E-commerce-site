@@ -7,6 +7,7 @@ import UserList from './Pages/UserList/UserList'
 import User from './Pages/User/User'
 import Product from './Pages/Product/Product'
 import CreateUser from './Pages/CreateUser/CreateUser'
+import CreateProduct from './Pages/CreateProduct/CreateProduct'
 import ProductList from './Pages/ProductList/ProductList'
 import styled from 'styled-components'
 
@@ -20,27 +21,30 @@ const MainSection = styled.div`
 
 function App() {
    return (
+      <Router>
+      
       <Container>
-         <Topbar />
-         <MainSection>
-            <Sidebar />
-            <div className="other" >
+            <Topbar />
+            <MainSection>
+               <Sidebar />
+               <div className="other" >
 
-               <Router>
                   <Switch>
                      <Route exact path="/"> <Home /> </Route>
                      <Route exact path="/users"> <UserList /> </Route>
-                     <Route exact path="/user/:userId"> <User /> </Route>
-                     <Route exact path="/product/:userId"> <Product /> </Route>
-                     <Route exact path="/createUser"> <CreateUser /> </Route>
                      <Route exact path="/productList"> <ProductList /> </Route>
+                     <Route exact path="/user/:userId"> <User /> </Route>
+                     <Route exact path="/product/:productId"> <Product /> </Route>
+                     <Route exact path="/createUser"> <CreateUser /> </Route>
+                     <Route exact path="/createProduct"> <CreateProduct /> </Route>
                   </Switch>
-               </Router>
 
 
-            </div>
-         </MainSection>
-      </Container>
+               </div>
+            </MainSection>
+         </Container>
+      </Router>
+
    );
 }
 

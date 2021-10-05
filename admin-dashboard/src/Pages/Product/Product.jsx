@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from "react-router-dom"
 import { Upload } from '@mui/icons-material'
 import Chart from '../../Component/Chart/Chart'
 import {productData } from "../../DummyData"
@@ -6,6 +7,17 @@ import styled from 'styled-components'
 
 const Container=styled.div`
 	margin: 1rem;
+`
+const HeadingSection=styled.div`
+	display: flex;
+	justify-content: space-between;
+`
+const CreateProductButton=styled.button`
+	background-color: teal;
+	border-radius: 10px;
+	font-size: 1rem;
+	color:white;
+	font-weight: 600;
 `
 const Heading=styled.div`
 	font-size: 2rem;
@@ -128,10 +140,13 @@ const UpdateButton=styled.button`
 const Product = () => {
 	return (
 		<Container>
-			<Heading>Product</Heading>
+			<HeadingSection>
+				<Heading>Product</Heading>
+				<Link to="/createProduct" ><CreateProductButton>Create</CreateProductButton> </Link>
+			</HeadingSection>
 			<Top>
 				<Left>
-					<Chart title="Sales Performance" xDataKey="name" lineDataKey="Sales" data={productData}/>
+					<Chart title="Sales Performance" xDataKey="name" lineDataKey="Sales" data={productData} height="300"/>
 				</Left>
 				<Right>
 					<RightTop>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import {
 	LineStyle,
@@ -13,9 +14,9 @@ import {
 	DynamicFeed,
 	WorkOutline,
 	Report,
-  } from "@mui/icons-material";
+} from "@mui/icons-material";
 
-const Container =styled.div`
+const Container = styled.div`
 	flex:1;
 	background-color: #c3cfeb;
 	position: sticky;
@@ -25,27 +26,27 @@ const Container =styled.div`
 	overflow-y: auto;
 	
 `
-const Wrapper =styled.div`
+const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 `
-const Section =styled.div`
+const Section = styled.div`
 	margin:1rem 0 0 1rem;
 `
-const SectionTitle =styled.div`
+const SectionTitle = styled.div`
 	font-size: 1rem;
   	color: brown;
 `
-const SectionItemContainer =styled.div`
+const SectionItemContainer = styled.div`
 	margin-left:1rem;
 `
-const SectionItem =styled.div`
+const SectionItem = styled.div`
 	display: flex;
 	align-items: center;
 	margin-top: 0.4rem;
   	cursor:pointer;
 `
-const SectionItemText=styled.div`
+const SectionItemText = styled.div`
 	margin-left: 0.3rem;
 `
 
@@ -57,34 +58,34 @@ const Sidebar = () => {
 				<Section>
 					<SectionTitle>Dashboard</SectionTitle>
 					<SectionItemContainer>
-						<SectionItem><LineStyle/><SectionItemText>Home </SectionItemText></SectionItem>
-						<SectionItem><Timeline/><SectionItemText>Analytic </SectionItemText></SectionItem>
-						<SectionItem><TrendingUp/><SectionItemText>Sales </SectionItemText></SectionItem>
+						<Link to="/" className="text-link"><SectionItem><LineStyle /><SectionItemText>Home </SectionItemText></SectionItem> </Link>
+						<Link to="/" className="text-link"><SectionItem><Timeline /><SectionItemText>Analytic </SectionItemText></SectionItem></Link>
+						<Link to="/" className="text-link"><SectionItem><TrendingUp /><SectionItemText>Sales </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
 				</Section>
 				<Section>
 					<SectionTitle>Quick Menu</SectionTitle>
 					<SectionItemContainer>
-						<SectionItem><PermIdentity/><SectionItemText>Users </SectionItemText></SectionItem>
-						<SectionItem><Storefront/><SectionItemText>Products </SectionItemText></SectionItem>
-						<SectionItem><AttachMoney/><SectionItemText>Transactions </SectionItemText></SectionItem>
-						<SectionItem><BarChart/><SectionItemText>Reports </SectionItemText></SectionItem>
+						<Link to="/users" className="text-link"><SectionItem><PermIdentity /><SectionItemText>Users </SectionItemText></SectionItem></Link>
+						<Link to="/productList" className="text-link"><SectionItem><Storefront /><SectionItemText>Products </SectionItemText></SectionItem></Link>
+						<Link to="/" className="text-link"><SectionItem><AttachMoney /><SectionItemText>Transactions </SectionItemText></SectionItem></Link>
+						<Link to="/" className="text-link"><SectionItem><BarChart /><SectionItemText>Reports </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
 				</Section>
 				<Section>
 					<SectionTitle>Notification</SectionTitle>
 					<SectionItemContainer>
-						<SectionItem><MailOutline/><SectionItemText>Mail </SectionItemText></SectionItem>
-						<SectionItem><WorkOutline/><SectionItemText>Feedback </SectionItemText></SectionItem>
-						<SectionItem><ChatBubbleOutline/><SectionItemText>Messages </SectionItemText></SectionItem>
+						<Link to="/" className="text-link"><SectionItem><MailOutline /><SectionItemText>Mail </SectionItemText></SectionItem></Link>
+						<Link to="/" className="text-link"><SectionItem><WorkOutline /><SectionItemText>Feedback </SectionItemText></SectionItem></Link>
+						<Link to="/" className="text-link"><SectionItem><ChatBubbleOutline /><SectionItemText>Messages </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
 				</Section>
 				<Section>
 					<SectionTitle>Staff</SectionTitle>
 					<SectionItemContainer>
-						<SectionItem><DynamicFeed/><SectionItemText>Manages </SectionItemText></SectionItem>
-						<SectionItem><Timeline/><SectionItemText>Analytics </SectionItemText></SectionItem>
-						<SectionItem><Report/><SectionItemText>Reports </SectionItemText></SectionItem>
+						<Link to="/" className="text-link"><SectionItem><DynamicFeed /><SectionItemText>Manages </SectionItemText></SectionItem></Link>
+						<Link to="/" className="text-link"><SectionItem><Timeline /><SectionItemText>Analytics </SectionItemText></SectionItem></Link>
+						<Link to="/" className="text-link"><SectionItem><Report /><SectionItemText>Reports </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
 				</Section>
 			</Wrapper>

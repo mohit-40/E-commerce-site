@@ -37,3 +37,8 @@
     font-family: 'Source Sans Pro', sans-serif;
     margin: 0;
 }
+
+.text-link {
+    color: inherit;
+    text-decoration: inherit;
+}

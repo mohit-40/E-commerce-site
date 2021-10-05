@@ -14,8 +14,8 @@ const ChartTitle=styled.div`
 	margin:0 0 15px 1rem;
 `
 
-const Chart = ({title,xDataKey,lineDataKey,data}) => {
-
+const Chart = ({title,xDataKey,lineDataKey,data,height}) => {
+	console.log(height);
 	return (
 		<Container>
 			<ChartTitle>{title}</ChartTitle>
