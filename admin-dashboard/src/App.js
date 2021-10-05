@@ -5,7 +5,9 @@ import Sidebar from './Component/Sidebar/Sidebar'
 import Home from './Pages/Home/Home'
 import UserList from './Pages/UserList/UserList'
 import User from './Pages/User/User'
+import Product from './Pages/Product/Product'
 import CreateUser from './Pages/CreateUser/CreateUser'
+import ProductList from './Pages/ProductList/ProductList'
 import styled from 'styled-components'
 
 const Container = styled.div``
@@ -29,7 +31,9 @@ function App() {
                      <Route exact path="/"> <Home /> </Route>
                      <Route exact path="/users"> <UserList /> </Route>
                      <Route exact path="/user/:userId"> <User /> </Route>
+                     <Route exact path="/product/:userId"> <Product /> </Route>
                      <Route exact path="/createUser"> <CreateUser /> </Route>
+                     <Route exact path="/productList"> <ProductList /> </Route>
                   </Switch>
                </Router>
 
