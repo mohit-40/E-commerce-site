@@ -4,8 +4,7 @@ import Navbar from "../../Component/Navbar/Navbar"
 import Slider from "../../Component/Slider/Slider"
 import Categories from "../../Component/Categories/Categories"
 import Products from "../../Component/Products/Products"
-import NewsLetter from "../../Component/NewsLetter/NewsLetter"
-import {userData} from "../../DummyData"
+import NewsLetter from "../../Component/NewsLetter/NewsLetter" 
 import Footer from "../../Component/Footer/Footer"
 
 const Home = () => {
