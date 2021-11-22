@@ -2,6 +2,7 @@ const router=require('express').Router();
 const User = require('../Model/User');
 const bcrypt = require('bcrypt');
 const saltRounds =10;
+const jwt=require("jsonwebtoken")
 
 
 
@@ -29,18 +30,23 @@ router.post("/register",async(req,res)=>{
 //login
 router.post('/login',async(req,res)=>{
 	try{	
+
+		//check prev jwt if not then down 
 		const user =await User.findOne({email:req.body.email});
 		!user&& res.status(404).json('user not found')
 		const validPassword=await  bcrypt.compare(req.body.password, user.password )
 		!validPassword && res.status(404).json('incorrect password');
-		const  {password, ...other } = user;  // getting some error solve it later 
 		//gernate jwt 
-		res.status(200).json(other);
+		const accessToken=jwt.sign({id:user._id , isAdmin:user.isAdmin }, process.env.JWT_SECRET ,{expiresIn:"3d"})
+		const refreshToken=jwt.sign({id:user._id , isAdmin:user.isAdmin } , process.env.JWT_SECRET)
+		// rt.push_back(refreshToken);
+		
+		const  {password, ...others } = user._doc;   
+		res.status(200).json({...others, accessToken});
 	}
 	catch(err){
 		res.status(404).json(err.message);
 	}
 })
-
 
 module.exports=router;
