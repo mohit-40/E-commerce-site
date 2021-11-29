@@ -1,4 +1,5 @@
-import React from 'react'
+import {React , useState} from 'react'
+import { useParams } from 'react-router'
 import styled from'styled-components'
 import Navbar from '../../Component/Navbar/Navbar'
 import Announcement from '../../Component/Announcement/Announcement'
@@ -37,6 +38,20 @@ const Option=styled.option``
 
 
 const ProductList = () => {
+	const params = useParams();
+	const category = params.category;
+
+	const [filter,setFilter]=useState({});
+	const [sort,setSort]=useState();
+
+	const handleSortChange=async(e)=> setSort(e.target.value);
+	const handleFilterChange= async(e)=>{
+		setFilter({
+			...filter,
+			[e.target.name]:e.target.value.toLowerCase(),
+		})
+	}
+
 	return (
 		<Container>
 			<Navbar />
@@ -45,7 +60,7 @@ const ProductList = () => {
 			<FilterContainer>	
 				<Filter>
 					Filter Product : 
-					<Select>
+					<Select onChange={handleFilterChange} name="color">
 						<Option selected>Choose</Option>
 						<Option>Red</Option>
 						<Option>Blue</Option>
@@ -53,8 +68,8 @@ const ProductList = () => {
 						<Option>White</Option>
 						<Option>Orange</Option>
 					</Select>
-					<Select>
-						<Option selected>Choose</Option>
+					<Select onChange={handleFilterChange} name="size">
+						<Option selected >Choose</Option>
 						<Option>XS</Option>
 						<Option>S</Option>
 						<Option>M</Option>
@@ -64,15 +79,15 @@ const ProductList = () => {
 				</Filter>
 				<Filter>
 					Sort Product : 
-					<Select>
+					<Select onChange={handleSortChange}>
 						<Option selected>Choose</Option>
 						<Option>Price(asc.)</Option>
 						<Option>Price(desc.)</Option>
-						<Option>Popularity</Option>
+						<Option>newest</Option>
 					</Select>
 				</Filter>
 			</FilterContainer>
-			<Products title=""/>
+			<Products sort={sort} filter={filter} category={category} />
 			<NewsLetter/>
 			<Footer />
 		</Container>

@@ -4,7 +4,6 @@ const ProductSchema = new mongoose.Schema({
 	name:{
 		type:String,
 		required:[true,"product name required"],
-		unique:true
 	},
 	desc:{
 		type:String,
@@ -18,14 +17,21 @@ const ProductSchema = new mongoose.Schema({
 		type:Array
 	},
 	color:{
-		type:String
+		type:Array
 	},
 	size:{
-		type:String
+		type:Array
+	},
+	inStock:{
+		type:Boolean,
+		default :true
 	},
 	price:{
 		type:Number,
 		required:true
+	},
+	rating:{
+		type:String
 	}
 
 },{ timestamps:true })

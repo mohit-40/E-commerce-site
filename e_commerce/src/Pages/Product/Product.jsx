@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router'
+import axios from 'axios'
 import styled from 'styled-components'
 import Navbar from '../../Component/Navbar/Navbar'
 import Announcement from '../../Component/Announcement/Announcement'
@@ -103,46 +105,66 @@ const Button = styled.button`
 `
 
 const Product = () => {
+	const history=useHistory()
+	const param=useParams();
+	const productId=param.productId;
+	const [product,setProduct] =useState([]);
+	const [quantity, setQuantity] =useState(1);
+	
+	
+	useEffect(()=>{
+		const fetchProduct=async()=>{
+			try{
+				const res= await axios.get("/product/"+productId);
+				setProduct(res.data);
+				console.log("hello ")
+			}
+			catch(err){
+				history.push("/error")
+			}
+		}
+		fetchProduct();
+	},[])
+	const [spec,setSpec] =useState({productId:product._id, quantity:1});
+	
+	const handleQuantity=(e)=>{
+		e.target.name==="increment" ? setQuantity((prev)=> prev+1) : setQuantity((prev)=> prev-1); 
+	}
+	
 	return (
 		<Container>
 			<Navbar />
 			<Announcement />
 			<Wrappaer>
 				<ImageContainer>
-					<Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+					<Image src={product.img} />
 				</ImageContainer>
 				<InfoContainer>
-					<Title>Jumpsuit</Title>
-					<Desc>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, fuga? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque enim omnis accusantium maxime culpa, hic ad repellat fugit veniam similique et cupiditate quasi dolor. Modi, id dolore. Cupiditate, vel quisquam!</Desc>
-					<Price>Rs 500</Price>
+					<Title>{product.name}</Title>
+					<Desc>{product.desc}</Desc>
+					<Price>Rs {product.price}</Price>
 
 					<FilterContainer>
 						<Filter>
 							<FilterTitle> Color:</FilterTitle>
 							<FilterSelect>
-								<ColorOption color="black" />
-								<ColorOption color="gray" />
-								<ColorOption color="blue" />
+								{product.color && product.color.map((ss)=> <ColorOption color={ss} key={ss}/> )}
 							</FilterSelect>
 						</Filter>
 						<Filter>
 							<FilterTitle> Size:</FilterTitle>
 							<Select>
 								<Option Selected>Choose</Option>
-								<Option Selected>XS</Option>
-								<Option Selected>S</Option>
-								<Option Selected>M</Option>
-								<Option Selected>L</Option>
-								<Option Selected>XL</Option>
+								{product.size && product.size.map((ss)=> <Option key={ss} >{ss}</Option> )}
 							</Select>
 						</Filter>
 					</FilterContainer>
 
 					<AddContainer>
 						<CountContainer>
-							<Remove />
-							<Count defaultValue={1}/>
-							<Add />
+							<Remove onClick={handleQuantity} name="decrement"/>
+							<Count defaultValue={quantity}/>
+							<Add onClick={handleQuantity} name={"increment"}/>
 						</CountContainer>
 						<Button>ADD TO CART</Button>
 					</AddContainer>

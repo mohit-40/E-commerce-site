@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
+import axios from 'axios'
 import {Link } from 'react-router-dom'	
 import {
 	FavoriteBorderOutlined,
 	SearchOutlined,
 	ShoppingCartOutlined,
 } from "@material-ui/icons";
-import { popularProducts } from '../../data'
 import styled from 'styled-components'
 
 const Container = styled.div``
@@ -82,24 +83,67 @@ const Circle = styled.div`
 	z-index:0;
 `
 
-const Products = ({title}) => {
+const Products = ({sort, filter, category}) => {
+	const history = useHistory();
+	const [allProduct, setAllProduct] = useState([]);
+	const [filterProduct , setFilterProduct] =useState([]);
+
+	useEffect(()=>{
+		const fetchProduct=async()=>{
+			try {
+				const res= category ?  await axios.get("/product?category="+category) :await axios.get("/product/");
+				setAllProduct(res.data);
+				setFilterProduct(res.data);
+			}
+			catch (error) {
+				console.log(error)
+				history.push("/error");
+			}
+		}
+		fetchProduct();
+	},[category])
+
+	useEffect(()=>{
+		filter && setFilterProduct( 
+			allProduct.filter((product) => Object.entries(filter).every( ([key,value]) => value==="choose"||product[key].map(a=>a.toLowerCase()).includes(value)  ))
+		)
+		console.log(filter)
+	},[allProduct, category, filter])
+
+	useEffect(() => {
+		if (sort === "newest" || sort==="Choose") {
+		  setFilterProduct((prev) =>
+			[...prev].sort((a, b) => a.createdAt - b.createdAt)
+		  );
+		} else if (sort === "Price(asc.)") {
+		  setFilterProduct((prev) =>
+			[...prev].sort((a, b) => a.price - b.price)
+		  );
+		} else {
+		  setFilterProduct((prev) =>
+			[...prev].sort((a, b) => b.price - a.price)
+		  );
+		}
+	  }, [sort]);
+
 	return (
 		<Container>
-			<Heading>{title}</Heading>
+			<Heading>{category}</Heading>
 			<Wrapper>
 
-				{popularProducts.map((item) => {
+				{ filterProduct.map((item) => {
 					return (
-						<Item>
+						<Item key={item._id}>
 							<ImageContainer>
 								<Circle />
 								<Image src={item.img} />
 							</ImageContainer>
 							<IconContainer>
 								<Icon> <FavoriteBorderOutlined style={{ fontSize: 30 }} /></Icon>
-								<Icon> <Link className='text-link' to="/product"><SearchOutlined style={{ fontSize: 30 }} /></Link></Icon>
+								<Icon> <Link className='text-link' to={`/product/${item._id}`}><SearchOutlined style={{ fontSize: 30 }} /></Link></Icon>
 								<Icon> <ShoppingCartOutlined style={{ fontSize: 30 }} /></Icon>
 							</IconContainer>
+							{item.price}
 						</Item>
 					)
 				})}

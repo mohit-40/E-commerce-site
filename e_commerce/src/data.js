@@ -44,6 +44,11 @@ export const sliderItems = [
     {
       id:1,
       img:"https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png",
+      name:"mens jacket",
+      desc:"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam alias aliquam quod tenetur impedit! Ab unde vitae voluptates aperiam voluptatem error inventore quaerat praesentium tenetur debitis accusamus dolore veniam illum necessitatibus asperiores cum numquam ipsa commodi perferendis quo accusantium quis, voluptatum modi. Veritatis aliquam illum reiciendis mollitia vitae earum quis?",
+      category:["men","jacket"],
+      color:["red", "blue", "green"],
+      size:["S","M"]
     },
     {
       id:2,

@@ -31,7 +31,7 @@ router.put("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 	}
 })
 //get product
-router.get("/:id",verifyToken,async(req,res)=>{
+router.get("/:id", async(req,res)=>{
 	try {
 		const product=await Product.findById(req.params.id);
 		res.status(200).json(product);
@@ -41,13 +41,22 @@ router.get("/:id",verifyToken,async(req,res)=>{
 })
 
 //get all product 
-router.get("/",verifyToken,async(req,res)=>{
+router.get("/", async(req,res)=>{
 	const queryNew=req.query.new;
 	const queryCategory=req.query.category;
 	try {
-		const allProduct= queryNew ? await Product.find().sort({createdAt:-1}).limit(5) : queryCategory? await Product.find({ category:{$in: [queryCategory]}}) : await Product.find();
+		if(queryNew){
+			allProduct= await Product.find().sort({createdAt:-1}).limit(5)
+		}
+		else if(queryCategory){
+			allProduct=await Product.find({ category:{$in: [queryCategory]}})
+		}
+		else {
+			allProduct=await Product.find()
+		}
 		res.status(200).json(allProduct);
 	} catch (error) {
+		console.log(error.message)
 		res.status(500).json(error.message);
 	}
 })
