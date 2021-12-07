@@ -63,7 +63,6 @@ const ColorOption = styled.div`
 	height:20px;
 	width:20px;
 	border-radius:50px;
-	border:2px solid gray;
 	background: ${(props) => props.color};
 	margin:2px;
 	cursor: pointer;	
@@ -85,7 +84,7 @@ const CountContainer = styled.div`
 	display: flex;
 	align-items: center;
 	`
-const Count = styled.input`
+const Count = styled.div`
 	font-size: 20px;
 	border: 2px solid blue;
 	width:40px;
@@ -109,7 +108,26 @@ const Product = () => {
 	const param=useParams();
 	const productId=param.productId;
 	const [product,setProduct] =useState([]);
+	
 	const [quantity, setQuantity] =useState(1);
+	const [color,setColor]=useState("");
+	const [size,setSize]=useState("");
+
+	const handleSize=(e)=>{setSize(e.target.value)}
+	const handleColor=(col)=>{ setColor(col);   }
+	const handleQuantity=(parameter)=>{  parameter==="increment" ? setQuantity((prev)=>prev+1) : quantity>1 && setQuantity((prev)=> prev-1);   }
+	
+	const handleAddCart=async()=>{
+		try {
+			await axios.put("/cart",{
+				
+			})
+
+		} catch (error) {
+			history.push("/error");
+		}
+	}	
+	
 	
 	
 	useEffect(()=>{
@@ -117,7 +135,6 @@ const Product = () => {
 			try{
 				const res= await axios.get("/product/"+productId);
 				setProduct(res.data);
-				console.log("hello ")
 			}
 			catch(err){
 				history.push("/error")
@@ -125,11 +142,6 @@ const Product = () => {
 		}
 		fetchProduct();
 	},[])
-	const [spec,setSpec] =useState({productId:product._id, quantity:1});
-	
-	const handleQuantity=(e)=>{
-		e.target.name==="increment" ? setQuantity((prev)=> prev+1) : setQuantity((prev)=> prev-1); 
-	}
 	
 	return (
 		<Container>
@@ -148,23 +160,23 @@ const Product = () => {
 						<Filter>
 							<FilterTitle> Color:</FilterTitle>
 							<FilterSelect>
-								{product.color && product.color.map((ss)=> <ColorOption color={ss} key={ss}/> )}
+								{product.color && product.color.map((col)=> <ColorOption color={col} key={col} style={color===col ? {border: "5px solid gray"} : {}} onClick={()=>handleColor(col)} /> )}
 							</FilterSelect>
 						</Filter>
 						<Filter>
 							<FilterTitle> Size:</FilterTitle>
-							<Select>
+							<Select onChange={handleSize} required>
 								<Option Selected>Choose</Option>
-								{product.size && product.size.map((ss)=> <Option key={ss} >{ss}</Option> )}
+								{product.size && product.size.map((sz)=> <Option key={sz} >{sz}</Option> )}
 							</Select>
 						</Filter>
 					</FilterContainer>
 
 					<AddContainer>
 						<CountContainer>
-							<Remove onClick={handleQuantity} name="decrement"/>
-							<Count defaultValue={quantity}/>
-							<Add onClick={handleQuantity} name={"increment"}/>
+							<Remove onClick={()=>handleQuantity("decrement")}/>
+							<Count >{quantity}</Count>
+							<Add  onClick={()=>handleQuantity("increment")}/>
 						</CountContainer>
 						<Button>ADD TO CART</Button>
 					</AddContainer>

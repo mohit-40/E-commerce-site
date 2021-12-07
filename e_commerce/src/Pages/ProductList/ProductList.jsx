@@ -46,6 +46,7 @@ const ProductList = () => {
 
 	const handleSortChange=async(e)=> setSort(e.target.value);
 	const handleFilterChange= async(e)=>{
+		console.log(e.target)
 		setFilter({
 			...filter,
 			[e.target.name]:e.target.value.toLowerCase(),
