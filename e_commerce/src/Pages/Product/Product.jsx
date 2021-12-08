@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import axios from 'axios'
 import styled from 'styled-components'
+import {useSelector, useDispatch} from "react-redux"
+import {addItem} from "../../redux/exportAllAction"
+
+import { Add, Remove } from '@material-ui/icons'
 import Navbar from '../../Component/Navbar/Navbar'
 import Announcement from '../../Component/Announcement/Announcement'
 import Footer from '../../Component/Footer/Footer'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
-import { Add, Remove } from '@material-ui/icons'
+
 
 const Container = styled.div``
 const Wrappaer = styled.div`
@@ -117,15 +121,11 @@ const Product = () => {
 	const handleColor=(col)=>{ setColor(col);   }
 	const handleQuantity=(parameter)=>{  parameter==="increment" ? setQuantity((prev)=>prev+1) : quantity>1 && setQuantity((prev)=> prev-1);   }
 	
-	const handleAddCart=async()=>{
-		try {
-			await axios.put("/cart",{
-				
-			})
-
-		} catch (error) {
-			history.push("/error");
-		}
+	const dispatch = useDispatch();
+	const cartState= useSelector(state => state.cart)
+	const handleAddCart= async()=>{
+		await dispatch(addItem(product , color, size , quantity));
+		console.log(cartState.products[0]);
 	}	
 	
 	
@@ -178,7 +178,7 @@ const Product = () => {
 							<Count >{quantity}</Count>
 							<Add  onClick={()=>handleQuantity("increment")}/>
 						</CountContainer>
-						<Button>ADD TO CART</Button>
+						<Button onClick={handleAddCart}>ADD TO CART</Button>
 					</AddContainer>
 
 				</InfoContainer>

@@ -1,11 +1,12 @@
 import React from 'react'
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Navbar from '../../Component/Navbar/Navbar'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
 import Footer from '../../Component/Footer/Footer'
-import Announcement from '../../Component/Announcement/Announcement' 
+import Announcement from '../../Component/Announcement/Announcement'
 import { Add, Remove } from '@material-ui/icons'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -54,7 +55,7 @@ const Product = styled.div`
 	margin: 10px 0;
 	`
 
-const ProductImageContainer=styled.div`
+const ProductImageContainer = styled.div`
 	flex: 1;
 	margin-right: 20px;
 	`
@@ -78,7 +79,7 @@ const ProductColor = styled.div`
 	height:25px;
 	width:25px;
 	border-radius:50%;
-	background: #000;
+	background: ${props=>props.color};
 	border:2px solid gray;
 `
 const ProductPriceContainer = styled.div`
@@ -139,6 +140,12 @@ const Button = styled.button`
 `
 
 const Cart = () => {
+	const cartState = useSelector(state => state.cart);
+
+	const handleQuantity=(what)=>{
+
+	}
+
 	return (
 		<Container>
 			<Navbar />
@@ -156,46 +163,32 @@ const Cart = () => {
 				<Bottom>
 
 					<ProductContainer>
-						<Product>
-							<ProductImageContainer>
-								<ProductImage src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A"></ProductImage>
-							</ProductImageContainer>	
-							<ProductDetail>
-								<ProductName><b>Product:</b>JumpSuit</ProductName>
-								<ProductId> <b>ID:</b> 123456789</ProductId>
-								<ProductSize><b>SIZE:</b> XL</ProductSize>
-								<ProductColor />
-							</ProductDetail>
-							<ProductPriceContainer>
-								<ProductCountContainer>
-									<Add />
-									<ProductCount>5</ProductCount>
-									<Remove />
-								</ProductCountContainer>
-								<ProductPrice>Rs 500</ProductPrice>
-							</ProductPriceContainer>
-						</Product>
-						<hr />
-						<Product>
-							<ProductImageContainer>
-								<ProductImage src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A"></ProductImage>
-							</ProductImageContainer>	
-							<ProductDetail>
-								<ProductName><b>Product:</b>JumpSuit</ProductName>
-								<ProductId> <b>ID:</b> 123456789</ProductId>
-								<ProductSize><b>SIZE:</b> XL</ProductSize>
-								<ProductColor />
-							</ProductDetail>
-							<ProductPriceContainer>
-								<ProductCountContainer>
-									<Add />
-									<ProductCount>5</ProductCount>
-									<Remove />
-								</ProductCountContainer>
-								<ProductPrice>Rs 500</ProductPrice>
-							</ProductPriceContainer>
-						</Product>
-						<hr />
+						{cartState.totalQuantity===0? <h1>Please Add item to cart to proceed </h1> :  cartState.products.map(product => {
+							return (
+								<>
+									<Product>
+										<ProductImageContainer>
+											<ProductImage src={product.product.img}></ProductImage>
+										</ProductImageContainer>
+										<ProductDetail>
+											<ProductName><b>Product:</b>{product.product.name}</ProductName>
+											<ProductId> <b>ID:</b>{product.product._id}</ProductId>
+											<ProductSize><b>SIZE:</b> {product.size}</ProductSize>
+											<ProductColor color = {product.color}/>
+										</ProductDetail>
+										<ProductPriceContainer>
+											<ProductCountContainer>
+												<Add onClick={handleQuantity("increment")}/>
+												<ProductCount>{product.quantity}</ProductCount>
+												<Remove onClick={handleQuantity("decrement")}/>
+											</ProductCountContainer>
+											<ProductPrice>Rs {product.product.price * product.quantity }</ProductPrice>
+										</ProductPriceContainer>
+									</Product>
+									<hr />
+								</>
+							)
+						})}
 					</ProductContainer>
 
 
@@ -204,19 +197,19 @@ const Cart = () => {
 						<SummaryItemContainer>
 							<SummaryItem>
 								<SummaryItemText>Subtotal: </SummaryItemText>
-								<SummaryItemPrice>Rs 500</SummaryItemPrice>
+								<SummaryItemPrice>Rs {cartState.totalPrice}</SummaryItemPrice>
 							</SummaryItem>
 							<SummaryItem>
 								<SummaryItemText>Estimated Shipping: </SummaryItemText>
-								<SummaryItemPrice>Rs 50</SummaryItemPrice>
+								<SummaryItemPrice>+ Rs 50</SummaryItemPrice>
 							</SummaryItem>
 							<SummaryItem>
 								<SummaryItemText>Total Discount: </SummaryItemText>
-								<SummaryItemPrice>Rs 100</SummaryItemPrice>
+								<SummaryItemPrice>- Rs 50</SummaryItemPrice>
 							</SummaryItem>
 							<SummaryItem>
 								<SummaryItemText><b>Total:</b></SummaryItemText>
-								<SummaryItemPrice><b>Rs 500</b></SummaryItemPrice>
+								<SummaryItemPrice><b>Rs {cartState.totalPrice}</b></SummaryItemPrice>
 							</SummaryItem>
 						</SummaryItemContainer>
 						<Button>CHECKOUT NOW</Button>

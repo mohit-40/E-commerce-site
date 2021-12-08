@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import Navbar from '../../Component/Navbar/Navbar'
 
@@ -45,6 +46,7 @@ const Agreement = styled.div`
 `
 
 const Login = () => {
+	const history=useHistory()
 	return (
 		<>
 		<Navbar />
@@ -52,10 +54,10 @@ const Login = () => {
 			<Wrapper>
 				<Title>SIGN IN</Title>
 				<Form>
-					<Input placeholder="Username" />
-					<Input placeholder="Password" />
+					<Input placeholder="Username" required/>
+					<Input placeholder="Password" required/>
 					<Button type="signin">SIGN IN</Button>
-					<Button type="register">Register</Button>
+					<Button type="registor" onClick={()=>{ history.push("/register") }} >REGISTER</Button>
 				</Form>
 				<Agreement>By signing in you agree to the term and condition.</Agreement>
 			</Wrapper>

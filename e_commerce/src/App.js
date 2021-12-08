@@ -5,6 +5,9 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { Provider } from 'react-redux'
+
+import store from "./redux/store"
 import Home from "./Pages/Home/Home"
 import ProductList from "./Pages/ProductList/ProductList"
 import Product from "./Pages/Product/Product"
@@ -15,6 +18,7 @@ import Cart from "./Pages/Cart/Cart"
 function App() {
   const user=false;
   return ( 
+    <Provider store={store}>
       <Router>
         <Switch>
           <Route exact path="/"> <Home /> </Route>
@@ -27,6 +31,7 @@ function App() {
           <Route path="/error"> <h1> Some Error occur. Don't worry mohit is working on it.</h1> </Route>
         </Switch>
       </Router> 
+    </Provider>
   );
 }
 
