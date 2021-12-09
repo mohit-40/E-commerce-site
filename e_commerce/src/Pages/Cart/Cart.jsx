@@ -1,12 +1,17 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link , useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import StripeCheckout from "react-stripe-checkout";
+import axios from "axios"
+
+import { Add, Remove } from '@material-ui/icons'
 import Navbar from '../../Component/Navbar/Navbar'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
 import Footer from '../../Component/Footer/Footer'
 import Announcement from '../../Component/Announcement/Announcement'
-import { Add, Remove } from '@material-ui/icons'
-import { useSelector } from 'react-redux'
+
+
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -26,9 +31,7 @@ const Top = styled.div`
 	justify-content:space-between;
 	background-color: lightcyan;
 	`
-const TopButton = styled.button`
-	cursor: pointer;
-`
+
 const TopLinks = styled.div`
 	display: flex;
 	margin:10px 0;
@@ -79,7 +82,7 @@ const ProductColor = styled.div`
 	height:25px;
 	width:25px;
 	border-radius:50%;
-	background: ${props=>props.color};
+	background: ${props => props.color};
 	border:2px solid gray;
 `
 const ProductPriceContainer = styled.div`
@@ -140,9 +143,28 @@ const Button = styled.button`
 `
 
 const Cart = () => {
+	const history=useHistory();
 	const cartState = useSelector(state => state.cart);
+	const STRIPE_PUBLISHABLE_KEY="pk_test_51JmHbxSHvqjlrY0LQsjd7nxpZSTnxD3z0fQ8Dwm5QKiYEr4hMVcR8dMVcg1nnvOuG69piys70A1RJ6mUxBqhaRrY00Nxwk8v5W"
+	const [stripeToken, setStripeToken] = useState(null);
+	const onToken=(token)=>{
+		setStripeToken(token);
+	}
+	useEffect(()=>{
+		const makeRequest = async()=>{
+			try {
+				const res = await axios.post("/checkout/payment",{ tokenId:stripeToken.id ,amount:cartState.totalPrice })
+				history.push("/success")
+			} catch (error) {
+				history.push("/error")
 
-	const handleQuantity=(what)=>{
+			}
+
+		}
+		stripeToken&& cartState.totalPrice>=1 && makeRequest();
+	},[stripeToken,history ,cartState])	
+
+	const handleQuantity = (what) => {
 
 	}
 
@@ -163,9 +185,9 @@ const Cart = () => {
 				<Bottom>
 
 					<ProductContainer>
-						{cartState.totalQuantity===0? <h1>Please Add item to cart to proceed </h1> :  cartState.products.map(product => {
+						{cartState.totalQuantity === 0 ? <h1>Please Add item to cart to proceed </h1> : cartState.products.map(product => {
 							return (
-								<>
+								<a key={product.product._id} >
 									<Product>
 										<ProductImageContainer>
 											<ProductImage src={product.product.img}></ProductImage>
@@ -174,19 +196,19 @@ const Cart = () => {
 											<ProductName><b>Product:</b>{product.product.name}</ProductName>
 											<ProductId> <b>ID:</b>{product.product._id}</ProductId>
 											<ProductSize><b>SIZE:</b> {product.size}</ProductSize>
-											<ProductColor color = {product.color}/>
+											<ProductColor color={product.color} />
 										</ProductDetail>
 										<ProductPriceContainer>
 											<ProductCountContainer>
-												<Add onClick={handleQuantity("increment")}/>
+												<Add onClick={handleQuantity("increment")} />
 												<ProductCount>{product.quantity}</ProductCount>
-												<Remove onClick={handleQuantity("decrement")}/>
+												<Remove onClick={handleQuantity("decrement")} />
 											</ProductCountContainer>
-											<ProductPrice>Rs {product.product.price * product.quantity }</ProductPrice>
+											<ProductPrice>Rs {product.product.price * product.quantity}</ProductPrice>
 										</ProductPriceContainer>
 									</Product>
 									<hr />
-								</>
+								</a>
 							)
 						})}
 					</ProductContainer>
@@ -212,8 +234,21 @@ const Cart = () => {
 								<SummaryItemPrice><b>Rs {cartState.totalPrice}</b></SummaryItemPrice>
 							</SummaryItem>
 						</SummaryItemContainer>
-						<Button>CHECKOUT NOW</Button>
 						<Button><Link className='text-link' to="/product-list">CONTINUE SHOPPING</Link></Button>
+
+						<StripeCheckout
+							name="Lama Shop"
+							image="https://avatars.githubusercontent.com/u/1486366?v=4"
+							billingAddress
+							shippingAddress
+							description={`Your total is Rs ${cartState.totalPrice}`}
+							amount={cartState.totalPrice}
+							token={onToken}
+							stripeKey={STRIPE_PUBLISHABLE_KEY}
+						>
+							<Button>CHECKOUT NOW</Button>
+						</StripeCheckout>
+
 					</Summary>
 				</Bottom>
 

@@ -57,7 +57,7 @@ const Categories = () => {
 			<Wrapper>
 				{categories.map((category)=>{
 					return(
-						<Item key={category._id}>
+						<Item key={category.id}>
 							<ImageContainer>
 								<Image src={category.img}/>
 							</ImageContainer>

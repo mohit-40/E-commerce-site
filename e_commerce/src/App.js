@@ -28,7 +28,8 @@ function App() {
           <Route path="/register"> {user? <Redirect to="/"/> : <Register />} </Route>
           <Route path="/login"> {user? <Redirect to="/"/> : <Login />} </Route>
           <Route path="/cart"> <Cart /> </Route>
-          <Route path="/error"> <h1> Some Error occur. Don't worry mohit is working on it.</h1> </Route>
+          <Route path="/error"> <h1> Some Error occur. Don't worry we are working on it.</h1> </Route>
+          <Route path="/success"> <h1> your request is successfull ... </h1> </Route>
         </Switch>
       </Router> 
     </Provider>
