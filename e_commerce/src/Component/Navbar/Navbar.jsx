@@ -82,6 +82,11 @@ const RightItem = styled.div`
 	margin-left:20px;
 	cursor: pointer;
 	`
+const Button =styled.button`
+	background-color: red;
+
+`
+
 
 
 const Navbar = () => {
@@ -89,7 +94,7 @@ const Navbar = () => {
 	const [click, setClick] = useState(false);
 	const handleClick=()=> setClick(!click);
 	const closeMobileMenu = () => setClick(false);
-
+	const currentUser=useSelector(state=>state.user.currentUser)
 	return (
 		<Container>
 			<Wrapper>
@@ -103,8 +108,16 @@ const Navbar = () => {
 				</Left>
 				<Center><Link className='text-link' to="/"><Logo>LAMA DEV</Logo> </Link></Center>
 				<Right click={click} className={click? "active" : ""}>
-					<RightItem><Link className='text-link' to="/register">REGISTER</Link></RightItem>
-					<RightItem><Link className='text-link' to="/login">SIGN IN</Link></RightItem>
+					{
+						currentUser ?
+						<RightItem><Button>Logout</Button></RightItem>
+					:
+						<>
+						<RightItem><Link className='text-link' to="/register">REGISTER</Link></RightItem>
+						<RightItem><Link className='text-link' to="/login">SIGN IN</Link></RightItem>
+						</>
+					}
+
 					<RightItem> 
 						<Badge badgeContent={cartState.totalQuantity} color="primary" >
 							<Link className='text-link' to="/cart"><ShoppingCartOutlined style={{fontSize: 30 }}/></Link>

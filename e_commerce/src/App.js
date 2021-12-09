@@ -5,9 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { Provider } from 'react-redux'
-
-import store from "./redux/store"
+import { useSelector } from 'react-redux'
 import Home from "./Pages/Home/Home"
 import ProductList from "./Pages/ProductList/ProductList"
 import Product from "./Pages/Product/Product"
@@ -16,9 +14,9 @@ import Register from "./Pages/Register/Register"
 import Cart from "./Pages/Cart/Cart"
 
 function App() {
-  const user=false;
+  const userState=useSelector(state=> state.user)
+  let user=userState.currentUser;
   return ( 
-    <Provider store={store}>
       <Router>
         <Switch>
           <Route exact path="/"> <Home /> </Route>
@@ -32,7 +30,6 @@ function App() {
           <Route path="/success"> <h1> your request is successfull ... </h1> </Route>
         </Switch>
       </Router> 
-    </Provider>
   );
 }
 

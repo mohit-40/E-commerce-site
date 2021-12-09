@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import Navbar from '../../Component/Navbar/Navbar'
+import {login} from "../../redux/exportAllAction"
 
 const Container = styled.div`
 	width:100vw;
@@ -47,6 +49,14 @@ const Agreement = styled.div`
 
 const Login = () => {
 	const history=useHistory()
+	const [email,setEmail] = useState("");
+	const [password ,setPassword] =useState("");
+	const dispatch=useDispatch();
+	const userState = useSelector(state => state.user);
+	const handleSubmit=async(e)=>{
+		e.preventDefault();
+		await dispatch(login(email, password))
+	}
 	return (
 		<>
 		<Navbar />
@@ -54,9 +64,10 @@ const Login = () => {
 			<Wrapper>
 				<Title>SIGN IN</Title>
 				<Form>
-					<Input placeholder="Username" required/>
-					<Input placeholder="Password" required/>
-					<Button type="signin">SIGN IN</Button>
+					<Input placeholder="Username" required onChange={ (e)=> setEmail(e.target.value)}  />
+					<Input placeholder="Password" type="password" required onChange={ (e)=> setPassword(e.target.value)} />
+					<Button type="signin" onClick={handleSubmit}>{userState.isFetching? "loading" :"SIGN IN" }</Button>
+					{userState.error && userState.error.response.data}
 					<Button type="registor" onClick={()=>{ history.push("/register") }} >REGISTER</Button>
 				</Form>
 				<Agreement>By signing in you agree to the term and condition.</Agreement>
