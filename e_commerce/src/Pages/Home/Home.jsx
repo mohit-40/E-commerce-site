@@ -8,6 +8,8 @@ import NewsLetter from "../../Component/NewsLetter/NewsLetter"
 import Footer from "../../Component/Footer/Footer"
 
 const Home = () => {
+
+
 	return (
 		<div>
 			<Navbar />
