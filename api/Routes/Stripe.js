@@ -2,7 +2,7 @@ const router = require('express').Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin}=require('./verifyToken');
 
-router.post("/payment", (req,res)=>{
+router.post("/payment/:Userid",verifyTokenAndAuthorization,(req,res)=>{
 	stripe.charges.create(
 		{
 			source: req.body.tokenId,

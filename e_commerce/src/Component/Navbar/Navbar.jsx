@@ -4,7 +4,8 @@ import { Badge } from "@material-ui/core";
 import { Menu,Close, Search, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from 'styled-components'
 import { mobile } from "../../responsive";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/exportAllAction';
 
 const Container = styled.div`
 	height:60px;
@@ -93,8 +94,16 @@ const Navbar = () => {
 	const cartState = useSelector(state=> state.cart)
 	const [click, setClick] = useState(false);
 	const handleClick=()=> setClick(!click);
-	const closeMobileMenu = () => setClick(false);
+	// const closeMobileMenu = () => setClick(false);
 	const currentUser=useSelector(state=>state.user.currentUser)
+	const dispatch= useDispatch()
+
+	const handleLogout = ()=>{
+		dispatch(logout(currentUser._id))
+	}	
+
+
+
 	return (
 		<Container>
 			<Wrapper>
@@ -110,7 +119,7 @@ const Navbar = () => {
 				<Right click={click} className={click? "active" : ""}>
 					{
 						currentUser ?
-						<RightItem><Button>Logout</Button></RightItem>
+						<RightItem><Button onClick={handleLogout}>Logout</Button></RightItem>
 					:
 						<>
 						<RightItem><Link className='text-link' to="/register">REGISTER</Link></RightItem>

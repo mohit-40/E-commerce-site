@@ -10,6 +10,7 @@ import Navbar from '../../Component/Navbar/Navbar'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
 import Footer from '../../Component/Footer/Footer'
 import Announcement from '../../Component/Announcement/Announcement'
+import { userRequest } from '../../requestMethod';
 
 
 
@@ -143,26 +144,25 @@ const Button = styled.button`
 `
 
 const Cart = () => {
+	const currentUser = useSelector(state => state.user.currentUser)
+
 	const history=useHistory();
 	const cartState = useSelector(state => state.cart);
 	const STRIPE_PUBLISHABLE_KEY="pk_test_51JmHbxSHvqjlrY0LQsjd7nxpZSTnxD3z0fQ8Dwm5QKiYEr4hMVcR8dMVcg1nnvOuG69piys70A1RJ6mUxBqhaRrY00Nxwk8v5W"
 	const [stripeToken, setStripeToken] = useState(null);
-	const onToken=(token)=>{
-		setStripeToken(token);
-	}
+	const onToken=(token)=> setStripeToken(token); 
 	useEffect(()=>{
 		const makeRequest = async()=>{
 			try {
-				const res = await axios.post("/checkout/payment",{ tokenId:stripeToken.id ,amount:cartState.totalPrice })
+				const res = await userRequest.post("/checkout/payment"+currentUser._id,{ tokenId:stripeToken.id ,amount:cartState.totalPrice })
 				history.push("/success")
 			} catch (error) {
 				history.push("/error")
 
 			}
-
 		}
 		stripeToken&& cartState.totalPrice>=1 && makeRequest();
-	},[stripeToken,history ,cartState])	
+	},[stripeToken,history,cartState])	
 
 	const handleQuantity = (what) => {
 
@@ -236,18 +236,24 @@ const Cart = () => {
 						</SummaryItemContainer>
 						<Button><Link className='text-link' to="/product-list">CONTINUE SHOPPING</Link></Button>
 
-						<StripeCheckout
-							name="Lama Shop"
-							image="https://avatars.githubusercontent.com/u/1486366?v=4"
-							billingAddress
-							shippingAddress
-							description={`Your total is Rs ${cartState.totalPrice}`}
-							amount={cartState.totalPrice}
-							token={onToken}
-							stripeKey={STRIPE_PUBLISHABLE_KEY}
-						>
-							<Button>CHECKOUT NOW</Button>
-						</StripeCheckout>
+						{
+							currentUser?
+
+							<StripeCheckout
+								name="Lama Shop"
+								image="https://avatars.githubusercontent.com/u/1486366?v=4"
+								billingAddress
+								shippingAddress
+								description={`Your total is Rs ${cartState.totalPrice}`}
+								amount={cartState.totalPrice}
+								token={onToken}
+								stripeKey={STRIPE_PUBLISHABLE_KEY}
+							>
+								<Button>CHECKOUT NOW</Button>
+							</StripeCheckout>
+							:
+							<Button disabled >CHECKOUT NOW</Button>
+						}
 
 					</Summary>
 				</Bottom>

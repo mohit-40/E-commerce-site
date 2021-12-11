@@ -66,8 +66,8 @@ const Login = () => {
 				<Form>
 					<Input placeholder="Username" required onChange={ (e)=> setEmail(e.target.value)}  />
 					<Input placeholder="Password" type="password" required onChange={ (e)=> setPassword(e.target.value)} />
-					<Button type="signin" onClick={handleSubmit}>{userState.isFetching? "loading" :"SIGN IN" }</Button>
-					{userState.error && userState.error.response.data}
+					<Button type="signin" onClick={handleSubmit}>{userState.isLoading? "loading" :"SIGN IN" }</Button>
+					{ userState.error && "something went wrong ..." }
 					<Button type="registor" onClick={()=>{ history.push("/register") }} >REGISTER</Button>
 				</Form>
 				<Agreement>By signing in you agree to the term and condition.</Agreement>
