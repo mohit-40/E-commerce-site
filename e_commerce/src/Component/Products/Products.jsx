@@ -9,6 +9,9 @@ import {
 } from "@material-ui/icons";
 import styled from 'styled-components'
 
+import {useDispatch} from "react-redux"
+import { addItem } from '../../redux/exportAllAction';
+
 const Container = styled.div``
 const Heading = styled.div`
 	text-align:center;
@@ -126,12 +129,20 @@ const Products = ({sort, filter, category}) => {
 		}
 	  }, [sort]);
 
+
+	  const dispatch=useDispatch()
+	  const handleAddToCart=(product )=>{
+			dispatch(addItem(product,"","",1))
+	  }
 	return (
 		<Container>
 			<Heading>{category}</Heading>
 			<Wrapper>
 
-				{ filterProduct.map((item) => {
+				{ 
+					filterProduct.length===0 ? <h1>No product found in this category. New product will be added soon.</h1> 
+					: 
+					filterProduct.map((item) => {
 					return (
 						<Item key={item._id}>
 							<ImageContainer>
@@ -141,12 +152,13 @@ const Products = ({sort, filter, category}) => {
 							<IconContainer>
 								<Icon> <FavoriteBorderOutlined style={{ fontSize: 30 }} /></Icon>
 								<Icon> <Link className='text-link' to={`/product/${item._id}`}><SearchOutlined style={{ fontSize: 30 }} /></Link></Icon>
-								<Icon> <ShoppingCartOutlined style={{ fontSize: 30 }} /></Icon>
+								<Icon> <ShoppingCartOutlined onClick={()=> handleAddToCart(item)} style={{ fontSize: 30 }} /></Icon>
 							</IconContainer>
 							{item.price}
 						</Item>
 					)
-				})}
+					})
+				}
 			</Wrapper>
 		</Container>
 	)

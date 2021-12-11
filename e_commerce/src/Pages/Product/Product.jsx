@@ -123,9 +123,8 @@ const Product = () => {
 	
 	const dispatch = useDispatch();
 	const cartState= useSelector(state => state.cart)
-	const handleAddCart= async()=>{
-		await dispatch(addItem(product , color, size , quantity));
-		console.log(cartState.products[0]);
+	const handleAddCart=()=>{
+		dispatch(addItem(product , color, size , quantity));
 	}	
 	
 	

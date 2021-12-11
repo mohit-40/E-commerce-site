@@ -63,7 +63,7 @@ const Categories = () => {
 							</ImageContainer>
 							<InfoContainer>
 								<Title>{category.title}</Title>
-								<Button><Link className='text-link' to="/product-list">SHOP NOW</Link></Button>
+								<Button><Link className='text-link' to={`/product-list/${category.title}`}>SHOP NOW</Link></Button>
 							</InfoContainer>
 						</Item>
 					)
