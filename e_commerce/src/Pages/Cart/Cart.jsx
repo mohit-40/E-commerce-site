@@ -252,7 +252,7 @@ const Cart = () => {
 								<Button>CHECKOUT NOW</Button>
 							</StripeCheckout>
 							:
-							<Button disabled >CHECKOUT NOW</Button>
+							<Button disabled >LOGIN TO CHECKOUT NOW</Button>
 						}
 
 					</Summary>

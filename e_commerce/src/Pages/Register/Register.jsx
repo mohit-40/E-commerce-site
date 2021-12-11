@@ -1,4 +1,5 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'; 
 import styled from 'styled-components'
@@ -53,24 +54,46 @@ const Agreement = styled.div`
 const Register = () => {
 
 	const history=useHistory();
+	const [error ,setError ] =useState("")
+	const [detail, setDetail] = useState("");
+	const handleChange=(e)=>{
+		setDetail((prev)=> ({
+			...prev,
+			[e.target.name] : e.target.value
+		}))
+	}
+	const handleSubmit =async(e)=>{
+		e.preventDefault()
+		if(detail.comfirmPassword !== detail.password ) setError("password and comfirm password do not match")
+		else{
+			try {
+				const res = await axios.post("/auth/register", detail);
+				history.push("/login");
+			} catch (error) {
+				setError(error.message)
+			}
+		}
+	}
 	return (
 		<>
 			<Navbar />	
 			<Container>
 				<Wrapper>
 					<Title>CREATE AN ACCOUNT</Title>
-					<Form>
-						<Input placeholder="name" required/>
-						<Input placeholder="last name" required/>
-						<Input placeholder="username" required/>
-						<Input type="email" placeholder="email" required/>
-						<Input type="password" placeholder="password" required/>
-						<Input type="password" placeholder="confirm password" required/>
+					<Form onChange={handleChange}>
+						<Input name="name" placeholder="name" required/>
+						<Input name="lastName" placeholder="last name"  required/>
+						<Input name="username" placeholder="username" required/>
+						<Input name="email" type="email" placeholder="email" required/>
+						<Input name="password" type="password" placeholder="password"  required/>
+						<Input  name="comfirmPassword" type="password" placeholder="confirm password" required/>
 						<Agreement>
 							By creating an account, I consent to the processing of my personal
 							data in accordance with the <b>PRIVACY POLICY</b>
 						</Agreement>
-						<Button type="register">REGISTER</Button>
+
+						<Button type="register" onClick={handleSubmit}>REGISTER</Button>
+						{error && error}
 						<Button type="signin" onClick={()=>{ history.push("/login") }} >LOG IN</Button>
 						
 					</Form>
