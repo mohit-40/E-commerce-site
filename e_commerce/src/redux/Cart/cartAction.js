@@ -4,6 +4,7 @@ export const addItem = (product, color, size , quantity ) =>({
 	type:ADD_ITEM,
 	payload:{
 		product: product,
+		productId :product._id,
 		quantity: quantity,
 		size : size,
 		color:color

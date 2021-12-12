@@ -74,7 +74,7 @@ const Register = () => {
 			}
 		}
 	}
-	return (
+	return ( 
 		<>
 			<Navbar />	
 			<Container>

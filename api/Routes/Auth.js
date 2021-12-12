@@ -32,7 +32,6 @@ router.post("/register",async(req,res)=>{
 //login
 router.post('/login',async(req,res)=>{
 	try{	
-		//check prev jwt if not then down
 		const user =await User.findOne({email:req.body.email});
 		// console.log(user)
 		if(!user ){ res.status(404).json('user not found')}
@@ -81,8 +80,7 @@ router.post("/refresh/:id",async (req,res)=>{
 //logout 
 router.post("/logout/:id",verifyTokenAndAuthorization,async(req,res)=>{
 	try {
-		const refreshToken=req.body.refreshToken;
-		console.log(req.params.id)
+		const refreshToken=req.body.refreshToken; 
 		await User.findByIdAndUpdate(req.params.id,{$pull : {refreshTokenArray : refreshToken }});
 		res.status(200).json("user is logout");	
 	} catch (error) {

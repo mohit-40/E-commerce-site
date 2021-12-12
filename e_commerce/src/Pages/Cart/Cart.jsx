@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link , useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import StripeCheckout from "react-stripe-checkout";
@@ -146,23 +146,28 @@ const Button = styled.button`
 const Cart = () => {
 	const currentUser = useSelector(state => state.user.currentUser)
 
-	const history=useHistory();
+	const history = useHistory();
 	const cartState = useSelector(state => state.cart);
-	const STRIPE_PUBLISHABLE_KEY="pk_test_51JmHbxSHvqjlrY0LQsjd7nxpZSTnxD3z0fQ8Dwm5QKiYEr4hMVcR8dMVcg1nnvOuG69piys70A1RJ6mUxBqhaRrY00Nxwk8v5W"
+	const STRIPE_PUBLISHABLE_KEY = "pk_test_51JmHbxSHvqjlrY0LQsjd7nxpZSTnxD3z0fQ8Dwm5QKiYEr4hMVcR8dMVcg1nnvOuG69piys70A1RJ6mUxBqhaRrY00Nxwk8v5W"
 	const [stripeToken, setStripeToken] = useState(null);
-	const onToken=(token)=> setStripeToken(token); 
-	useEffect(()=>{
-		const makeRequest = async()=>{
+	const onToken = (token) => setStripeToken(token);
+	useEffect(() => {
+		const makeRequest = async () => {
 			try {
-				const res = await userRequest.post("/checkout/payment"+currentUser._id,{ tokenId:stripeToken.id ,amount:cartState.totalPrice })
+				const order = cartState.products.map(prd => ({
+					productId: prd.product._id,
+					quantity: prd.quantity,
+					size: prd.size,
+					color: prd.color
+				}))
+				const res = await userRequest.post("/checkout/payment/" + currentUser._id, { tokenId: stripeToken.id, amount: cartState.totalPrice, order: order })
 				history.push("/success")
 			} catch (error) {
 				history.push("/error")
-
 			}
 		}
-		stripeToken&& cartState.totalPrice>=1 && makeRequest();
-	},[stripeToken,history,cartState])	
+		stripeToken && cartState.totalPrice >= 1 && makeRequest();
+	}, [stripeToken, history, cartState, currentUser])
 
 	const handleQuantity = (what) => {
 
@@ -187,7 +192,7 @@ const Cart = () => {
 					<ProductContainer>
 						{cartState.totalQuantity === 0 ? <h1>Please Add item to cart to proceed </h1> : cartState.products.map(product => {
 							return (
-								<a key={product.product._id} >
+								<div   >
 									<Product>
 										<ProductImageContainer>
 											<ProductImage src={product.product.img}></ProductImage>
@@ -208,7 +213,7 @@ const Cart = () => {
 										</ProductPriceContainer>
 									</Product>
 									<hr />
-								</a>
+								</div>
 							)
 						})}
 					</ProductContainer>
@@ -237,22 +242,22 @@ const Cart = () => {
 						<Button><Link className='text-link' to="/product-list">CONTINUE SHOPPING</Link></Button>
 
 						{
-							currentUser?
+							currentUser ?
 
-							<StripeCheckout
-								name="Lama Shop"
-								image="https://avatars.githubusercontent.com/u/1486366?v=4"
-								billingAddress
-								shippingAddress
-								description={`Your total is Rs ${cartState.totalPrice}`}
-								amount={cartState.totalPrice}
-								token={onToken}
-								stripeKey={STRIPE_PUBLISHABLE_KEY}
-							>
-								<Button>CHECKOUT NOW</Button>
-							</StripeCheckout>
-							:
-							<Button disabled >LOGIN TO CHECKOUT NOW</Button>
+								<StripeCheckout
+									name="Lama Shop"
+									image="https://avatars.githubusercontent.com/u/1486366?v=4"
+									billingAddress
+									shippingAddress
+									description={`Your total is Rs ${cartState.totalPrice}`}
+									amount={cartState.totalPrice}
+									token={onToken}
+									stripeKey={STRIPE_PUBLISHABLE_KEY}
+								>
+									<Button>CHECKOUT NOW</Button>
+								</StripeCheckout>
+								:
+								<Button disabled >LOGIN TO CHECKOUT NOW</Button>
 						}
 
 					</Summary>

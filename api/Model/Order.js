@@ -6,6 +6,8 @@ const OrderSchema=new mongoose.Schema({
 		{
 			productId:{type:String},
 			quantity:{type:Number, default:1},
+			color:{type:String},
+			size:{type:String}
 		}
 	],
 	amount:{ type:Number ,required:true },
