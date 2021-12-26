@@ -20,9 +20,9 @@ export const logout=(userId )=>{
 			await userRequest.post(`/auth/logout/${userId}`,{refreshToken : refreshToken});
 			localStorage.removeItem("accessToken")
 			localStorage.removeItem("refreshToken")
-			localStorage.removeItem('persist:key')
-
-			dispatch(logoutSuccess());;
+			// dispatch(clearCart())
+			
+			dispatch(logoutSuccess());
 		} catch (error) {
 			dispatch(logoutFail())
 		}

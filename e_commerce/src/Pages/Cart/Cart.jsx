@@ -245,8 +245,8 @@ const Cart = () => {
 							currentUser ?
 
 								<StripeCheckout
-									name="Lama Shop"
-									image="https://avatars.githubusercontent.com/u/1486366?v=4"
+									name="My shop"
+									image="https://www.w3schools.com/w3images/avatar6.png"
 									billingAddress
 									shippingAddress
 									description={`Your total is Rs ${cartState.totalPrice}`}
