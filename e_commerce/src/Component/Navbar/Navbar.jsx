@@ -83,23 +83,32 @@ const RightItem = styled.div`
 	margin-left:20px;
 	cursor: pointer;
 	`
-const Button =styled.button`
+const ButtonLogout =styled.button`
 	background-color: red;
-
+	color:white;
+	border-radius: 10px;
+	padding: 8px 8px;
+	border:none;
+	font-size:18px;
+	cursor: pointer;
+	font-weight: 500;
+	&:hover{
+		background: #b80202;
+	}
 `
 
 
 
 const Navbar = () => {
-	const cartState = useSelector(state=> state.cart)
+	const cartProducts = useSelector(state=> state.cart.products)
 	const [click, setClick] = useState(false);
 	const handleClick=()=> setClick(!click);
 	// const closeMobileMenu = () => setClick(false);
-	const currentUser=useSelector(state=>state.user.currentUser)
+	const currentUserId=useSelector(state=>state.user.currentUserId)
 	const dispatch= useDispatch()
 
 	const handleLogout = ()=>{
-		dispatch(logout(currentUser._id))
+		dispatch(logout(currentUserId))
 	}	
 
 
@@ -118,8 +127,8 @@ const Navbar = () => {
 				<Center><Link className='text-link' to="/"><Logo>My Shop</Logo> </Link></Center>
 				<Right click={click} className={click? "active" : ""}>
 					{
-						currentUser ?
-						<RightItem><Button onClick={handleLogout}>Logout</Button></RightItem>
+						currentUserId ?
+						<RightItem><ButtonLogout onClick={handleLogout}>Logout</ButtonLogout></RightItem>
 					:
 						<>
 						<RightItem><Link className='text-link' to="/register">REGISTER</Link></RightItem>
@@ -128,7 +137,7 @@ const Navbar = () => {
 					}
 
 					<RightItem> 
-						<Badge badgeContent={cartState.totalQuantity} color="primary" >
+						<Badge badgeContent={cartProducts.length} color="primary" >
 							<Link className='text-link' to="/cart"><ShoppingCartOutlined style={{fontSize: 30 }}/></Link>
 						</Badge>
 					</RightItem>

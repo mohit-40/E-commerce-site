@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../Model/User');
+
 const {verifyToken,verifyTokenAndAuthorization, verifyTokenAndAdmin } =require('./verifyToken');
 const bcrypt = require('bcrypt');
 const saltRounds =10;

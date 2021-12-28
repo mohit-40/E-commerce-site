@@ -131,8 +131,8 @@ const Products = ({sort, filter, category}) => {
 
 
 	  const dispatch=useDispatch()
-	  const handleAddToCart=(product )=>{
-			dispatch(addItem(product,"","",1))
+	  const handleAddToCart=(productId )=>{
+			dispatch(addItem(productId,"","",1))
 	  }
 	return (
 		<Container>
@@ -152,7 +152,7 @@ const Products = ({sort, filter, category}) => {
 							<IconContainer>
 								<Icon> <FavoriteBorderOutlined style={{ fontSize: 30 }} /></Icon>
 								<Icon> <Link className='text-link' to={`/product/${item._id}`}><SearchOutlined style={{ fontSize: 30 }} /></Link></Icon>
-								<Icon> <ShoppingCartOutlined onClick={()=> handleAddToCart(item)} style={{ fontSize: 30 }} /></Icon>
+								<Icon> <ShoppingCartOutlined onClick={()=> handleAddToCart(item._id)} style={{ fontSize: 30 }} /></Icon>
 							</IconContainer>
 							{item.price}
 						</Item>

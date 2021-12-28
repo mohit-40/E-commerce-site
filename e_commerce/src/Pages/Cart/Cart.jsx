@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import StripeCheckout from "react-stripe-checkout";
-import axios from "axios"
+import StripeCheckout from "react-stripe-checkout"; 
 
-import { Add, Remove } from '@material-ui/icons'
 import Navbar from '../../Component/Navbar/Navbar'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
 import Footer from '../../Component/Footer/Footer'
 import Announcement from '../../Component/Announcement/Announcement'
 import { userRequest } from '../../requestMethod';
+import CartItem from '../CartItem/CartItem';
+import axios from 'axios';
 
 
 
@@ -53,59 +53,7 @@ const ProductContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	`
-const Product = styled.div`
-	height:30vh;
-	display: flex;
-	margin: 10px 0;
-	`
 
-const ProductImageContainer = styled.div`
-	flex: 1;
-	margin-right: 20px;
-	`
-const ProductImage = styled.img`
-	height: 100%;
-	width:100%;
-	`
-const ProductDetail = styled.div`
-	flex: 3;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	font-size: 1.2rem;
-	`
-const ProductName = styled.div`
-	font-size: 1.5rem;
-	`
-const ProductId = styled.div``
-const ProductSize = styled.div``
-const ProductColor = styled.div`
-	height:25px;
-	width:25px;
-	border-radius:50%;
-	background: ${props => props.color};
-	border:2px solid gray;
-`
-const ProductPriceContainer = styled.div`
-	flex: 1;
-	font-size: 1.5rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-`
-const ProductCountContainer = styled.div`
-	display: flex;
-	align-items: center;
-`
-const ProductCount = styled.div`
-	border: 2px solid blue;
-	width:30px;
-	border-radius: 10px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`
-const ProductPrice = styled.div``
 const Summary = styled.div`
 	flex:1;
 	border: 2px solid brown;
@@ -144,34 +92,44 @@ const Button = styled.button`
 `
 
 const Cart = () => {
-	const currentUser = useSelector(state => state.user.currentUser)
-
 	const history = useHistory();
-	const cartState = useSelector(state => state.cart);
+	const currentUserId = useSelector(state => state.user.currentUserId);
+	const cartProducts = useSelector(state => state.cart.products);
 	const STRIPE_PUBLISHABLE_KEY = "pk_test_51JmHbxSHvqjlrY0LQsjd7nxpZSTnxD3z0fQ8Dwm5QKiYEr4hMVcR8dMVcg1nnvOuG69piys70A1RJ6mUxBqhaRrY00Nxwk8v5W"
 	const [stripeToken, setStripeToken] = useState(null);
 	const onToken = (token) => setStripeToken(token);
-	useEffect(() => {
+	const [totalPrice ,setTotalPrice] =useState(0); 
+
+	const updateTotalPrice =(prc)=>{
+			setTotalPrice(prev=> prev+prc);
+	}
+
+	useEffect(()=>{
+		cartProducts.forEach(async(p)=>{
+			const res = await axios.get("/product/"+p.productId);
+			setTotalPrice(prev=>prev+res.data.price*p.quantity);
+		})
+	},[cartProducts]) 
+
+	useEffect(() => { 
 		const makeRequest = async () => {
 			try {
-				const order = cartState.products.map(prd => ({
+				const order = cartProducts.map(prd => ({
 					productId: prd.product._id,
 					quantity: prd.quantity,
 					size: prd.size,
 					color: prd.color
 				}))
-				const res = await userRequest.post("/checkout/payment/" + currentUser._id, { tokenId: stripeToken.id, amount: cartState.totalPrice, order: order })
+				const res = await userRequest.post("/checkout/payment/" + currentUserId, { tokenId: stripeToken.id, amount: totalPrice, order: order })
 				history.push("/success")
 			} catch (error) {
 				history.push("/error")
 			}
 		}
-		stripeToken && cartState.totalPrice >= 1 && makeRequest();
-	}, [stripeToken, history, cartState, currentUser])
+		stripeToken && totalPrice >= 1 && makeRequest();
+	}, [stripeToken, history, totalPrice, currentUserId , cartProducts])
 
-	const handleQuantity = (what) => {
 
-	}
 
 	return (
 		<Container>
@@ -190,28 +148,10 @@ const Cart = () => {
 				<Bottom>
 
 					<ProductContainer>
-						{cartState.totalQuantity === 0 ? <h1>Please Add item to cart to proceed </h1> : cartState.products.map(product => {
+						{cartProducts.length === 0 ? <h1>Please Add item to cart to proceed </h1> : cartProducts.map(productDetail=> {
 							return (
-								<div   >
-									<Product>
-										<ProductImageContainer>
-											<ProductImage src={product.product.img}></ProductImage>
-										</ProductImageContainer>
-										<ProductDetail>
-											<ProductName><b>Product:</b>{product.product.name}</ProductName>
-											<ProductId> <b>ID:</b>{product.product._id}</ProductId>
-											<ProductSize><b>SIZE:</b> {product.size}</ProductSize>
-											<ProductColor color={product.color} />
-										</ProductDetail>
-										<ProductPriceContainer>
-											<ProductCountContainer>
-												<Add onClick={handleQuantity("increment")} />
-												<ProductCount>{product.quantity}</ProductCount>
-												<Remove onClick={handleQuantity("decrement")} />
-											</ProductCountContainer>
-											<ProductPrice>Rs {product.product.price * product.quantity}</ProductPrice>
-										</ProductPriceContainer>
-									</Product>
+								<div>
+									<CartItem productDetail={productDetail}  updateTotalPrice={updateTotalPrice}/>
 									<hr />
 								</div>
 							)
@@ -224,7 +164,7 @@ const Cart = () => {
 						<SummaryItemContainer>
 							<SummaryItem>
 								<SummaryItemText>Subtotal: </SummaryItemText>
-								<SummaryItemPrice>Rs {cartState.totalPrice}</SummaryItemPrice>
+								<SummaryItemPrice>Rs {totalPrice}</SummaryItemPrice>
 							</SummaryItem>
 							<SummaryItem>
 								<SummaryItemText>Estimated Shipping: </SummaryItemText>
@@ -236,21 +176,21 @@ const Cart = () => {
 							</SummaryItem>
 							<SummaryItem>
 								<SummaryItemText><b>Total:</b></SummaryItemText>
-								<SummaryItemPrice><b>Rs {cartState.totalPrice}</b></SummaryItemPrice>
+								<SummaryItemPrice><b>Rs {totalPrice}</b></SummaryItemPrice>
 							</SummaryItem>
 						</SummaryItemContainer>
 						<Button><Link className='text-link' to="/product-list">CONTINUE SHOPPING</Link></Button>
 
 						{
-							currentUser ?
+							currentUserId ?
 
 								<StripeCheckout
 									name="My shop"
 									image="https://www.w3schools.com/w3images/avatar6.png"
 									billingAddress
 									shippingAddress
-									description={`Your total is Rs ${cartState.totalPrice}`}
-									amount={cartState.totalPrice}
+									description={`Your total is Rs ${totalPrice}`}
+									amount={totalPrice}
 									token={onToken}
 									stripeKey={STRIPE_PUBLISHABLE_KEY}
 								>

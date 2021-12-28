@@ -15,7 +15,7 @@
 
 	const verifyTokenAndAuthorization=(req,res,next)=>{
 		verifyToken(req,res,()=>{
-			if(req.user.id===req.params.id || req.user.isAdmin){
+			if(req.user._id===req.params.id || req.user.isAdmin){
 				next();
 			}
 			else{ res.status(404).json("you can't perform this action")}

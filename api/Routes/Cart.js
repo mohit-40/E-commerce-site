@@ -17,8 +17,15 @@ router.post("/",verifyTokenAndAuthorization,async(req,res)=>{
 // update cart (handle add,delete item  as array modified karke update ke liye api req)
 router.put("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
 	try{
-		const updatedCart = await Cart.findOneAndUpdate({userId:req.params.userId},{$set:req.body}, {new:true});
-		res.status(200).json(updatedCart);
+		const cart = await Cart.findOne({userId: req.params.userId});
+		if(cart){
+			const updatedCart = await Cart.findOneAndUpdate({userId:req.params.userId},{$set:req.body}, {new:true});
+			res.status(200).json(updatedCart);
+		}
+		else{
+			const newCart = await new Cart(req.boody).save();
+			res.status(200).json(newCart);
+		}
 	}
 	catch(err){
 		res.status(500).json(err.message);

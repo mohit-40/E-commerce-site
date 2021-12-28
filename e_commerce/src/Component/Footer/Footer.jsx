@@ -74,7 +74,7 @@ const Footer = () => {
 	return (
 		<Container>
 			<Left>
-				<Logo>LAMA</Logo>
+				<Logo>My Shop</Logo>
 				<Desc>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt similique excepturi iste ducimus error non facere esse reiciendis impedit voluptas totam, odio dolorem dicta ut consectetur quia, inventore accusamus maiores.</Desc>
 				<SocialContainer>
 					<SocialIcon><Facebook style={{fontSize:30}}/></SocialIcon>

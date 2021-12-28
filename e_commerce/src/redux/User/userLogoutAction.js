@@ -21,7 +21,6 @@ export const logout=(userId )=>{
 			localStorage.removeItem("accessToken")
 			localStorage.removeItem("refreshToken")
 			// dispatch(clearCart())
-			
 			dispatch(logoutSuccess());
 		} catch (error) {
 			dispatch(logoutFail())

@@ -1,33 +1,41 @@
 const router = require('express').Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin}=require('./verifyToken');
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('./verifyToken');
 const Order = require("../Model/Order")
 
-router.post("/payment/:id",verifyTokenAndAuthorization,(req,res)=>{
+router.post("/payment/:id", verifyTokenAndAuthorization, (req, res) => {
 	stripe.charges.create(
 		{
 			source: req.body.tokenId,
-			amount:req.body.amount*100,
+			amount: req.body.amount * 100,
 			currency: "INR"
 		},
-		async(err, stripeRes)=>{
+		async (err, stripeRes) => {
 			try {
-				if(err){ return res.status(500).json(err.message) }
-				else{ 
-					console.log(stripeRes)
-					const newOrder=await new Order({
-						userId:req.params.id,
+				if (err) { return res.status(500).json(err.message) }
+				else {
+					console.log(stripeRes);
+					const newOrder = await new Order({
+						userId: req.params.id,
 						product: req.body.order,
 						amount: req.body.amount,
 						address: stripeRes.billing_details
 					});
-					const order=await newOrder.save();
-					res.status(200).json(order);		
+					const order = await Order.findOne({ userId: req.params.userId });
+					if (order) {
+						const updatedOrder = await Order.findOneAndUpdate({ userId: req.params.userId }, { product: {$push: newOrder} }, { new: true });
+						console.log(updatedOrder);
+						res.status(200).json(updatedOrder);
+					}
+					else {
+						const createOrder = await new Order(newOrder).save();
+						res.status(200).json(createOrder)
+					}
 				}
-			} 
-			catch (error) { res.status(404).json("payment done but order not placed")}
+			}
+			catch (error) { res.status(404).json("payment done but order not placed") }
 		}
 	)
 })
 
-module.exports=router
+module.exports = router

@@ -12,17 +12,24 @@ router.post("/",verifyTokenAndAuthorization,async(req,res)=>{
 		res.status(500).json(error.message);
 	}
 })
-//update order
+//update order add and delete item
 router.put("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
-	try{
-		const updatedOrder= await Order.findOneAndUpdate({userId:req.params.userId},{ $set:req.body }, {new:true});
-		console.log(updatedOrder);
-		res.status(200).json(updatedOrder);
-	}
-	catch(error){
+	try {
+		const order = await Order.findOne({userId: req.params.userId} );
+		if(order){
+			const updatedOrder= await Order.findOneAndUpdate({userId:req.params.userId},{ $set:req.body }, {new:true});
+			console.log(updatedOrder);
+			res.status(200).json(updatedOrder);	
+		}
+		else {
+			const newOrder = await new Order(req.body).save();
+			res.status(200).json(newOrder)
+		}
+	} catch (error) {
 		res.status(400).json(error.message);
 	}
 })
+
 //delete order
 router.delete("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
 	try{

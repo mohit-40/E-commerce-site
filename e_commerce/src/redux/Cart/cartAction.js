@@ -1,10 +1,9 @@
 import { ADD_ITEM , DELETE_ITEM } from "./cartType";
 
-export const addItem = (product, color, size , quantity ) =>({
+export const addItem = (productId, color, size , quantity ) =>({
 	type:ADD_ITEM,
 	payload:{
-		product: product,
-		productId :product._id,
+		productId :productId,
 		quantity: quantity,
 		size : size,
 		color:color
