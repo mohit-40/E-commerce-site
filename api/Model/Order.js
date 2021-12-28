@@ -13,6 +13,6 @@ const OrderSchema=new mongoose.Schema({
 	amount:{ type:Number ,required:true },
 	address:{type:Object, required:true },
 	status:{type:String , default:"pending" , enum:["pending", "delivered", "cancelled" ]}
-})
+},{timestamps: true })
 
 module.exports=mongoose.model("Order",OrderSchema);

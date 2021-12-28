@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Add, Remove } from '@material-ui/icons'
 import axios from 'axios'
+import { userRequest } from '../../requestMethod'
+import {useSelector} from "react-redux"
 
 const Product = styled.div`
 	height:30vh;
@@ -58,16 +60,25 @@ const ProductCount = styled.div`
 const ProductPrice = styled.div``
 
 
-function CartItem({productDetail }) {
+function CartItem({ cartItemId }) {
 
 	const [product, setProduct] = useState({})
+	const [productDetail , setProductDetail] =useState({})
+	const currentUserId = useSelector(state=> state.user.currentUserId)
 	useEffect(()=>{
 		const fetchProduct= async()=>{
-			const res = await axios.get("/product/"+productDetail.productId)
-			setProduct(res.data);
+			try {
+				console.log("in fetch product ")
+				const productDetailRes = await userRequest.get("/cart/cartItem/"+currentUserId + "/"+cartItemId)
+				setProductDetail(productDetailRes.data);
+				const res = await axios.get("/product/"+productDetailRes.data.productId)
+				setProduct(res.data);
+			} catch (error) {
+				console.log(error.message);
+			}
 		}
 		fetchProduct();
-	},[ product.price ,productDetail ]) 
+	},[ product.price,cartItemId  , currentUserId]) 
 	const handleQuantity = (what) => { }
 
 	return ( 

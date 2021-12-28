@@ -57,7 +57,7 @@ const Login = () => {
 		e.preventDefault();
 		await dispatch(login(email, password))
 	}
-	return (
+	return ( 
 		<>
 		<Navbar />
 		<Container>

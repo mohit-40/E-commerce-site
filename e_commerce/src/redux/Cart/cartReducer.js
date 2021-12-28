@@ -1,14 +1,22 @@
-import { ADD_ITEM , DELETE_ITEM } from "./cartType";
+import { ADD_ITEM , DELETE_ITEM, SET_CART ,CLEAR_CART} from "./cartType";
 
 const initialCartState = {
-	products:[]
+	cartItems:[]  // [cid ,cid]
 }
 
 const cartReducer = (state =initialCartState , action )=>{
 	switch (action.type) {
 		case ADD_ITEM: return {
 			...state,
-			products: [...state.products , action.payload],
+			cartItems: [...state.cartItems , action.payload],
+		}
+		case SET_CART: return {
+			...state,
+			cartItems: action.payload,
+		}
+		case CLEAR_CART: return {
+			...state,
+			cartItems: [],
 		}
 		// case DELETE_ITEM: return {
 		// 	...state,

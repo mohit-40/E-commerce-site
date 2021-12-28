@@ -1,6 +1,5 @@
 import { LOGOUT_FAIL, LOGOUT_START, LOGOUT_SUCCESS } from "./userType";
 import {userRequest} from "../../requestMethod"
-import { clearCart } from "../Cart/cartAction";
 
 export const logoutStart=()=>({
 	type:LOGOUT_START
@@ -21,8 +20,8 @@ export const logout=(userId )=>{
 			await userRequest.post(`/auth/logout/${userId}`,{refreshToken : refreshToken});
 			localStorage.removeItem("accessToken")
 			localStorage.removeItem("refreshToken")
+			// dispatch(clearCart())
 			dispatch(logoutSuccess());
-			dispatch(clearCart())
 		} catch (error) {
 			dispatch(logoutFail())
 		}

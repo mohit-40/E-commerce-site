@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import axios from "axios"
+
 const Container=styled.div`
 	margin:1rem;
 `
@@ -61,37 +63,63 @@ const Button=styled.button`
 `
 
 const CreateUser = () => {
+	const [input, setInput] = useState({})
+	const handleChange= (e)=>{
+		setInput(prev=>({
+			...prev,
+			[e.target.name]:e.target.value
+		})) 
+	}
+	const [status,setStatus] = useState("")
+	const handleSubmit=async(e)=>{
+		e.preventDefault();
+		try {
+			const res = await axios.post("/auth/register" , input );
+			setStatus("new user create");
+			const resetStatus = setInterval(() => {
+				setStatus("")
+			}, 3000);
+			setTimeout(() => {
+				clearInterval(resetStatus);
+			}, 3000);
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<Container>
+
 			<Heading>New User</Heading>
-			<Form>
-				<InputContainer>
+			{status}
+			<Form onChange={handleChange} >
+				<InputContainer  >
 					<Label>Username</Label>
-					<Input placeholder="john"/>
+					<Input name="username" placeholder="john"/>
 				</InputContainer>
-				<InputContainer>
+				<InputContainer  >
 					<Label>Full Name</Label>
-					<Input placeholder="John smith"/>
+					<Input name="name" placeholder="John smith"/>
 				</InputContainer>
-				<InputContainer>
+				<InputContainer   >
 					<Label>Email</Label>
-					<Input placeholder="john@gmail.com"/>
+					<Input name="email" placeholder="john@gmail.com"/>
 				</InputContainer>
-				<InputContainer>
+				<InputContainer  >
 					<Label>Phone</Label>
-					<Input placeholder="+1 15616512"/>
+					<Input  name="phone" placeholder="+1 15616512"/>
 				</InputContainer>
-				<InputContainer>
+				<InputContainer  >
 					<Label>Password</Label>
-					<Input placeholder="Password"/>
+					<Input name="password" placeholder="Password"/>
 				</InputContainer>
-				<InputContainer>
+				<InputContainer  >
 					<Label>Address</Label>
-					<Input placeholder="NEW YORK CITY"/>
+					<Input name="address" placeholder="NEW YORK CITY"/>
 				</InputContainer>
-				<InputContainer>
+				<InputContainer  >
 					<Label>Gender</Label>
-					<RadioContainer>
+					<RadioContainer name="gender">
 						<Input type="radio" name="gender" id="male" value ="Male" />
 						<Label for="male">Male</Label>
 						<Input type="radio"  name="gender" id="female" value ="Female" />
@@ -100,15 +128,7 @@ const CreateUser = () => {
 						<Label for="other">Other</Label>
 					</RadioContainer>
 				</InputContainer>
-				<InputContainer>
-					<Label>Active</Label>
-					<Select>
-						<Option default>Choose</Option>
-						<Option value="Yes">Yes</Option>
-						<Option value="No">No</Option>
-					</Select>
-				</InputContainer>
-				<Button>Create</Button>
+				<Button onClick={handleSubmit}>Create</Button>
 			</Form>
 		</Container>
 	)

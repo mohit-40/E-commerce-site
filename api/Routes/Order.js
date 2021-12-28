@@ -13,37 +13,31 @@ router.post("/",verifyTokenAndAuthorization,async(req,res)=>{
 	}
 })
 //update order add and delete item
-router.put("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
-	try {
-		const order = await Order.findOne({userId: req.params.userId} );
-		if(order){
-			const updatedOrder= await Order.findOneAndUpdate({userId:req.params.userId},{ $set:req.body }, {new:true});
-			console.log(updatedOrder);
-			res.status(200).json(updatedOrder);	
-		}
-		else {
-			const newOrder = await new Order(req.body).save();
-			res.status(200).json(newOrder)
-		}
+router.put("/:id/:oid",verifyTokenAndAuthorization,async(req,res)=>{
+	try { 
+		const updatedOrder= await Order.findByIdAndUpdate(req.params.oid,{ $set:req.body }, {new:true});
+		console.log(updatedOrder);
+		res.status(200).json(updatedOrder);	
 	} catch (error) {
 		res.status(400).json(error.message);
 	}
 })
 
-//delete order
-router.delete("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
+//delete whole order
+router.delete("/:id/:oid",verifyTokenAndAuthorization,async(req,res)=>{
 	try{
-		await Order.findOneAndDelete({userId:req.params.userId});
-		res.status(200).json("user orders has been deleted");
+		await Order.findByIdAndDelete(req.params.oid);
+		res.status(200).json("orders has been deleted");
 	}
 	catch(error){
 		res.status(500).json(error.message);
 	}
 })
-//get user order
-router.get("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
+
+//get user orders
+router.get("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 	try{
-		const userOrder=await Order.findOne({userId:req.params.userId});
+		const userOrder=await Order.find({userId:req.params.id});
 		res.status(200).json(userOrder);
 	}
 	catch(error){

@@ -65,8 +65,8 @@ const Sidebar = () => {
 					<SectionTitle>Dashboard</SectionTitle>
 					<SectionItemContainer>
 						<Link to="/" className="text-link"><SectionItem><LineStyle /><SectionItemText>Home </SectionItemText></SectionItem> </Link>
-						<Link to="/" className="text-link"><SectionItem><Timeline /><SectionItemText>Analytic </SectionItemText></SectionItem></Link>
-						<Link to="/" className="text-link"><SectionItem><TrendingUp /><SectionItemText>Sales </SectionItemText></SectionItem></Link>
+						{/* <Link to="/" className="text-link"><SectionItem><Timeline /><SectionItemText>Analytic </SectionItemText></SectionItem></Link> */}
+						{/* <Link to="/" className="text-link"><SectionItem><TrendingUp /><SectionItemText>Sales </SectionItemText></SectionItem></Link> */}
 					</SectionItemContainer>
 				</Section>
 				<Section>
@@ -75,7 +75,7 @@ const Sidebar = () => {
 						<Link to="/users" className="text-link"><SectionItem><PermIdentity /><SectionItemText>Users </SectionItemText></SectionItem></Link>
 						<Link to="/productList" className="text-link"><SectionItem><Storefront /><SectionItemText>Products </SectionItemText></SectionItem></Link>
 						<Link to="/transaction" className="text-link"><SectionItem><AttachMoney /><SectionItemText>Transactions </SectionItemText></SectionItem></Link>
-						<Link to="/" className="text-link"><SectionItem><BarChart /><SectionItemText>Reports </SectionItemText></SectionItem></Link>
+						{/* <Link to="/" className="text-link"><SectionItem><BarChart /><SectionItemText>Reports </SectionItemText></SectionItem></Link> */}
 					</SectionItemContainer>
 				</Section>
 				<Section>
@@ -83,17 +83,18 @@ const Sidebar = () => {
 					<SectionItemContainer>
 						<Link to="/createProduct" className="text-link"><SectionItem><MailOutline /><SectionItemText> New Product </SectionItemText></SectionItem></Link>
 						<Link to="/createUser" className="text-link"><SectionItem><WorkOutline /><SectionItemText> New User </SectionItemText></SectionItem></Link>
-						<Link to="/" className="text-link"><SectionItem><ChatBubbleOutline /><SectionItemText>Messages </SectionItemText></SectionItem></Link>
+						<Link to="/login" className="text-link"><SectionItem><WorkOutline /><SectionItemText> Login </SectionItemText></SectionItem></Link>
+						{/* <Link to="/" className="text-link"><SectionItem><ChatBubbleOutline /><SectionItemText>Messages </SectionItemText></SectionItem></Link> */}
 					</SectionItemContainer>
 				</Section>
-				<Section>
+				{/* <Section>
 					<SectionTitle>Staff</SectionTitle>
 					<SectionItemContainer>
 						<Link to="/" className="text-link"><SectionItem><DynamicFeed /><SectionItemText>Manages </SectionItemText></SectionItem></Link>
 						<Link to="/" className="text-link"><SectionItem><Timeline /><SectionItemText>Analytics </SectionItemText></SectionItem></Link>
 						<Link to="/" className="text-link"><SectionItem><Report /><SectionItemText>Reports </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
-				</Section>
+				</Section> */}
 			</Wrapper>
 		</Container>
 	)

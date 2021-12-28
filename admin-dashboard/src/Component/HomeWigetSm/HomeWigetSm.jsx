@@ -1,6 +1,8 @@
 import { Visibility } from '@mui/icons-material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { userRequest } from '../../requestMethod'
 const Container=styled.div`
 	flex:1;
 	margin: 1rem;
@@ -31,7 +33,16 @@ const Image=styled.img`
 	border-radius: 50%;
 	object-fit: cover;
 `
-const Detail=styled.div``
+const Detail=styled.div`
+	display:flex;
+	align-item:center;
+	
+	`
+const Info=styled.div`
+	display: flex;
+	flex-direction:column;
+	margin-left:10px;
+`
 const Name=styled.div`
 	font-size: 1rem;
 	font-weight:600;
@@ -51,34 +62,38 @@ const Button=styled.button`
 `
 
 const HomeWigetSm = () => {
+	const history =useHistory();
+	const [userList ,setUserList ] =useState([]);
+	useEffect(()=>{
+	  const fetchUserList= async()=>{
+		  try {
+			  const res = await userRequest.get("/user/allusers");
+			  setUserList(res.data); 
+		  } catch (error) {
+			  console.log(error);
+		  }
+	  }
+	  fetchUserList(); 
+	},[])
 	return (
 		<Container>
 			<Title>New Join Member</Title>
 			<MemberContainer>
-				<Member>
-					<ImageContainer> <Image src="https://source.unsplash.com/random" ></Image> </ImageContainer>
-					<Detail>
-						<Name>lorem alki</Name>
-						<Position>Software Developer</Position>
-					</Detail>
-					<Button> <Visibility style={{fontSize:"1rem" ,marginRight:"5px"}}/>Display </Button>
-				</Member>
-				<Member>
-					<ImageContainer> <Image src="https://source.unsplash.com/random" ></Image> </ImageContainer>
-					<Detail>
-						<Name>lorem alki</Name>
-						<Position>Software Developer</Position>
-					</Detail>
-					<Button> <Visibility style={{fontSize:"1rem" ,marginRight:"5px"}}/>Display </Button>
-				</Member>
-				<Member>
-					<ImageContainer> <Image src="https://source.unsplash.com/random" ></Image> </ImageContainer>
-					<Detail>
-						<Name>lorem alki</Name>
-						<Position>Software Developer</Position>
-					</Detail>
-					<Button> <Visibility style={{fontSize:"1rem" ,marginRight:"5px"}}/>Display </Button>
-				</Member>
+				{
+					userList?.slice(0,5)?.map((u)=>
+						<Member key={u._id}>
+							<Detail>
+								<ImageContainer> <Image src="https://source.unsplash.com/random" ></Image> </ImageContainer>
+								<Info>
+									<Name>{u.username}</Name>
+									<Position>{u.email}</Position>
+								</Info>
+							</Detail>
+							<Button onClick={()=> { history.push("/user/"+u._id)}}> <Visibility style={{fontSize:"1rem" ,marginRight:"5px"}} />Display </Button>
+						</Member>
+					
+					)
+				}
 
 			</MemberContainer>
 		</Container>

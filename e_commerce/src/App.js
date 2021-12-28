@@ -5,7 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Home from "./Pages/Home/Home"
 import ProductList from "./Pages/ProductList/ProductList"
 import Product from "./Pages/Product/Product"
@@ -15,6 +15,8 @@ import Cart from "./Pages/Cart/Cart"
 import axios from 'axios';
 import { userRequest } from './requestMethod';
 import jwtDecode from "jwt-decode"
+import { useEffect } from 'react';
+import { setCart } from './redux/exportAllAction';
 
 function App() {
 
@@ -49,6 +51,21 @@ function App() {
     }
   );
 
+
+  //update cart state 
+  const dispatch= useDispatch();
+  useEffect(()=>{
+    const fetchCart = async()=>{
+      try {
+          const res = await userRequest.get(`/cart/${currentUserId}`);
+          const userCartItems = res.data;
+          dispatch(setCart(userCartItems.map((c)=> c._id)));
+      } catch (error) {
+         console.log(error.message)
+      }
+    }
+    fetchCart();
+  },[currentUserId ,dispatch])
 
 
 

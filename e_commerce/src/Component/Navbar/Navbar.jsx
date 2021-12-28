@@ -100,7 +100,7 @@ const ButtonLogout =styled.button`
 
 
 const Navbar = () => {
-	const cartProducts = useSelector(state=> state.cart.products)
+	const cartItems = useSelector(state=> state.cart.cartItems)
 	const [click, setClick] = useState(false);
 	const handleClick=()=> setClick(!click);
 	// const closeMobileMenu = () => setClick(false);
@@ -137,7 +137,7 @@ const Navbar = () => {
 					}
 
 					<RightItem> 
-						<Badge badgeContent={cartProducts.length} color="primary" >
+						<Badge badgeContent={cartItems.length} color="primary" >
 							<Link className='text-link' to="/cart"><ShoppingCartOutlined style={{fontSize: 30 }}/></Link>
 						</Badge>
 					</RightItem>

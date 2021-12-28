@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { userRequest } from '../../requestMethod'
 const Container=styled.div`
 	flex:2;
 	margin: 1rem;
@@ -55,6 +56,18 @@ const Status=styled.button`
 `
 
 const HomeWigetLg = () => {
+	const [order ,setOrder] =useState([]);
+	useEffect(()=>{
+		const fetchOrder = async()=>{
+			try {
+				const res = await userRequest.get("/order/");
+				setOrder(res.data);			
+			} catch (error) {
+				console.log(error.message)
+			}
+		}
+		fetchOrder();
+	},[])
 	return (
 		<Container>
 			<Title>Lastest Transaction</Title>
@@ -65,33 +78,19 @@ const HomeWigetLg = () => {
 					<Th>Amount</Th>
 					<Th>Status</Th>
 				</TrHeading>
-				<Tr>
-					<TdCustomer>
-						<ImageContainer><Image src="https://source.unsplash.com/random"></Image></ImageContainer>
-						<Name>lorem item</Name>
-					</TdCustomer>
-					<TdDate>2 jun 2021</TdDate>
-					<TdAmount>Rs 250</TdAmount>
-					<TdStatus><Status status="accepted">accepted</Status></TdStatus>
-				</Tr>
-				<Tr>
-					<TdCustomer>
-						<ImageContainer><Image src="https://source.unsplash.com/random"></Image></ImageContainer>
-						<Name>lorem item</Name>
-					</TdCustomer>
-					<TdDate>2 jun 2021</TdDate>
-					<TdAmount>Rs 250</TdAmount>
-					<TdStatus><Status status="decline">decline</Status></TdStatus>
-				</Tr>
-				<Tr>
-					<TdCustomer>
-						<ImageContainer><Image src="https://source.unsplash.com/random"></Image></ImageContainer>
-						<Name>lorem item</Name>
-					</TdCustomer>
-					<TdDate>2 jun 2021</TdDate>
-					<TdAmount>Rs 250</TdAmount>
-					<TdStatus><Status status="pending">Pending</Status></TdStatus>
-				</Tr>
+				{
+					order.map(o=>(
+						<Tr key={o._id}>
+							<TdCustomer>
+								<ImageContainer><Image src="https://source.unsplash.com/random"></Image></ImageContainer>
+								<Name>{o.userId}</Name>
+							</TdCustomer>
+							<TdDate>{o.createdAt}</TdDate>
+							<TdAmount>Rs {o.amount}</TdAmount>
+							<TdStatus><Status status="accepted">{o.status}</Status></TdStatus>
+						</Tr>
+					))
+				}
 			</MyTable>
 		</Container>
 	)

@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import axios from 'axios'
 import styled from 'styled-components'
-import {useSelector, useDispatch} from "react-redux"
-import {addItem} from "../../redux/exportAllAction"
+import { useSelector, useDispatch } from "react-redux"
+import { addItem } from "../../redux/exportAllAction"
 
 import { Add, Remove } from '@material-ui/icons'
 import Navbar from '../../Component/Navbar/Navbar'
 import Announcement from '../../Component/Announcement/Announcement'
 import Footer from '../../Component/Footer/Footer'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
+import { userRequest } from '../../requestMethod'
 
 
 const Container = styled.div``
@@ -108,40 +109,51 @@ const Button = styled.button`
 `
 
 const Product = () => {
-	const history=useHistory()
-	const param=useParams();
-	const productId=param.productId;
-	const [product,setProduct] =useState([]);
-	
-	const [quantity, setQuantity] =useState(1);
-	const [color,setColor]=useState("");
-	const [size,setSize]=useState("");
+	const history = useHistory()
+	const param = useParams();
+	const productId = param.productId;
+	const [product, setProduct] = useState([]);
 
-	const handleSize=(e)=>{setSize(e.target.value)}
-	const handleColor=(col)=>{ setColor(col);   }
-	const handleQuantity=(parameter)=>{  parameter==="increment" ? setQuantity((prev)=>prev+1) : quantity>1 && setQuantity((prev)=> prev-1);   }
-	
+	const [quantity, setQuantity] = useState(1);
+	const [color, setColor] = useState("");
+	const [size, setSize] = useState("");
+
+	const handleSize = (e) => { setSize(e.target.value) }
+	const handleColor = (col) => { setColor(col); }
+	const handleQuantity = (parameter) => { parameter === "increment" ? setQuantity((prev) => prev + 1) : quantity > 1 && setQuantity((prev) => prev - 1); }
+
 	const dispatch = useDispatch();
-	const cartState= useSelector(state => state.cart)
-	const handleAddCart=()=>{
-		dispatch(addItem(product._id , color, size , quantity));
-	}	
-	
-	
-	
-	useEffect(()=>{
-		const fetchProduct=async()=>{
-			try{
-				const res= await axios.get("/product/"+productId);
+	const currentUserId = useSelector(state => state.user.currentUserId);
+
+	const handleAddToCart = async () => {
+		try {
+			const item = {
+				userId: currentUserId,
+				productId: product._id,
+				quantity: quantity,
+				color: color,
+				size: size
+			}
+			const res = await userRequest.post("/cart", item);
+			dispatch(addItem(res.data._id))
+		} catch (error) {
+			console.log(error)
+		}
+	}  
+
+	useEffect(() => {
+		const fetchProduct = async () => {
+			try {
+				const res = await axios.get("/product/" + productId);
 				setProduct(res.data);
 			}
-			catch(err){
+			catch (err) {
 				history.push("/error")
 			}
 		}
 		fetchProduct();
-	},[])
-	
+	}, [productId])
+
 	return (
 		<Container>
 			<Navbar />
@@ -159,25 +171,25 @@ const Product = () => {
 						<Filter>
 							<FilterTitle> Color:</FilterTitle>
 							<FilterSelect>
-								{product.color && product.color.map((col)=> <ColorOption color={col} key={col} style={color===col ? {border: "5px solid gray"} : {}} onClick={()=>handleColor(col)} /> )}
+								{product.color && product.color.map((col) => <ColorOption color={col} key={col} style={color === col ? { border: "5px solid gray" } : {}} onClick={() => handleColor(col)} />)}
 							</FilterSelect>
 						</Filter>
 						<Filter>
 							<FilterTitle> Size:</FilterTitle>
 							<Select onChange={handleSize} required>
 								<Option Selected>Choose</Option>
-								{product.size && product.size.map((sz)=> <Option key={sz} >{sz}</Option> )}
+								{product.size && product.size.map((sz) => <Option key={sz} >{sz}</Option>)}
 							</Select>
 						</Filter>
 					</FilterContainer>
 
 					<AddContainer>
 						<CountContainer>
-							<Remove onClick={()=>handleQuantity("decrement")}/>
+							<Remove onClick={() => handleQuantity("decrement")} />
 							<Count >{quantity}</Count>
-							<Add  onClick={()=>handleQuantity("increment")}/>
+							<Add onClick={() => handleQuantity("increment")} />
 						</CountContainer>
-						<Button onClick={handleAddCart}>ADD TO CART</Button>
+						<Button onClick={handleAddToCart}>ADD TO CART</Button>
 					</AddContainer>
 
 				</InfoContainer>

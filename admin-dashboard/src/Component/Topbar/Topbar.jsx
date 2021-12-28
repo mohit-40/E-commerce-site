@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { NotificationsNone, Language, Settings, AccountCircle, Menu, Close } from "@mui/icons-material";
+import {useSelector , useDispatch} from "react-redux"
 import { mobile } from '../../responsive'
+import { logout } from '../../redux/exportAllAction';
 
 const Container = styled.div`
 	position: sticky;
@@ -67,21 +69,37 @@ const Icon = styled.div`
 	cursor: pointer;
 	margin-left: 10px;
 `
+const LogoutButton = styled.button`
+	background:red;
+	border-radius:10px;
+	border:none;
+	padding:5px;
+	font-size:16px;
+	color:white;
+`
 
 const Topbar = () => {
+	const dispatch= useDispatch()
 	const [click, setClick] = useState(false);
 	const handleClick = () => setClick(!click);
+	const currentUserId = useSelector(state=> state.user.currentUserId)
+	const handleLogout =()=>{
+		dispatch(logout(currentUserId))
+	}
 	return (
 		<Container>
 			<Wrapper>
 				<Left>
 					<Logo>Admin-Dashboard</Logo>
+					{
+						currentUserId? <LogoutButton onClick={handleLogout}>logout</LogoutButton> : " "
+					}
 				</Left>
 
 				<Right>
 					{click ? <Close onClick={handleClick} className="close hamburger" /> : <Menu onClick={handleClick} className="hamburger" />}
 					<IconContainer className={click ? "active" : ""}>
-						<Icon>
+						{/* <Icon>
 							<Settings className="icon" ></Settings>
 							{click ? <div className="iconText">Setting</div> : ""}
 						</Icon>
@@ -96,7 +114,7 @@ const Topbar = () => {
 						<Icon>
 							<AccountCircle className="icon" />
 							{click ? <div className="iconText">Account</div> : ""}
-						</Icon>
+						</Icon> */}
 					</IconContainer>
 				</Right>
 			</Wrapper>

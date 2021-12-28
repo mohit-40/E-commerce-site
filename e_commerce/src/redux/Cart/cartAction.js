@@ -1,13 +1,15 @@
-import { ADD_ITEM , DELETE_ITEM } from "./cartType";
+import { ADD_ITEM , DELETE_ITEM, SET_CART ,CLEAR_CART  } from "./cartType";
 
-export const addItem = (productId, color, size , quantity ) =>({
+export const addItem = (cid) =>({
 	type:ADD_ITEM,
-	payload:{
-		productId :productId,
-		quantity: quantity,
-		size : size,
-		color:color
-	}
+	payload: cid
+})
+export const setCart = (c) =>({
+	type:SET_CART,
+	payload: c
+})
+export const clearCart = (c) =>({
+	type:CLEAR_CART 
 })
 
 // export const deleteItem = (product ) =>({

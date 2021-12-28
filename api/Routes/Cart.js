@@ -1,61 +1,79 @@
 const router = require('express').Router();
-const Cart = require("../Model/Cart");
+const CartItem = require("../Model/CartItem");
+const Product = require("../Model/Product");
 const {verifyToken, verifyTokenAndAuthorization , verifyTokenAndAdmin} =require('./verifyToken');
 
 
 
-// create cart 
+// create cartItem
 router.post("/",verifyTokenAndAuthorization,async(req,res)=>{
 	try {
-		const newCart =await new Cart(req.body);
-		const cart = await newCart.save();
-		res.status(200).json(cart);
+		const newCartItem =await new CartItem(req.body);
+		const cartItem = await newCartItem.save();
+		res.status(200).json(cartItem);
 	} catch (error) {
 		res.status(500).json(error.message);
 	}
 })
-// update cart (handle add,delete item  as array modified karke update ke liye api req)
-router.put("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
+// update cartItem
+router.put("/:id/:cartItemId",verifyTokenAndAuthorization,async(req,res)=>{
 	try{
-		const cart = await Cart.findOne({userId: req.params.userId});
-		if(cart){
-			const updatedCart = await Cart.findOneAndUpdate({userId:req.params.userId},{$set:req.body}, {new:true});
-			res.status(200).json(updatedCart);
-		}
-		else{
-			const newCart = await new Cart(req.boody).save();
-			res.status(200).json(newCart);
-		}
+		const updatedCart = await CartItem.findByIdAndUpdate(req.params.cartItemId ,{$set:req.body}, {new:true});
+		res.status(200).json(updatedCart);
 	}
 	catch(err){
 		res.status(500).json(err.message);
 	}
 })
 //delete cart
-router.delete("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
+router.delete("/:id/:cartItemId",verifyTokenAndAuthorization,async(req,res)=>{
 	try {
-		await Cart.findOneAndDelete({userId:req.params.userId});
-		res.status(200).json("user cart has been deleted");
+		await CartItem.findByIdAndDelete(req.params.cartItemId);
+		res.status(200).json("cart has been deleted");
 	} catch (error) {
 		res.status(500).json(error.message);
 	}
 })
-//get user cart
-router.get("/:userId",verifyTokenAndAuthorization,async(req,res)=>{
+//get user cartItems
+router.get("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 	try{
-		const userCart=await Cart.findOne({userId:req.params.userId});
-		res.status(200).json(userCart);
+		const userCartItems=await CartItem.find({userId:req.params.id});
+		res.status(200).json(userCartItems);
 	}
 	catch(err){
 		res.status(500).json(err.message);
 	}
 })
 
-//get all cart 
+//get cartItem 
+router.get("/cartItem/:id/:cartItemId",verifyTokenAndAuthorization,async(req,res) =>{
+	try {
+		const cartItem= await CartItem.findById(req.params.cartItemId)
+		res.status(200).json(cartItem)
+	} catch (error) {
+		res.status(400).json(error.message)
+	}
+})
+//get user cartItems price
+router.get("/:id/price" , verifyTokenAndAuthorization , async(req,res)=>{
+	try {
+		const userCartItems=await CartItem.find({userId:req.params.id});
+		var price=0;
+		for( const cartItem of userCartItems){
+			const product = await Product.findById(cartItem.productId);
+			price=price+product.price
+		}
+		console.log(price);
+		res.status(200).json(price);
+	} catch (error) {
+		res.status(400).json(error.message);
+	}
+}) 
+//get all cartItem
 router.get("/",verifyTokenAndAdmin,async(req,res)=>{
 	try {
-		const allCart= await Cart.find()
-		res.status(200).json(allCart);
+		const allCartItems= await CartItem.find()
+		res.status(200).json(allCartItems);
 	} catch (error) {
 		res.status(400).json(error.message);
 	}

@@ -94,40 +94,37 @@ const Button = styled.button`
 const Cart = () => {
 	const history = useHistory();
 	const currentUserId = useSelector(state => state.user.currentUserId);
-	const cartProducts = useSelector(state => state.cart.products);
+	const cartItems = useSelector(state => state.cart.cartItems);
 	const STRIPE_PUBLISHABLE_KEY = "pk_test_51JmHbxSHvqjlrY0LQsjd7nxpZSTnxD3z0fQ8Dwm5QKiYEr4hMVcR8dMVcg1nnvOuG69piys70A1RJ6mUxBqhaRrY00Nxwk8v5W"
 	const [stripeToken, setStripeToken] = useState(null);
 	const onToken = (token) => setStripeToken(token);
 	const [totalPrice ,setTotalPrice] =useState(0); 
 
-	const updateTotalPrice =(prc)=>{
-			setTotalPrice(prev=> prev+prc);
-	}
-
 	useEffect(()=>{
-		cartProducts.forEach(async(p)=>{
-			const res = await axios.get("/product/"+p.productId);
-			setTotalPrice(prev=>prev+res.data.price*p.quantity);
-		})
-	},[cartProducts]) 
+		const fetchCartPrice=async()=>{
+			try {
+				const res = await userRequest.get(`/cart/${currentUserId}/price`);
+				setTotalPrice(res.data);
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+		fetchCartPrice();
+	},[currentUserId , cartItems]) 
 
 	useEffect(() => { 
 		const makeRequest = async () => {
 			try {
-				const order = cartProducts.map(prd => ({
-					productId: prd.product._id,
-					quantity: prd.quantity,
-					size: prd.size,
-					color: prd.color
-				}))
-				const res = await userRequest.post("/checkout/payment/" + currentUserId, { tokenId: stripeToken.id, amount: totalPrice, order: order })
+				const userCartItemsRes = await userRequest("/"+currentUserId);
+				const userCartItems =userCartItemsRes.data;  
+				const res = await userRequest.post("/checkout/payment/" + currentUserId, { tokenId: stripeToken.id, amount: totalPrice, order: userCartItems })
 				history.push("/success")
 			} catch (error) {
 				history.push("/error")
 			}
 		}
 		stripeToken && totalPrice >= 1 && makeRequest();
-	}, [stripeToken, history, totalPrice, currentUserId , cartProducts])
+	}, [stripeToken, history, totalPrice, currentUserId ,])
 
 
 
@@ -148,10 +145,10 @@ const Cart = () => {
 				<Bottom>
 
 					<ProductContainer>
-						{cartProducts.length === 0 ? <h1>Please Add item to cart to proceed </h1> : cartProducts.map(productDetail=> {
+						{cartItems.length === 0 ? <h1>Please Add item to cart to proceed </h1> : cartItems.map(cartItemId=> {
 							return (
-								<div>
-									<CartItem productDetail={productDetail}  updateTotalPrice={updateTotalPrice}/>
+								<div key={cartItemId}>
+									<CartItem cartItemId={cartItemId} />
 									<hr />
 								</div>
 							)
