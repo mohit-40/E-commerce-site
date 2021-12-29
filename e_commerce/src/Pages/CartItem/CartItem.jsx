@@ -4,7 +4,7 @@ import { Add, Remove } from '@material-ui/icons'
 import axios from 'axios'
 import { userRequest } from '../../requestMethod'
 import {useDispatch, useSelector} from "react-redux"
-import { deleteItem } from '../../redux/exportAllAction'
+import { deleteItem, updateItem } from '../../redux/exportAllAction'
 
 const Product = styled.div`
 	height:30vh;
@@ -64,8 +64,7 @@ const ProductPrice = styled.div``
 function CartItem({ cartItem }) {
 
 	const dispatch =useDispatch();
-	const [product, setProduct] = useState({})
-	const [productDetail , setProductDetail] =useState({})
+	const [product, setProduct] = useState({}) 
 	const currentUserId = useSelector(state=> state.user.currentUserId)  
 
 
@@ -82,13 +81,25 @@ function CartItem({ cartItem }) {
 	},[ cartItem.productId ,currentUserId]) 
 	
 	const handleQuantity = async(parameter) => {
-		if(parameter === "increment"){
-			await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...productDetail , quantity: productDetail.quantity+1})
-			setProductDetail(prev => ({...prev , quantity :prev.quantity+ 1}))
+		if(currentUserId){
+			if(parameter === "increment"){
+				await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...cartItem , quantity: cartItem.quantity+1})
+				dispatch(updateItem({...cartItem , quantity :cartItem.quantity+ 1}) ) 
+			}
+			else if(cartItem.quantity>1){
+				await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...cartItem , quantity: cartItem.quantity-1 } )
+				dispatch(updateItem({...cartItem , quantity :cartItem.quantity-1}) ) 
+			}
 		}
-		else if(productDetail.quantity>1){
-			await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...productDetail , quantity: productDetail.quantity-1 } )
-			setProductDetail(prev => ({...prev , quantity :prev.quantity-1}))
+		else {
+			if(parameter === "increment"){
+				console.log("updateItem")
+				dispatch(updateItem(cartItem._id , cartItem.date , {...cartItem , quantity :cartItem.quantity+ 1}) )
+			}
+			else if(cartItem.quantity>1){
+				dispatch(updateItem(cartItem._id , cartItem.date ,{...cartItem , quantity :cartItem.quantity-1}) )
+			}
+
 		}
 	}
 
