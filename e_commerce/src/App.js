@@ -12,6 +12,8 @@ import Product from "./Pages/Product/Product"
 import Login from "./Pages/Login/Login"
 import Register from "./Pages/Register/Register"
 import Cart from "./Pages/Cart/Cart"
+import Profile from "./Pages/Profile/Profile"
+import Orders from "./Pages/Orders/Orders"
 import axios from 'axios';
 import { userRequest } from './requestMethod';
 import jwtDecode from "jwt-decode"
@@ -79,6 +81,8 @@ function App() {
         <Route path="/product/:productId"> <Product /> </Route>
         <Route path="/register"> {currentUserId ? <Redirect to="/" /> : <Register />} </Route>
         <Route path="/login"> {currentUserId ? <Redirect to="/" /> : <Login />} </Route>
+        <Route path="/profile/:id"> {currentUserId ? <Profile /> : <Login />} </Route>
+        <Route path="/orders/:id"> {currentUserId ? <Orders /> : <Login />} </Route>
         <Route path="/cart"> <Cart /> </Route>
         <Route path="/error"> <h1> Some Error occur. Don't worry we are working on it.</h1> </Route>
         <Route path="/success"> <h1> your request is successfull ... </h1> </Route>

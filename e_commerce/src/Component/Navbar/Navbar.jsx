@@ -128,7 +128,11 @@ const Navbar = () => {
 				<Right click={click} className={click? "active" : ""}>
 					{
 						currentUserId ?
-						<RightItem><ButtonLogout onClick={handleLogout}>Logout</ButtonLogout></RightItem>
+						<>
+							<RightItem><ButtonLogout onClick={handleLogout}>Logout</ButtonLogout></RightItem>
+							<RightItem><Link className='text-link' to={`/profile/${currentUserId}`}>Profile</Link></RightItem>
+							<RightItem><Link className='text-link' to={`/orders/${currentUserId}`}>Orders</Link></RightItem>
+						</>
 					:
 						<>
 						<RightItem><Link className='text-link' to="/register">REGISTER</Link></RightItem>
