@@ -30,9 +30,12 @@ const ProductSchema = new mongoose.Schema({
 		type:Number,
 		required:true
 	},
+	cost:{
+		type:Number
+	},
 	rating:{
 		type:String
-	}
+	},
 
 },{ timestamps:true })
 
