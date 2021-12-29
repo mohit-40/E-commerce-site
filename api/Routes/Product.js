@@ -40,6 +40,7 @@ router.get("/:id", async(req,res)=>{
 	}
 })
 
+
 //get all product 
 router.get("/", async(req,res)=>{
 	const queryNew=req.query.new;

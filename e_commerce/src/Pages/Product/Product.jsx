@@ -106,6 +106,9 @@ const Button = styled.button`
 	border-radius: 10px;
 	padding: 10px;
 	font-size: 16px;
+	&:hover{
+		background:blue;
+	}
 `
 
 const Product = () => {
@@ -128,14 +131,21 @@ const Product = () => {
 	const handleAddToCart = async () => {
 		try {
 			const item = {
+				cartItemId:null,
 				userId: currentUserId,
 				productId: product._id,
 				quantity: quantity,
 				color: color,
-				size: size
+				size: size,
+				date:new Date().getTime()
 			}
-			const res = await userRequest.post("/cart", item);
-			dispatch(addItem(res.data._id))
+			if(currentUserId){
+				const res = await userRequest.post("/cart", item);
+				dispatch(addItem(res.data))
+			} 
+			else{ 
+				dispatch(addItem(item))
+			}
 		} catch (error) {
 			console.log(error)
 		}
@@ -152,7 +162,7 @@ const Product = () => {
 			}
 		}
 		fetchProduct();
-	}, [productId])
+	}, [productId ,history])
 
 	return (
 		<Container>

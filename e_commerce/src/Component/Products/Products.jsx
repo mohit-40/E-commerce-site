@@ -133,20 +133,25 @@ const Products = ({ sort, filter, category }) => {
 	const dispatch = useDispatch()
 	const handleAddToCart = async (productId) => {
 		try {
-			const item = {
+			const item = { 
 				userId: currentUserId,
 				productId: productId,
 				quantity: 1,
 				color: "",
-				size: ""
+				size: "",
+				date:new Date().getTime(),
 			}
-			const res = await userRequest.post("/cart", item);
-			dispatch(addItem(res.data._id))
+			if(currentUserId){
+				const res = await userRequest.post("/cart", item);
+				dispatch(addItem(res.data))
+			}
+			else{ 
+				dispatch(addItem(item))
+			}
 		} catch (error) {
 			console.log(error)
 		}
 	}
-
 
 	return (
 		<Container>

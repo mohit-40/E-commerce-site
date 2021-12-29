@@ -1,20 +1,21 @@
 import { ADD_ITEM , DELETE_ITEM, SET_CART ,CLEAR_CART  } from "./cartType";
 
-export const addItem = (cid) =>({
+export const addItem = (cartItem) =>({
 	type:ADD_ITEM,
-	payload: cid
+	payload: cartItem
 })
-export const setCart = (c) =>({
+export const setCart = (cart) =>({
 	type:SET_CART,
-	payload: c
+	payload: cart
 })
-export const clearCart = (c) =>({
+export const clearCart = ( ) =>({
 	type:CLEAR_CART 
 })
 
-// export const deleteItem = (product ) =>({
-// 	type:DELETE_ITEM,
-// 	payload:{
-// 		product: product
-// 	}
-// })
+export const deleteItem = ( itemId , date ) =>({
+	type:DELETE_ITEM,
+	payload:{
+		cid:itemId,
+		date:date
+	}
+})

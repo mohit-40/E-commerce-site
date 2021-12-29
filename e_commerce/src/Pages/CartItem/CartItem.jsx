@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { Add, Remove } from '@material-ui/icons'
 import axios from 'axios'
 import { userRequest } from '../../requestMethod'
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
+import { deleteItem } from '../../redux/exportAllAction'
 
 const Product = styled.div`
 	height:30vh;
@@ -60,26 +61,47 @@ const ProductCount = styled.div`
 const ProductPrice = styled.div``
 
 
-function CartItem({ cartItemId }) {
+function CartItem({ cartItem }) {
 
+	const dispatch =useDispatch();
 	const [product, setProduct] = useState({})
 	const [productDetail , setProductDetail] =useState({})
-	const currentUserId = useSelector(state=> state.user.currentUserId)
+	const currentUserId = useSelector(state=> state.user.currentUserId)  
+
+
 	useEffect(()=>{
 		const fetchProduct= async()=>{
 			try {
-				console.log("in fetch product ")
-				const productDetailRes = await userRequest.get("/cart/cartItem/"+currentUserId + "/"+cartItemId)
-				setProductDetail(productDetailRes.data);
-				const res = await axios.get("/product/"+productDetailRes.data.productId)
+				const res = await axios.get("/product/"+cartItem.productId)
 				setProduct(res.data);
 			} catch (error) {
 				console.log(error.message);
 			}
 		}
 		fetchProduct();
-	},[ product.price,cartItemId  , currentUserId]) 
-	const handleQuantity = (what) => { }
+	},[ cartItem.productId ,currentUserId]) 
+	
+	const handleQuantity = async(parameter) => {
+		if(parameter === "increment"){
+			await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...productDetail , quantity: productDetail.quantity+1})
+			setProductDetail(prev => ({...prev , quantity :prev.quantity+ 1}))
+		}
+		else if(productDetail.quantity>1){
+			await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...productDetail , quantity: productDetail.quantity-1 } )
+			setProductDetail(prev => ({...prev , quantity :prev.quantity-1}))
+		}
+	}
+
+	const handleDelete =async()=>{
+		if(currentUserId){
+			console.log("herer ")
+			await userRequest.delete(`/cart/${currentUserId}/${cartItem._id}`)
+			dispatch(deleteItem(cartItem._id , cartItem.date))
+		}
+		else {
+			dispatch(deleteItem(cartItem._id , cartItem.date))
+		}
+	}
 
 	return ( 
 			<Product>
@@ -88,17 +110,18 @@ function CartItem({ cartItemId }) {
 				</ProductImageContainer>
 				<ProductDetail>
 					<ProductName><b>Product:</b>{product?.name}</ProductName>
-					<ProductId> <b>ID:</b>{product?._id}</ProductId>
-					<ProductSize><b>SIZE:</b> {productDetail.size}</ProductSize>
-					<ProductColor color={productDetail.color} />
+					<ProductId> <b>ID:</b>{cartItem.productId}</ProductId>
+					<ProductSize><b>SIZE:</b> {cartItem.size}</ProductSize>
+					<ProductColor color={cartItem.color} />
 				</ProductDetail>
 				<ProductPriceContainer>
+					<i className="fas fa-trash" onClick={()=>handleDelete(cartItem)}></i>
 					<ProductCountContainer>
-						<Add onClick={handleQuantity("increment")} />
-						<ProductCount>{productDetail.quantity}</ProductCount>
-						<Remove onClick={handleQuantity("decrement")} />
+						<Add onClick={()=>handleQuantity("increment")} />
+						<ProductCount>{cartItem.quantity}</ProductCount>
+						<Remove onClick={()=>handleQuantity("decrement")} />
 					</ProductCountContainer>
-					<ProductPrice>Rs {product?.price * productDetail.quantity}</ProductPrice>
+					<ProductPrice>Rs {product?.price * cartItem.quantity}</ProductPrice>
 				</ProductPriceContainer>
 			</Product> 
 	)

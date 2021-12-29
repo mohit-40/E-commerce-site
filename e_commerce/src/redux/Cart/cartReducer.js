@@ -1,7 +1,7 @@
 import { ADD_ITEM , DELETE_ITEM, SET_CART ,CLEAR_CART} from "./cartType";
 
 const initialCartState = {
-	cartItems:[]  // [cid ,cid]
+	cartItems:[]  // [{_id, date.now() ,userId , pid , quantity, color, size  }] 
 }
 
 const cartReducer = (state =initialCartState , action )=>{
@@ -10,6 +10,14 @@ const cartReducer = (state =initialCartState , action )=>{
 			...state,
 			cartItems: [...state.cartItems , action.payload],
 		}
+		case DELETE_ITEM:
+			if(action.payload.cid){
+				console.log("herre bhai ")
+				return { cartItems: state.cartItems.filter((p)=> p._id !== action.payload.cid ) }
+			}
+			else {
+				return {  cartItems: state.cartItems.filter((p)=> p.date !== action.payload.date ) }
+			}
 		case SET_CART: return {
 			...state,
 			cartItems: action.payload,
@@ -18,11 +26,6 @@ const cartReducer = (state =initialCartState , action )=>{
 			...state,
 			cartItems: [],
 		}
-		// case DELETE_ITEM: return {
-		// 	...state,
-		// 	product: state.product.filter((p)=>p._id !== action.payload.product._id ),
-		// 	totalItem: state.totalItem-1
-		// }
 		default: return state
 	}
 }

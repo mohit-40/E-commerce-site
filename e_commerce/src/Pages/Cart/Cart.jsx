@@ -98,19 +98,25 @@ const Cart = () => {
 	const STRIPE_PUBLISHABLE_KEY = "pk_test_51JmHbxSHvqjlrY0LQsjd7nxpZSTnxD3z0fQ8Dwm5QKiYEr4hMVcR8dMVcg1nnvOuG69piys70A1RJ6mUxBqhaRrY00Nxwk8v5W"
 	const [stripeToken, setStripeToken] = useState(null);
 	const onToken = (token) => setStripeToken(token);
-	const [totalPrice ,setTotalPrice] =useState(0); 
+	const [totalPrice ,setTotalPrice] =useState(0);  
 
 	useEffect(()=>{
 		const fetchCartPrice=async()=>{
 			try {
-				const res = await userRequest.get(`/cart/${currentUserId}/price`);
-				setTotalPrice(res.data);
+				if(currentUserId){
+					const res = await userRequest.get(`/cart/${currentUserId}/price`);
+					setTotalPrice(res.data);
+				}
+				else {
+					const res = await axios.post(`/cart/price` , {userCartItems: cartItems});
+					setTotalPrice(res.data);
+				}
 			} catch (error) {
 				console.log(error.message);
 			}
 		}
 		fetchCartPrice();
-	},[currentUserId , cartItems]) 
+	},[currentUserId , cartItems ]) 
 
 	useEffect(() => { 
 		const makeRequest = async () => {
@@ -145,10 +151,10 @@ const Cart = () => {
 				<Bottom>
 
 					<ProductContainer>
-						{cartItems.length === 0 ? <h1>Please Add item to cart to proceed </h1> : cartItems.map(cartItemId=> {
+						{cartItems.length === 0 ? <h1>Please Add item to cart to proceed </h1> : cartItems.map(cartItem => {
 							return (
-								<div key={cartItemId}>
-									<CartItem cartItemId={cartItemId} />
+								<div key={cartItem.date}>
+									<CartItem cartItem = {cartItem }  totalPrice = {totalPrice} setTotalPrice={setTotalPrice}/>
 									<hr />
 								</div>
 							)

@@ -59,7 +59,7 @@ function App() {
       try {
           const res = await userRequest.get(`/cart/${currentUserId}`);
           const userCartItems = res.data;
-          dispatch(setCart(userCartItems.map((c)=> c._id)));
+          dispatch(setCart(userCartItems));
       } catch (error) {
          console.log(error.message)
       }

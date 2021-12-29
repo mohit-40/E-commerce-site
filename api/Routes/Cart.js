@@ -61,7 +61,7 @@ router.get("/:id/price" , verifyTokenAndAuthorization , async(req,res)=>{
 		var price=0;
 		for( const cartItem of userCartItems){
 			const product = await Product.findById(cartItem.productId);
-			price=price+product.price
+			price=price + (product.price *cartItem.quantity);
 		}
 		console.log(price);
 		res.status(200).json(price);
@@ -69,6 +69,23 @@ router.get("/:id/price" , verifyTokenAndAuthorization , async(req,res)=>{
 		res.status(400).json(error.message);
 	}
 }) 
+//get user cartItems price
+router.post("/price"  , async(req,res)=>{
+	try {
+		var price=0;
+		for( const cartItem of req.body.userCartItems){
+			const product = await Product.findById(cartItem.productId);
+			price=price + (product.price *cartItem.quantity);
+		}
+		console.log(price);
+		res.status(200).json(price);
+	} catch (error) {
+		res.status(400).json(error.message);
+	}
+}) 
+
+
+
 //get all cartItem
 router.get("/",verifyTokenAndAdmin,async(req,res)=>{
 	try {
