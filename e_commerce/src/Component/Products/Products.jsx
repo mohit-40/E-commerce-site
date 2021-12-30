@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from "react-redux"
 import { addItem } from '../../redux/exportAllAction';
 import { userRequest } from '../../requestMethod';
+import { addWlItem } from '../../redux/wishList/wishListAction';
 
 const Container = styled.div``
 const Heading = styled.div`
@@ -155,7 +156,13 @@ const Products = ({ sort, filter, category }) => {
 
 	const handleAddToWishList=async(productId)=>{
 		try {
-			await userRequest.post(`/wishList/${currentUserId}`,{userId : currentUserId , productId:productId})
+			if(currentUserId){
+				const res = await userRequest.post(`/wishList/${currentUserId}`,{userId : currentUserId , productId:productId})
+				dispatch(addWlItem(res.data))
+			}
+			else {
+				dispatch(addWlItem({ userId:currentUserId ,productId: productId}));
+			}
 		} catch (error) {
 			console.log(error)
 		}

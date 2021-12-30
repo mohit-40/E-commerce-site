@@ -19,6 +19,7 @@ import { userRequest } from './requestMethod';
 import jwtDecode from "jwt-decode"
 import { useEffect } from 'react';
 import { setCart } from './redux/exportAllAction';
+import { setItem } from './redux/wishList/wishListAction';
 
 function App() {
 
@@ -54,8 +55,8 @@ function App() {
   );
 
 
-  //update cart state 
   const dispatch= useDispatch();
+  //update cart state 
   useEffect(()=>{
     const fetchCart = async()=>{
       try {
@@ -68,8 +69,19 @@ function App() {
     }
     fetchCart();
   },[currentUserId ,dispatch])
-
-
+//update wishList state
+	useEffect(()=>{
+		const fetchWishList = async()=>{
+			try {
+				const res = await userRequest.get("/wishList/"+currentUserId);	
+        const wishListItems = res.data;
+				dispatch(setItem(wishListItems));
+			} catch (error) {
+				console.log(error.message)
+			}
+		}
+		fetchWishList();
+	},[currentUserId , dispatch])
 
 
   return (

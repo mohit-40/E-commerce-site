@@ -4,9 +4,16 @@ const {verifyToken,verifyTokenAndAuthorization, verifyTokenAndAdmin } =require('
 
 router.post("/:id",verifyTokenAndAuthorization , async(req,res)=>{
 	try {
-		const newWishList =await new WishList(req.body);
-		const wishList = await newWishList.save();
-		res.status(200).json(wishList);
+		const listItem = await WishList.findOne({productId:req.body.productId})
+		if(listItem){
+			console.log(listItem)
+			res.status(200).json(listItem);
+		}
+		else{
+			const newWishList =await new WishList(req.body);
+			const wishList = await newWishList.save();
+			res.status(200).json(wishList);
+		}
 	} catch (error) {
 		res.status(400).json(error.message);
 	}

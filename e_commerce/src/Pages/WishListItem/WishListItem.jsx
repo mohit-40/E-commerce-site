@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {Link} from "react-router-dom"
 import { userRequest } from '../../requestMethod'
+import { deleteWlItem } from '../../redux/wishList/wishListAction'
 
 const Product = styled.div`
 	height:30vh;
@@ -41,10 +42,10 @@ const ProductPriceContainer = styled.div`
 const ProductPrice = styled.div``
 
 
-function WishListItem({ wishListItem ,wishList, setWishList}) {
-	const currentUserId = useSelector(state => state.user.currentUserId)
-	const [product, setProduct] = useState({})
-	console.log(wishListItem)
+function WishListItem({ wishListItem }) {
+	const currentUserId = useSelector(state => state.user.currentUserId) 
+	const dispatch =useDispatch();
+	const [product, setProduct] = useState({}) 
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
@@ -58,13 +59,18 @@ function WishListItem({ wishListItem ,wishList, setWishList}) {
 	}, [wishListItem.productId, currentUserId])
 	const handleDelete = async(wishListItemId) => {
 		try {
-			await userRequest.delete(`/wishList/${currentUserId}/${wishListItemId}`);
-			setWishList(wishList.filter((item)=> item._id!==wishListItemId))
+			if(currentUserId){
+				console.log(wishListItem)
+				await userRequest.delete(`/wishList/${currentUserId}/${wishListItemId}`);
+				dispatch(deleteWlItem(wishListItem.productId)) 
+			}
+			else {
+				dispatch(deleteWlItem(wishListItem.productId)) 
+			}
 		} catch (error) {
 			console.log(error.message);
 		}
 	}
-
 
 	return (
 		<Product>

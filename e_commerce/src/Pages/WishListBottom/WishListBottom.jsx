@@ -10,28 +10,15 @@ const ProductContainer = styled.div`
 	flex-direction: column;
 	`
 
-function WishListBottom() {
-	const currentUserId = useSelector(state=> state.user.currentUserId)  
-	const [wishList ,setWishList] =useState([]);
-	useEffect(()=>{
-		const fetchWishList = async()=>{
-			try {
-				const res = await userRequest.get("/wishList/"+currentUserId);	
-				setWishList(res.data);
-			} catch (error) {
-				console.log(error.message)
-			}
-		}
-		fetchWishList();
-	},[currentUserId])
-
+function WishListBottom() { 
+	const wishList = useSelector(state=> state.wishList.wishListItems) 
 	return (
 		<div>
 			<ProductContainer>
 				{wishList.length === 0 ? <h3>No item in wishList</h3> : wishList.map(wishListItem => {
 					return (
 						<div key={wishListItem._id}>
-							<WishListItem wishListItem={wishListItem} wishList={wishList} setWishList={setWishList} />
+							<WishListItem wishListItem={wishListItem}  />
 							<hr />
 						</div>
 					)

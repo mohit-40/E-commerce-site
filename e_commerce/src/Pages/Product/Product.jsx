@@ -11,6 +11,7 @@ import Announcement from '../../Component/Announcement/Announcement'
 import Footer from '../../Component/Footer/Footer'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
 import { userRequest } from '../../requestMethod'
+import { addWlItem } from '../../redux/wishList/wishListAction'
 
 
 const Container = styled.div``
@@ -166,7 +167,13 @@ const Product = () => {
 
 	const handleAddToWishList=async()=>{
 		try {
-			await userRequest.post(`/wishList/${currentUserId}`,{userId : currentUserId , productId:product._id})
+			if(currentUserId){
+				const res = await userRequest.post(`/wishList/${currentUserId}`,{userId : currentUserId , productId:product._id})
+				dispatch(addWlItem(res.data))
+			}
+			else {
+				dispatch(addWlItem({ userId:currentUserId ,productId: product._id}))
+			}
 		} catch (error) {
 			console.log(error)
 		}

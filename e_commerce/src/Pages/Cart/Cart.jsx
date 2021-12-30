@@ -49,6 +49,7 @@ const TopLink = styled.div`
 const Cart = () => {
 	const [cartSelected, setCartSelected] =useState(true);
 	const cartItems = useSelector(state => state.cart.cartItems)
+	const wishList = useSelector(state => state.wishList.wishListItems)
 	return (
 		<Container>
 			<Navbar />
@@ -59,14 +60,13 @@ const Cart = () => {
 				<Top>
 					<TopLinks>
 						<TopLink onClick={()=>setCartSelected(true)}>YOUR BAG({cartItems.length})</TopLink>
-						<TopLink onClick={()=>setCartSelected(false)}>YOUR WISHLIST(0)</TopLink>
+						<TopLink onClick={()=>setCartSelected(false)}>YOUR WISHLIST({wishList.length})</TopLink>
 					</TopLinks>
 				</Top>
 				{
 					cartSelected? <CartBottom/> : <WishListBottom/>
 				}
-				
-
+			
 			</Wrapper>
 			<NewsLetter />
 			<Footer />
