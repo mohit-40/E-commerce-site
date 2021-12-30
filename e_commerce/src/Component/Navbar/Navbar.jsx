@@ -122,6 +122,7 @@ const Navbar = () => {
 					<SearchContainer>
 						<input type="text" />
 						<Search />
+						
 					</SearchContainer>
 				</Left>
 				<Center><Link className='text-link' to="/"><Logo>My Shop</Logo> </Link></Center>
