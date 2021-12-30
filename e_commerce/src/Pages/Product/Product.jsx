@@ -120,13 +120,26 @@ const Product = () => {
 	const [quantity, setQuantity] = useState(1);
 	const [color, setColor] = useState("");
 	const [size, setSize] = useState("");
-
+	
 	const handleSize = (e) => { setSize(e.target.value) }
 	const handleColor = (col) => { setColor(col); }
 	const handleQuantity = (parameter) => { parameter === "increment" ? setQuantity((prev) => prev + 1) : quantity > 1 && setQuantity((prev) => prev - 1); }
-
+	
 	const dispatch = useDispatch();
 	const currentUserId = useSelector(state => state.user.currentUserId);
+
+	useEffect(() => {
+		const fetchProduct = async () => {
+			try {
+				const res = await axios.get("/product/" + productId);
+				setProduct(res.data);
+			}
+			catch (err) {
+				history.push("/error")
+			}
+		}
+		fetchProduct();
+	}, [productId ,history])
 
 	const handleAddToCart = async () => {
 		try {
@@ -151,18 +164,13 @@ const Product = () => {
 		}
 	}  
 
-	useEffect(() => {
-		const fetchProduct = async () => {
-			try {
-				const res = await axios.get("/product/" + productId);
-				setProduct(res.data);
-			}
-			catch (err) {
-				history.push("/error")
-			}
+	const handleAddToWishList=async()=>{
+		try {
+			await userRequest.post(`/wishList/${currentUserId}`,{userId : currentUserId , productId:product._id})
+		} catch (error) {
+			console.log(error)
 		}
-		fetchProduct();
-	}, [productId ,history])
+	}
 
 	return (
 		<Container>
@@ -200,6 +208,7 @@ const Product = () => {
 							<Add onClick={() => handleQuantity("increment")} />
 						</CountContainer>
 						<Button onClick={handleAddToCart}>ADD TO CART</Button>
+						<Button onClick={handleAddToWishList}>ADD TO WishList</Button>
 					</AddContainer>
 
 				</InfoContainer>

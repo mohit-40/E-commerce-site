@@ -153,6 +153,14 @@ const Products = ({ sort, filter, category }) => {
 		}
 	}
 
+	const handleAddToWishList=async(productId)=>{
+		try {
+			await userRequest.post(`/wishList/${currentUserId}`,{userId : currentUserId , productId:productId})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<Container>
 			<Heading>{category}</Heading>
@@ -169,7 +177,7 @@ const Products = ({ sort, filter, category }) => {
 										<Image src={item.img} />
 									</ImageContainer>
 									<IconContainer>
-										<Icon> <FavoriteBorderOutlined style={{ fontSize: 30 }} /></Icon>
+										<Icon> <FavoriteBorderOutlined style={{ fontSize: 30 }} onClick={()=> handleAddToWishList(item._id)} /></Icon>
 										<Icon> <Link className='text-link' to={`/product/${item._id}`}><SearchOutlined style={{ fontSize: 30 }} /></Link></Icon>
 										<Icon> <ShoppingCartOutlined onClick={() => handleAddToCart(item._id)} style={{ fontSize: 30 }} /></Icon>
 									</IconContainer>
