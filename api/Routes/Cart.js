@@ -25,7 +25,16 @@ router.put("/:id/:cartItemId",verifyTokenAndAuthorization,async(req,res)=>{
 		res.status(500).json(err.message);
 	}
 })
-//delete cart
+//delete cart 
+router.delete("/:id", verifyTokenAndAuthorization , async(req,res)=>{
+	try {
+		await CartItem.deleteMany({userId : req.params.id });
+		res.status(200).json("user cart deleted");
+	} catch (error) {
+		res.status(400).json(error.message);		
+	}
+})
+//delete cart item 
 router.delete("/:id/:cartItemId",verifyTokenAndAuthorization,async(req,res)=>{
 	try {
 		await CartItem.findByIdAndDelete(req.params.cartItemId);

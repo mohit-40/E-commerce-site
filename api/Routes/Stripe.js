@@ -21,16 +21,8 @@ router.post("/payment/:id", verifyTokenAndAuthorization, (req, res) => {
 						amount: req.body.amount,
 						address: stripeRes.billing_details
 					});
-					const order = await Order.findOne({ userId: req.params.userId });
-					if (order) {
-						const updatedOrder = await Order.findOneAndUpdate({ userId: req.params.userId }, { product: {$push: newOrder} }, { new: true });
-						console.log(updatedOrder);
-						res.status(200).json(updatedOrder);
-					}
-					else {
-						const createOrder = await new Order(newOrder).save();
-						res.status(200).json(createOrder)
-					}
+					const createOrder = await new Order(newOrder).save();
+					res.status(200).json(createOrder) 
 				}
 			}
 			catch (error) { res.status(404).json("payment done but order not placed") }

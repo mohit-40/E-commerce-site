@@ -1,29 +1,29 @@
-import { ADD_ITEM , DELETE_ITEM, SET_CART ,CLEAR_CART ,UPDATE_ITEM} from "./cartType";
+import { ADD_ITEM, DELETE_ITEM, SET_CART, CLEAR_CART, UPDATE_ITEM } from "./cartType";
 
 const initialCartState = {
-	cartItems:[]  // [{_id, date.now() ,userId , pid , quantity, color, size  }] 
+	cartItems: []  // [{_id, date.now() ,userId , pid , quantity, color, size  }] 
 }
 
-const cartReducer = (state =initialCartState , action )=>{
+const cartReducer = (state = initialCartState, action) => {
 	switch (action.type) {
 		case ADD_ITEM: return {
 			...state,
-			cartItems: [...state.cartItems , action.payload],
+			cartItems: [...state.cartItems, action.payload],
 		}
 		case DELETE_ITEM:
-			if(action.payload.cid){ 
-				return { cartItems: state.cartItems.filter((p)=> p._id !== action.payload.cid ) }
+			if (action.payload.cid) {
+				return { cartItems: state.cartItems.filter((p) => p._id !== action.payload.cid) }
 			}
 			else {
-				return {  cartItems: state.cartItems.filter((p)=> p.date !== action.payload.date ) }
+				return { cartItems: state.cartItems.filter((p) => p.date !== action.payload.date) }
 			}
-			case UPDATE_ITEM:
-				if(action.payload.cid){ 
-					console.log("in update item reducer")
-					return { cartItems: state.cartItems.map((cartItem)=> cartItem._id===action.payload.cid ? action.payload.item : cartItem ) }
-				}
-				else{
-				return { cartItems: state.cartItems.map((cartItem)=> cartItem.date===action.payload.date ? action.payload.item : cartItem ) }
+		case UPDATE_ITEM:
+			if(action.payload.cid) {
+				console.log("in update item reducer")
+				return { cartItems: state.cartItems.map((cartItem) => cartItem._id===action.payload.cid ? action.payload.item : cartItem) }
+			}
+			else{
+				return { cartItems: state.cartItems.map((cartItem) => cartItem.date === action.payload.date ? action.payload.item : cartItem) }
 			}
 		case SET_CART: return {
 			...state,
@@ -37,4 +37,4 @@ const cartReducer = (state =initialCartState , action )=>{
 	}
 }
 
-export default cartReducer ;
+export default cartReducer;

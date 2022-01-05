@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import StripeCheckout from "react-stripe-checkout"; 
 import CartItem from '../CartItem/CartItem';
 import { userRequest } from '../../requestMethod';
 import axios from 'axios';
+import { clearCart } from '../../redux/exportAllAction';
 
 const Bottom = styled.div`
 	display:flex;
@@ -64,6 +65,7 @@ function CartBottom() {
 	const [stripeToken, setStripeToken] = useState(null);
 	const onToken = (token) => setStripeToken(token);
 	const [totalPrice ,setTotalPrice] =useState(0);  
+	const dispatch= useDispatch()
 
 	useEffect(()=>{
 		const fetchCartPrice=async()=>{
@@ -86,16 +88,18 @@ function CartBottom() {
 	useEffect(() => { 
 		const makeRequest = async () => {
 			try {
-				const userCartItemsRes = await userRequest("/"+currentUserId);
+				const userCartItemsRes = await userRequest("/cart/"+currentUserId);
 				const userCartItems =userCartItemsRes.data;  
 				await userRequest.post("/checkout/payment/" + currentUserId, { tokenId: stripeToken.id, amount: totalPrice, order: userCartItems })
-				history.push("/success")
+				await userRequest.delete("/cart/"+currentUserId);
+				dispatch(clearCart());
+				history.push("/orders/"+currentUserId)
 			} catch (error) {
 				history.push("/error")
 			}
 		}
 		stripeToken && totalPrice >= 1 && makeRequest();
-	}, [stripeToken, history, totalPrice, currentUserId ,])
+	}, [stripeToken, history, totalPrice, currentUserId , dispatch])
 
 
 	return (
@@ -104,8 +108,8 @@ function CartBottom() {
 			<ProductContainer>
 				{cartItems.length === 0 ? <h3>No item in Cart </h3> : cartItems.map(cartItem => {
 					return (
-						<div key={cartItem.date}>
-							<CartItem cartItem={cartItem}  />
+						<div >
+							<CartItem cartItem={cartItem}/>
 							<hr />
 						</div>
 					)
@@ -142,9 +146,10 @@ function CartBottom() {
 							name="My shop"
 							image="https://www.w3schools.com/w3images/avatar6.png"
 							billingAddress
-							shippingAddress
+							shippingAddress	
+							currency="INR"
 							description={`Your total is Rs ${totalPrice}`}
-							amount={totalPrice}
+							amount={totalPrice*100}
 							token={onToken}
 							stripeKey={STRIPE_PUBLISHABLE_KEY}
 						>

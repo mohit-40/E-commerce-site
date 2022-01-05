@@ -84,11 +84,11 @@ function CartItem({ cartItem }) {
 		if(currentUserId){
 			if(parameter === "increment"){
 				await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...cartItem , quantity: cartItem.quantity+1})
-				dispatch(updateItem({...cartItem , quantity :cartItem.quantity+ 1}) ) 
+				dispatch(updateItem(cartItem._id , cartItem.date ,{...cartItem , quantity :cartItem.quantity+ 1}) )
 			}
 			else if(cartItem.quantity>1){
 				await userRequest.put(`cart/${currentUserId}/${cartItem._id}`, {...cartItem , quantity: cartItem.quantity-1 } )
-				dispatch(updateItem({...cartItem , quantity :cartItem.quantity-1}) ) 
+				dispatch(updateItem(cartItem._id , cartItem.date ,{...cartItem , quantity :cartItem.quantity-1}) ) 
 			}
 		}
 		else {

@@ -29,8 +29,7 @@ const MainSection = styled.div`
 function App() {
 
    
-  const currentUserId= useSelector(state => state.user.currentUserId) 
-
+  const currentUserId= useSelector(state => state.user.currentUserId)  
   const refreshToken = async () => {
     try {
       const REFRESH_TOKEN = localStorage.getItem("refreshToken")
