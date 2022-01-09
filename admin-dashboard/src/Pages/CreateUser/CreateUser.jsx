@@ -76,6 +76,7 @@ const CreateUser = () => {
 		try {
 			const res = await axios.post("/auth/register" , input );
 			setStatus("new user create");
+			setInput("");
 			const resetStatus = setInterval(() => {
 				setStatus("")
 			}, 3000);
@@ -83,6 +84,13 @@ const CreateUser = () => {
 				clearInterval(resetStatus);
 			}, 3000);
 		} catch (error) {
+			setStatus(error.message)
+			const resetStatus = setInterval(() => {
+				setStatus("")
+			}, 3000);
+			setTimeout(() => {
+				clearInterval(resetStatus);
+			}, 3000);
 			console.log(error)
 		}
 	}
@@ -111,7 +119,7 @@ const CreateUser = () => {
 				</InputContainer>
 				<InputContainer  >
 					<Label>Password</Label>
-					<Input name="password" placeholder="Password"/>
+					<Input name="password" placeholder="Password" type="password"/>
 				</InputContainer>
 				<InputContainer  >
 					<Label>Address</Label>
@@ -121,11 +129,11 @@ const CreateUser = () => {
 					<Label>Gender</Label>
 					<RadioContainer name="gender">
 						<Input type="radio" name="gender" id="male" value ="Male" />
-						<Label for="male">Male</Label>
+						<Label htmlFor="male">Male</Label>
 						<Input type="radio"  name="gender" id="female" value ="Female" />
-						<Label for="female">Female</Label>
+						<Label htmlFor="female">Female</Label>
 						<Input type="radio" name="gender" id="other" value ="Other" />
-						<Label for="other">Other</Label>
+						<Label htmlFor="other">Other</Label>
 					</RadioContainer>
 				</InputContainer>
 				<Button onClick={handleSubmit}>Create</Button>

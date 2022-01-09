@@ -22,9 +22,12 @@ const ProductSchema = new mongoose.Schema({
 	size:{
 		type:Array
 	},
-	inStock:{
-		type:Boolean,
-		default :true
+	stock:{
+		type:Number
+	},
+	active:{
+		type:Boolean, 
+		default: true
 	},
 	price:{
 		type:Number,
