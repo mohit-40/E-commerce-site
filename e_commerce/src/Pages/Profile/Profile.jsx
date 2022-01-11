@@ -1,22 +1,35 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import Announcement from '../../Component/Announcement/Announcement'
-import Footer from '../../Component/Footer/Footer'
-import Navbar from '../../Component/Navbar/Navbar'
+// import {
+// 	PermIdentity,
+// 	CalendarToday,
+// 	MailOutline,
+// 	PhoneAndroid,
+// 	LocationSearching,
+// 	Publish,
+// 	Upload,
+// } from '@mui/icons-material'
+import { userRequest } from "../../requestMethod"
+import { storage } from '../../firebase/firebase'
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Navbar from "../../Component/Navbar/Navbar"
+import Announcement from "../../Component/Announcement/Announcement"
+import Footer from "../../Component/Footer/Footer"
 
-const Container=styled.div`
+const Container = styled.div``
+const Wrapper =styled.div`
 	margin: 1rem;
 `
-const Top=styled.div`
+const Top = styled.div`
 	display: flex;
 	justify-content: space-between;
 `
-const TopTitle=styled.div`
+const TopTitle = styled.div`
 	font-size: 2rem;
 	font-weight: 700;
 `
-const CreateButton=styled.button`
+const CreateButton = styled.button`
 	font-size: 1rem;
 	font-weight: 600;
 	cursor: pointer;
@@ -24,53 +37,54 @@ const CreateButton=styled.button`
 	color:white;
 	border-radius: 10px;
 `
-const MainSection=styled.div`
+const MainSection = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	margin:1rem 0;
+	min-height:80vh;
 	`
-const Left=styled.div`
+const Left = styled.div`
 	flex:1;
 	margin-right: 1rem;
 	padding:1rem;
 	-webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 	box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 	`
-const LeftTop=styled.div`
+const LeftTop = styled.div`
 	display: flex;
 	`
-const ImageContainer=styled.div`
+const ImageContainer = styled.div`
 	height:50px;
 	width:50px;
 	margin-right: 1rem;
 	`
-const Image=styled.img`
+const Image = styled.img`
 	height:100%;
 	width:100%;
 	/* object-fit:cover; */
 	border-radius: 50%;
 	`
-const Person=styled.div``
-const Name=styled.div`
+const Person = styled.div``
+const Name = styled.div`
 	font-size: 1.3rem;
 	font-weight:600;
 `
-const Position=styled.div`
+const Position = styled.div`
 	color:gray;
 `
-const LeftBottom=styled.div`
+const LeftBottom = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin:1rem 0;
 `
-const DetailItem=styled.div`
+const DetailItem = styled.div`
 	margin-top:1rem;
 `
-const DetailItemTitle=styled.div`
+const DetailItemTitle = styled.div`
 	font-size: 1.1rem;
 	color: gray;
 `
-const DetailItemText=styled.div`
+const DetailItemText = styled.div`
 	margin-left: 15px;
 	margin-top:20px;
 	font-size: 1.1rem;
@@ -80,33 +94,33 @@ const DetailItemText=styled.div`
 `
 
 
-const Right=styled.div`
+const Right = styled.div`
 	flex:2;
 	padding:1rem;
 	-webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 	  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 `
-const RightTop=styled.div`
+const RightTop = styled.div`
 	width:100%;
 	font-size: 1.5rem;
 	font-weight: 600;
 `
-const RightBottom=styled.div`
+const RightBottom = styled.div`
 	display: flex;
 `
-const Form=styled.form`
+const Form = styled.form`
 	flex:2;
 	margin:1.5rem 0;
 `
-const InputContainer=styled.div`
+const InputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin-top:10px;
 `
-const Label=styled.label`
+const Label = styled.label`
 	font-size: 1.1rem;
 `
-const Input=styled.input`
+const Input = styled.input`
 	border:none;
 	border-bottom: 2px solid gray;
 	outline:none;
@@ -116,24 +130,24 @@ const Input=styled.input`
 	color:gray;
 `
 
-const DisplayContainer=styled.div`
+const DisplayContainer = styled.div`
 	flex:1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 `
-const Display=styled.div``
-const DisplayImageContainer=styled.div`
+const Display = styled.div``
+const DisplayImageContainer = styled.div`
 	width:90%;
 	height:70%;
 `
-const DisplayImage=styled.img`
+const DisplayImage = styled.img`
 	width:100%;
 	height:100%;
 	border-radius: 10px;
 	/* object-fit: cover; */
 `
-const UpdateButton=styled.button`
+const UpdateButton = styled.button`
 	cursor: pointer;
 	font-size: 1rem;
 	font-weight:600;
@@ -141,12 +155,75 @@ const UpdateButton=styled.button`
 	color:white;
 `
 
-const Profile = () => {
+const User = () => {
 
+	const params = useParams();
+	const userId = params.id;
+	const [input, setInput] = useState({});
+	const [file, setFile] = useState("");
+	const [user, setUser] = useState({});
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const res = await userRequest.get("/user/find/" + userId);
+				setUser(res.data);
+				setInput(res.data);
+				setFile(res.data.img);
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+		fetchUser();
+	}, [userId])
+
+	const handleChange = (e) => {
+		setInput(prev => ({
+			...prev,
+			[e.target.name]: e.target.value
+		}))
+	}
+	const handleSubmit = async () => {
+		try {
+			if (file) {
+
+				const fileName = Date.now() + file.name;
+				const imgRef = ref(storage, `/users/${user._id}/${fileName}`);
+				const uploadTask = uploadBytesResumable(imgRef, file);
+				uploadTask.on('state_changed',
+					(snapshot) => { },
+					(error) => { console.log(error.message); },
+					async () => {
+						getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+							const updatedUser = {
+								...input,
+								img: downloadURL
+							}
+							await userRequest.put("/user/" + user._id, updatedUser);
+							setUser(updatedUser);
+						});
+					}
+				);
+			}
+			else {
+				const updatedUser = {
+					...input
+				}
+				await userRequest.put("/user/" + user._id, updatedUser);
+				setUser(updatedUser);
+			}
+
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+	const handleFileChange = (e) => {
+		setFile(e.target.files[0]);
+	}
 	return (
 		<Container>
-		<Navbar />
-		<Announcement/>	
+			<Navbar />
+			<Announcement />
+			<Wrapper> 
 			<Top>
 				<TopTitle>Edit User</TopTitle>
 			</Top>
@@ -154,67 +231,73 @@ const Profile = () => {
 				<Left>
 					<LeftTop>
 						<ImageContainer>
-							<Image src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"/>
+							<Image src={user.img} />
 						</ImageContainer>
 						<Person>
-							<Name>Anna Becker</Name>
-							<Position>Software Engineer</Position>
+							<Name>{user.name}</Name>
+							<Position>{user.email}</Position>
 						</Person>
 					</LeftTop>
 					<LeftBottom>
 						<DetailItem>
 							<DetailItemTitle>Account Detail</DetailItemTitle>
-							<DetailItemText> lorem5648</DetailItemText>
-							<DetailItemText> 10.12.1994</DetailItemText>
+							<DetailItemText>{user.username}</DetailItemText>
+							<DetailItemText>{user.createdAt}</DetailItemText>
 						</DetailItem>
 						<DetailItem>
 							<DetailItemTitle>Contact Detail</DetailItemTitle>
-							<DetailItemText> @gmail.com</DetailItemText>
-							<DetailItemText> +1 54826492</DetailItemText>
-							<DetailItemText> New York City</DetailItemText>
+							<DetailItemText>{user.email}</DetailItemText>
+							<DetailItemText>{user.mobile}</DetailItemText>
+							<DetailItemText>{user.from}</DetailItemText>
 						</DetailItem>
 					</LeftBottom>
 				</Left>
 				<Right>
 					<RightTop>Edit</RightTop>
 					<RightBottom>
-						<Form>
+						<Form onChange={(e) => handleChange(e)}>
 							<InputContainer>
 								<Label>Username</Label>
-								<Input value="lorem4561"/>
+								<Input defaultValue={user.username} name="username" />
 							</InputContainer>
 							<InputContainer>
 								<Label>Full Name</Label>
-								<Input defaultValue="Anna Becker"/>
+								<Input defaultValue={user.name} name="name" />
 							</InputContainer>
 							<InputContainer>
 								<Label>Email</Label>
-								<Input defaultValue="@gmail.com"/>
+								<Input defaultValue={user.email} name="email" />
 							</InputContainer>
 							<InputContainer>
 								<Label>Phone</Label>
-								<Input defaultValue="+91 654650681"/>
+								<Input defaultValue={user.mobile} name="mobile" />
 							</InputContainer>
 							<InputContainer>
 								<Label>Address</Label>
-								<Input defaultValue="New York City "/>
+								<Input defaultValue={user.from} name="from" />
 							</InputContainer>
 						</Form>
-							<DisplayContainer>
+						<DisplayContainer>
 							<Display>
 								<DisplayImageContainer>
-									<DisplayImage src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"/>
-										 
+									<DisplayImage src={user.img} />
+									<label htmlFor="img">
+										{/* <Upload style={{ cursor: "pointer", fontSize: "1.8rem" }} /> */}
+										<input  type="file" name="img" id="img" onChange={handleFileChange} />
+										{file?.name}
+									</label>
 								</DisplayImageContainer>
 							</Display>
-							<UpdateButton>Update</UpdateButton>
-							</DisplayContainer>
+							<UpdateButton onClick={handleSubmit} >Update</UpdateButton>
+						</DisplayContainer>
 					</RightBottom>
 				</Right>
+
 			</MainSection>
+			</Wrapper>
 			<Footer />
 		</Container>
 	)
 }
 
-export default Profile
+export default User

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom'
-import { DataGrid } from '@mui/x-data-grid';
-import { userRows } from '../../DummyData'
+import { DataGrid } from '@mui/x-data-grid'; 
 import { DeleteOutline } from "@mui/icons-material";
 import styled from 'styled-components'
 import {userRequest} from "../../requestMethod"
@@ -32,56 +31,62 @@ const Button=styled.button`
 
 
 
-export default function UserList() {
-	const [data, setData] = useState(userRows);
-	const handleDelete = (id) => {
-		setData(data.filter((item) => item.id !== id));
-	  };
-	  const [userList ,setUserList ] =useState([]);
-	  useEffect(()=>{
-		const fetchUserList= async()=>{
+export default function UserList() { 
+	const [users , setUsers] =useState([]);
+	useEffect(()=>{
+		const fetchUser=async()=>{
 			try {
-				const res = userRequest.get("/user/allusers");
-				setUserList(res.data);
-				console.log(userList)
-			} catch (error) {
-				console.log(error);
+				const res = await userRequest.get("/user/allusers")
+				setUsers(res.data);
+				console.log(res.data,"hgchfjukyfhv");
+			} catch(error) {
+				console.log(error.message);
 			}
 		}
-		fetchUserList();
-	  },[])
+		fetchUser();
+	},[]);
+
+
+	const handleDelete = async(id) => { 
+		try {
+			await userRequest.delete(`/user/${id}`);
+			setUsers(users.filter((u)=>u._id != id ));
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+	
 
 	/*//! -----------------------------------  ---------------------------------- */
 	const columns = [
-		// { field: '_id', headerName: 'ID', width: 90 },
-		// {
-			// field: "name",  headerName: "User", width: 300,
-			// renderCell: (params) => {
-			// 	return (
-			// 		<User>
-			// 			<ImageContainer>
-			// 				<Image src={params.row.avatar} alt="" />
-			// 			</ImageContainer>
-			// 			{params.row.username}
-			// 		</User>
-			// 	);
-			// },
-		// },
-		// { field: 'email', headerName: 'Email', type: 'email', width: 150, },
-		// { field: 'transaction', headerName: 'Transaction', type: '', width: 150, },
-		// { field: 'status', headerName: 'Status', type: 'status', width: 100, },
-		// { field: 'status', headerName: 'Status', type: 'status', width: 100, },
-		// {
-			// field: 'action', headerName: 'Action', width: 150,
-			// renderCell: (params) => {
-			// 	return (
-			// 		<>
-			// 			<Link to={"/user/"+params.row.id} > <Button>Edit</Button> </Link>
-			// 			<DeleteOutline style={{cursor:"pointer"}} onClick={() => handleDelete(params.row.id)} />
-			// 		</>
-			// 	)
-			// }
-		// },
+		{ field: '_id', headerName: 'ID', width: 150 },
+		{
+			field: "username",
+			headerName: "User",
+			width: 300,
+			renderCell: (params) => {
+				return (
+					<User>
+						<ImageContainer>
+							<Image src={params.row.img} alt="" />
+						</ImageContainer>
+						{params.row.username}
+					</User>
+				);
+			},
+		},
+		{ field: 'email', headerName: 'Email', type: 'email', width:200, }, 
+		{
+			field: 'action', headerName: 'Action', width: 150,
+			renderCell: (params) => {
+				return (
+					<>
+						<Link to={"/user/"+params.row._id} > <Button >Edit</Button> </Link>
+						<DeleteOutline style={{cursor:"pointer"}} onClick={() => handleDelete(params.row._id)} />
+					</>
+				)
+			}
+		},
 	];
 	
 	/*//! -----------------------------------  ---------------------------------- */
@@ -89,9 +94,10 @@ export default function UserList() {
 	return (
 		<div style={{ height: '100%', width: '100%' }}>
 			<DataGrid
-				rows={userList}
+				rows={users}
 				columns={columns}
 				pageSize={10}
+				getRowId={(row) => row._id}
 				rowsPerPageOptions={[10]}
 				checkboxSelection
 				disableSelectionOnClick

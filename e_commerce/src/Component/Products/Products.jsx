@@ -4,8 +4,10 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import {
 	FavoriteBorderOutlined,
+	FavoriteBorder,
 	SearchOutlined,
 	ShoppingCartOutlined,
+	ShoppingCart,
 } from "@material-ui/icons";
 import styled from 'styled-components'
 
@@ -47,6 +49,7 @@ const Item = styled.div`
 	margin:10px 20px;
 	position:relative;
 	display: flex;
+	flex-direction:column;
 	align-items: center;
 	justify-content: center;
 	&:hover ${IconContainer}{
@@ -85,6 +88,9 @@ const Circle = styled.div`
 	right:0;
 	margin:auto;
 	z-index:0;
+`
+const ItemDetail=styled.div`
+
 `
 
 const Products = ({ sort, filter, category }) => {
@@ -144,7 +150,7 @@ const Products = ({ sort, filter, category }) => {
 			}
 			if(currentUserId){
 				const res = await userRequest.post("/cart", item);
-				dispatch(addItem(res.data))
+				dispatch(addItem(res.data)) 
 			}
 			else{ 
 				dispatch(addItem(item))
@@ -166,8 +172,7 @@ const Products = ({ sort, filter, category }) => {
 		} catch (error) {
 			console.log(error)
 		}
-	}
-
+	} 
 	return (
 		<Container>
 			<Heading>{category}</Heading>
@@ -188,7 +193,10 @@ const Products = ({ sort, filter, category }) => {
 										<Icon> <Link className='text-link' to={`/product/${item._id}`}><SearchOutlined style={{ fontSize: 30 }} /></Link></Icon>
 										<Icon> <ShoppingCartOutlined onClick={() => handleAddToCart(item._id)} style={{ fontSize: 30 }} /></Icon>
 									</IconContainer>
-									{item.price}
+									<ItemDetail> 
+										<b style={{fontSize:"20px"}}>{item.name}</b><br/>
+										<b>Rs {item.price}</b>
+									</ItemDetail>
 								</Item>
 							)
 						})

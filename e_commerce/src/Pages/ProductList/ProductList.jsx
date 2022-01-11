@@ -87,7 +87,9 @@ const ProductList = () => {
 					</Select>
 				</Filter>
 			</FilterContainer>
-			<Products sort={sort} filter={filter} category={category} />
+			<section style={{minHeight:"80vh"}}>
+				<Products sort={sort} filter={filter} category={category} />
+			</section>
 			<NewsLetter/>
 			<Footer />
 		</Container>

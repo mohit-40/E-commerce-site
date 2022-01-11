@@ -16,6 +16,8 @@ import axios from "axios"
 import {useSelector} from "react-redux"
 import { userRequest } from './requestMethod';
 import jwtDecode from "jwt-decode"
+import OrderDetail from './Pages/OrderDetail/OrderDetail';
+import CancelRequest from './Pages/CancelRequest/CancelRequest';
 
 
 const Container = styled.div``
@@ -78,10 +80,13 @@ function App() {
                      <Route exact path="/productList"> {currentUserId ? <ProductList />: <Redirect to="/login" /> } </Route>
                      <Route exact path="/user/:userId"> {currentUserId ? <User />:<Redirect to="/login" /> } </Route>
                      <Route exact path="/product/:productId"> {currentUserId ? <Product /> :<Redirect to="/login" /> } </Route>
+                     <Route exact path="/product/:productId"> {currentUserId ? <Product /> :<Redirect to="/login" /> } </Route>
+                     <Route exact path="/order/:orderId"> {currentUserId ? <OrderDetail /> :<Redirect to="/login" /> } </Route>
                      <Route exact path="/createUser"> {currentUserId ? <CreateUser /> :<Redirect to="/" /> } </Route>
                      <Route exact path="/login"> {currentUserId ? <Home />:<Login /> } </Route>
                      <Route exact path="/createProduct"> {currentUserId ? <CreateProduct />:<Redirect to="/login" /> } </Route>
                      <Route exact path="/transaction">{currentUserId ? <Transaction /> :<Redirect to="/login" /> }  </Route>
+                     <Route exact path="/cancelRequest">{currentUserId ? <CancelRequest /> :<Redirect to="/login" /> }  </Route>
                   </Switch>
 
                </div>

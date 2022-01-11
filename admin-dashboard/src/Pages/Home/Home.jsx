@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import FeturedInfo from '../../Component/FeaturedInfo/FeturedInfo'
 import Chart from '../../Component/Chart/Chart'
-import styled from 'styled-components'
-import { userData } from '../../DummyData'
+import styled from 'styled-components' 
 import HomeWigetSm from '../../Component/HomeWigetSm/HomeWigetSm'
 import HomeWigetLg from '../../Component/HomeWigetLg/HomeWigetLg'
 import { userRequest } from '../../requestMethod'
@@ -14,6 +13,7 @@ const HomeWigetContainer = styled.div`
 `
 
 const Home = () => {
+	//user stats for graph 
 	const MONTHS = useMemo(	() => [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Agu", "Sep", "Oct", "Nov", "Dec",], [] );
 	const [userStats, setUserStats] = useState([]);
 	useEffect(() => {
@@ -27,7 +27,11 @@ const Home = () => {
 		  } catch {}
 		}
 		getStats();
-	  }, [MONTHS]); 
+	  }, [MONTHS ]);
+
+
+
+
 	return (
 		<Container>
 			<FeturedInfo />

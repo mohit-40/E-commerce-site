@@ -1,6 +1,8 @@
 import React from 'react'
 import { Send } from "@material-ui/icons";
 import styled from 'styled-components'
+import { useState } from 'react';
+import axios from "axios"
 
 const Container=styled.div`
 	box-sizing: border-box;
@@ -51,15 +53,28 @@ const Button=styled.button`
 `
 
 const NewsLetter = () => {
+	const [email, setEmail] =useState("");
+	const [status, setStatus] =useState("");
+	const handleSubmit =async()=>{
+		try { 
+			email && await axios.post("/email/newsletter",{email:email});
+			setEmail("");
+			setStatus("subcribed to newsletter successfully");
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
 	return (
 		<Container>
 		<Wrapper>
 			<Title>NewsLetter</Title>
 			<Desc>Get timely update from your favourite products.</Desc>
 			<InputContainer>
-				<input type="text" placeholder="Your Email"/>
-				<Button><Send /> </Button>
+				<input type="email" value={email} placeholder="Your Email" onChange={(e)=>setEmail(e.target.value)}/>
+				<Button><Send onClick={handleSubmit}/> </Button>
 			</InputContainer>
+			<b style = {{color:"green"}}> {status} </b>
 		</Wrapper>
 		</Container>
 	)

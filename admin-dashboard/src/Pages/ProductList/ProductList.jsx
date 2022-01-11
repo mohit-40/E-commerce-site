@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { DataGrid } from '@mui/x-data-grid';
 import { productRows } from '../../DummyData'
 import { DeleteOutline } from "@mui/icons-material";
 import styled from 'styled-components'
+import {userRequest} from "../../requestMethod"
 
 const User = styled.div`
 	display: flex;
@@ -32,8 +33,26 @@ const Button = styled.button`
 
 const ProoductList = () => {
 	const [data, setData] = useState(productRows);
-	const handleDelete = (id) => {
-		setData(data.filter((item) => item.id !== id))
+	const [products, setProducts] = useState([]);
+	useEffect(()=>{
+		const fetchProducts = async()=>{
+			try {
+				const res = await userRequest.get("/product");
+				setProducts(res.data);
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+		fetchProducts();
+	},[])
+
+	const handleDelete = async(id) => {
+		try {
+			await userRequest.delete("/product/"+id);
+			setProducts(products.filter((p)=> p._id != id ))
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 	/*//! ------------------------------------ . ----------------------------------- */
 
@@ -57,14 +76,13 @@ const ProoductList = () => {
 		{ field: 'stock', headerName: 'Stock', type: 'email', width: 150, },
 		{ field: 'price', headerName: 'Price', type: '', width: 150, },
 		{ field: 'status', headerName: 'Status', type: 'status', width: 100, },
-		{ field: 'status', headerName: 'Status', type: 'status', width: 100, },
 		{
 			field: 'action', headerName: 'Action', width: 150,
 			renderCell: (params) => {
 				return (
 					<>
-						<Link to={"/product/" + params.row.id} > <Button >Edit</Button> </Link>
-						<DeleteOutline style={{ cursor: "pointer" }} onClick={() => handleDelete(params.row.id)} />
+						<Link to={"/product/" + params.row._id} > <Button >Edit</Button> </Link>
+						<DeleteOutline style={{ cursor: "pointer" }} onClick={() => handleDelete(params.row._id)} />
 					</>
 				)
 			}
@@ -75,9 +93,10 @@ const ProoductList = () => {
 	return (
 		<div style={{ height: '100%', width: '100%' }}>
 			<DataGrid
-				rows={data}
+				rows={products}
 				columns={columns}
 				pageSize={10}
+				getRowId={(row) => row._id}
 				rowsPerPageOptions={[10]}
 				checkboxSelection
 				disableSelectionOnClick

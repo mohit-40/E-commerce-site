@@ -61,16 +61,17 @@ const CreateProduct = () => {
 		setInput(prev => ({
 			...prev,
 			[e.target.name]: e.target.value
-		}))
-		console.log(input);
+		})) 
 	}
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		try { 
-			const fileName = Date.now() + file.name;
-			const imgRef = ref(storage, `/products/${fileName}`);
-			const uploadTask = uploadBytesResumable(imgRef, file);
-			uploadTask.on('state_changed',
+		try {
+			if(file){
+
+				const fileName = Date.now() + file.name;
+				const imgRef = ref(storage, `/products/${fileName}`);
+				const uploadTask = uploadBytesResumable(imgRef, file);
+				uploadTask.on('state_changed',
 				(snapshot) => { },
 				(error) => { 
 					console.log(error.message);
@@ -89,7 +90,18 @@ const CreateProduct = () => {
 						console.log(newProductRes.data ,downloadURL);
 					});
 				}
-			);
+				);
+			}
+			else{
+				const product = {
+					...input,
+					category: input.categories.split(","),
+					color: input.color.split(","),
+					size: input.size.split(",")
+				}
+				const newProductRes = await userRequest.post("/product/", product);
+				history.push("/product/" + newProductRes.data._id); 
+			}
 		} catch (error) {
 			console.log(error.message);
 		}

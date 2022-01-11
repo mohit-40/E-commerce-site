@@ -75,7 +75,7 @@ const Sidebar = () => {
 						<Link to="/users" className="text-link"><SectionItem><PermIdentity /><SectionItemText>Users </SectionItemText></SectionItem></Link>
 						<Link to="/productList" className="text-link"><SectionItem><Storefront /><SectionItemText>Products </SectionItemText></SectionItem></Link>
 						<Link to="/transaction" className="text-link"><SectionItem><AttachMoney /><SectionItemText>Transactions </SectionItemText></SectionItem></Link>
-						{/* <Link to="/" className="text-link"><SectionItem><BarChart /><SectionItemText>Reports </SectionItemText></SectionItem></Link> */}
+						<Link to="/cancelRequest" className="text-link"><SectionItem><BarChart /><SectionItemText>Cancel Request </SectionItemText></SectionItem></Link>
 					</SectionItemContainer>
 				</Section>
 				<Section>

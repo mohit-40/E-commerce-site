@@ -17,6 +17,7 @@ router.get("/find/:id",verifyTokenAndAdmin, async(req,res)=>{
 });
 //get all user
 router.get("/allusers",verifyTokenAndAdmin, async(req,res)=>{
+	console.log("in allUsers")
 	try{
 		const users=await User.find();
 		res.status(200).json(users);
@@ -53,7 +54,6 @@ router.delete("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 })
 
 //get users stat
-
 router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
 	const date = new Date();
 	const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));

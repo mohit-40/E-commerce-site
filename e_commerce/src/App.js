@@ -20,6 +20,7 @@ import jwtDecode from "jwt-decode"
 import { useEffect } from 'react';
 import { setCart } from './redux/exportAllAction';
 import { setItem } from './redux/wishList/wishListAction';
+import OrderDetail from './Pages/OrderDetail/OrderDetail';
 
 function App() {
 
@@ -64,7 +65,7 @@ function App() {
           const userCartItems = res.data;
           dispatch(setCart(userCartItems));
       } catch (error) {
-         console.log(error.message)
+         console.log(error.message);
       }
     }
     fetchCart();
@@ -95,6 +96,7 @@ function App() {
         <Route path="/login"> {currentUserId ? <Redirect to="/" /> : <Login />} </Route>
         <Route path="/profile/:id"> {currentUserId ? <Profile /> : <Login />} </Route>
         <Route path="/orders/:id"> {currentUserId ? <Orders /> : <Login />} </Route>
+        <Route exact path="/order/:orderId"> {currentUserId ? <OrderDetail /> :<Redirect to="/login" /> } </Route>
         <Route path="/cart"> <Cart /> </Route>
         <Route path="/error"> <h1> Some Error occur. Don't worry we are working on it.</h1> </Route>
         <Route path="/success"> <h1> your request is successfull ... </h1> </Route>

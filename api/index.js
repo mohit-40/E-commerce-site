@@ -16,6 +16,7 @@ const orderRoute=require('./Routes/Order');
 const productRoute=require('./Routes/Product');
 const stripeRoute=require('./Routes/Stripe');
 const wishListRoute=require('./Routes/WishList');
+const emailRoute=require('./Routes/Email');
 const port=process.env.PORT||8800;
 
 //!/* -------------------------------- mongoose -------------------------------- */
@@ -35,6 +36,7 @@ app.use("/api/order",orderRoute);
 app.use("/api/product",productRoute);
 app.use("/api/checkout",stripeRoute);
 app.use("/api/wishList",wishListRoute);
+app.use("/api/email",emailRoute);
 //!/* ---------------------------- listening to port --------------------------- */
 app.listen(port , ()=>{
 	console.log("server running on port "+port );

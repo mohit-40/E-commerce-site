@@ -9,7 +9,8 @@ import {
 	Twitter,
   } from "@material-ui/icons";
 import styled from 'styled-components'
-
+import {useSelector} from "react-redux"
+import {Link} from "react-router-dom"
 const Container=styled.div`
 	display: flex;
 	flex-wrap: wrap;
@@ -71,6 +72,7 @@ const ContactItem=styled.div`
 
 
 const Footer = () => {
+	const currentUserId = useSelector(state=>state.user.currentUserId);
 	return (
 		<Container>
 			<Left>
@@ -92,10 +94,10 @@ const Footer = () => {
 			<Right>
 				<Title>Usefull Links</Title>
 				<List>
-					<ListItem>My Account</ListItem>
-					<ListItem>Sign Up</ListItem>
-					<ListItem>Sign In</ListItem>
-					<ListItem>Product-List</ListItem>
+					<ListItem><Link to={`/profile/${currentUserId}`}>My Account</Link></ListItem>
+					<ListItem><Link to={`/register`}>Sign Up</Link></ListItem>
+					<ListItem><Link to={`/login`}>Sign In</Link></ListItem>
+					<ListItem><Link to={`/product-list`}>Product-List</Link></ListItem>
 				</List>
 
 			</Right>

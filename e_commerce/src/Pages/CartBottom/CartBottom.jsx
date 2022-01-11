@@ -48,6 +48,7 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.div``
 const SummaryItemPrice = styled.div``
 const Button = styled.button`
+	width:100%;
 	background: #000;
 	color:white;
 	padding:5px;

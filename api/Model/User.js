@@ -1,6 +1,9 @@
 const mongoose =require('mongoose');
 
 const UserSchema = new mongoose.Schema({
+	img:{
+		type:String
+	},
 	name:{
 		type:String
 	},
@@ -16,6 +19,12 @@ const UserSchema = new mongoose.Schema({
 		type:String,
 		unique:true,
 		required:[true,"email required"]
+	},
+	mobile:{
+		type:Number,
+	},
+	from:{
+		type:String,
 	},
 	password:{
 		type:String,

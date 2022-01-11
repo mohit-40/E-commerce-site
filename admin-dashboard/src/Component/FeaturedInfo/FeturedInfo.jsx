@@ -1,6 +1,8 @@
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
+import { userRequest } from '../../requestMethod'
 
 const Container = styled.div``
 const Wrapper = styled.div``
@@ -51,39 +53,79 @@ const BoxBottom = styled.div`
 
 
 const FeturedInfo = () => {
+
+	// get income revenue profit 
+	const [parameter, setParameter] = useState([])
+	useEffect(() => {
+		const getIncome = async () => {
+			try {
+				const res = await userRequest.get("/order/income/stats/get");
+				setParameter(res.data); 
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+		getIncome();
+	}, [])
+
+	//geting cost stats
+	const [cost, setCost] = useState();
+	useEffect(() => {
+		const getCost = async () => {
+			try {
+				const res = await userRequest.get("/order/cost/stats/get");
+				setCost(res.data);
+				console.log(res.data);
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+		getCost();
+	}, [])
+
 	return (
 		<Container>
 			<Wrapper>
 				<BoxContainer>
 					<Box>
 						<BoxTop>
-							<BoxTopTitle>Revenue</BoxTopTitle>
-						</BoxTop>
-						<BoxCenter>
-							<BoxAmount> Rs 25,035</BoxAmount>
-							<BoxIncrement><ArrowUpward style={{color:"green"  ,fontSize:"2rem"}}/>+5</BoxIncrement>
-						</BoxCenter>
-						<BoxBottom>Compared to last month</BoxBottom>
-					</Box>
-					<Box>
-						<BoxTop>
 							<BoxTopTitle>Sales</BoxTopTitle>
 						</BoxTop>
 						<BoxCenter>
-							<BoxAmount> Rs 25,035</BoxAmount>
-							<BoxIncrement><ArrowDownward style={{color:"red" ,fontSize:"2rem"}}/>+5</BoxIncrement>
+							<BoxAmount> Rs {parameter[0]?.totalAmount}</BoxAmount>
 						</BoxCenter>
-						<BoxBottom>Compared to last month</BoxBottom>
 					</Box>
 					<Box>
 						<BoxTop>
 							<BoxTopTitle>Cost</BoxTopTitle>
 						</BoxTop>
 						<BoxCenter>
-							<BoxAmount> Rs 25,035</BoxAmount>
-							<BoxIncrement><ArrowDownward style={{color:"red" ,fontSize:"2rem"}}/>+5</BoxIncrement>
+							<BoxAmount> Rs {cost}</BoxAmount>
 						</BoxCenter>
-						<BoxBottom>Compared to last month</BoxBottom>
+					</Box>
+					<Box>
+						<BoxTop>
+							<BoxTopTitle>Profit</BoxTopTitle>
+							<BoxIncrement>
+								<BoxAmount> Rs {parameter[0]?.totalAmount - cost}</BoxAmount>
+								%{Math.floor(  ((parameter[0]?.totalAmount - cost)/cost) *100 )}{" "}
+								{((parameter[0]?.totalAmount - cost)/cost) *100 < 0 ? (
+									<ArrowDownward style={{color:"red"}} />
+								) : (
+									<ArrowUpward style={{color:"green"}} />
+								)}  
+							</BoxIncrement>
+						</BoxTop>
+						<BoxCenter>
+						</BoxCenter>
+					</Box>
+					<Box>
+						<BoxTop>
+							<BoxTopTitle>Orders</BoxTopTitle>
+						</BoxTop>
+						<BoxCenter>
+							<BoxAmount>{parameter[0]?.totalOrder}</BoxAmount>
+						</BoxCenter>
 					</Box>
 				</BoxContainer>
 			</Wrapper>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {Link } from 'react-router-dom'
+import {Link, useHistory } from 'react-router-dom'
 import { Badge } from "@material-ui/core";
 import { Menu,Close, Search, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from 'styled-components'
@@ -10,6 +10,10 @@ import { logout } from '../../redux/exportAllAction';
 const Container = styled.div`
 	height:60px;
 	height: fit-content;
+	position:sticky;
+	top:0;
+	z-index:10000;
+	background:white;
 `
 const Wrapper = styled.div`
 	display: flex;
@@ -100,6 +104,7 @@ const ButtonLogout =styled.button`
 
 
 const Navbar = () => {
+	const history = useHistory();
 	const cartItems = useSelector(state=> state.cart.cartItems)
 	const [click, setClick] = useState(false);
 	const handleClick=()=> setClick(!click);
@@ -110,8 +115,10 @@ const Navbar = () => {
 	const handleLogout = ()=>{
 		dispatch(logout(currentUserId))
 	}	
-
-
+	const [search,setSearch] = useState("")
+	const handleSearch=()=>{
+		history.push("/product-list/"+search);
+	}
 
 	return (
 		<Container>
@@ -120,8 +127,8 @@ const Navbar = () => {
 					{click? <Close onClick={handleClick} className="hamburger close"/> : <Menu onClick={handleClick} className="hamburger"/>}
 					<Language>EN</Language>
 					<SearchContainer>
-						<input type="text" />
-						<Search />
+						<input type="text" onChange={(e)=>setSearch(e.target.value)} placeholder='Search Catergory here'/>
+						<Search onClick={handleSearch} style={{cursor:"pointer"}}/>
 						
 					</SearchContainer>
 				</Left>

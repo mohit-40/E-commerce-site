@@ -5,6 +5,7 @@ import axios from 'axios'
 import { userRequest } from '../../requestMethod'
 import {useDispatch, useSelector} from "react-redux"
 import { deleteItem, updateItem } from '../../redux/exportAllAction'
+import {Link} from "react-router-dom"
 
 const Product = styled.div`
 	height:30vh;
@@ -120,7 +121,7 @@ function CartItem({ cartItem }) {
 					<ProductImage src={product?.img}></ProductImage>
 				</ProductImageContainer>
 				<ProductDetail>
-					<ProductName><b>Product:</b>{product?.name}</ProductName>
+					<ProductName><b>Product:</b><Link to={`/product/${cartItem.productId}`}>{product?.name}</Link></ProductName>
 					<ProductId> <b>ID:</b>{cartItem.productId}</ProductId>
 					<ProductSize><b>SIZE:</b> {cartItem.size}</ProductSize>
 					<ProductColor color={cartItem.color} />

@@ -56,7 +56,7 @@ const Cart = () => {
 			<Announcement />
 			<Wrapper>
 
-				<Heading>CART</Heading>
+				<Heading>{cartSelected? "CART":"WISHLIST"}</Heading>
 				<Top>
 					<TopLinks>
 						<TopLink onClick={()=>setCartSelected(true)}>YOUR BAG({cartItems.length})</TopLink>

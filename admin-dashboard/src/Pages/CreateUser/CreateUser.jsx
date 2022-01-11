@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from "axios"
+import { storage } from '../../firebase/firebase'
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const Container=styled.div`
 	margin:1rem;
@@ -71,26 +73,59 @@ const CreateUser = () => {
 		})) 
 	}
 	const [status,setStatus] = useState("")
+	const [file , setFile ] =useState("")
+
 	const handleSubmit=async(e)=>{
 		e.preventDefault();
 		try {
-			const res = await axios.post("/auth/register" , input );
-			setStatus("new user create");
-			setInput("");
-			const resetStatus = setInterval(() => {
-				setStatus("")
-			}, 3000);
-			setTimeout(() => {
-				clearInterval(resetStatus);
-			}, 3000);
-		} catch (error) {
+			if(file){
+
+				const fileName = Date.now() + file.name;
+				const imgRef = ref(storage, `users/${input.username}/${fileName}`);
+				const uploadTask = uploadBytesResumable(imgRef, file);
+				uploadTask.on('state_changed',
+				(snapshot) => { },
+				(error) => { 
+					console.log(error.message);
+				},
+				async() => { 
+					getDownloadURL(uploadTask.snapshot.ref).then( async(downloadURL) => {
+						const newUser = {
+							...input,
+							img:downloadURL
+						}
+						const res = await axios.post("/auth/register" , newUser );
+						setStatus("new user create");
+						setInput("");
+						const resetStatus = setInterval(() => {
+							setStatus("")
+						}, 3000);
+						setTimeout(() => {
+							clearInterval(resetStatus);
+						}, 3000);
+					});
+				}
+				);
+			}
+			else {
+				const newUser = {
+					...input, 
+				}
+				const res = await axios.post("/auth/register" , newUser );
+				setStatus("new user create");
+				setInput("");
+				const resetStatus = setInterval(() => {
+					setStatus("")
+				}, 3000);
+				setTimeout(() => {
+					clearInterval(resetStatus);
+				}, 3000);
+			}
+		} 
+		catch (error) {
 			setStatus(error.message)
-			const resetStatus = setInterval(() => {
-				setStatus("")
-			}, 3000);
-			setTimeout(() => {
-				clearInterval(resetStatus);
-			}, 3000);
+			const resetStatus = setInterval(() => { setStatus("") }, 3000);
+			setTimeout(() => { clearInterval(resetStatus); }, 3000);
 			console.log(error)
 		}
 	}
@@ -101,6 +136,10 @@ const CreateUser = () => {
 			<Heading>New User</Heading>
 			{status}
 			<Form onChange={handleChange} >
+				<InputContainer>
+					<Label>Profile Picture</Label>
+					<input type="file" required onChange={(e) => setFile(e.target.files[0])}></input>
+				</InputContainer>
 				<InputContainer  >
 					<Label>Username</Label>
 					<Input name="username" placeholder="john"/>
