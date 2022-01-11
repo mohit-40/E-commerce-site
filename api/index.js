@@ -27,7 +27,12 @@ app.use(express.json())
 app.use(helmet());
 app.use(morgan("common"));
 app.use(cors());
+//! /* ----------------------------- setting static ----------------------------- */
+app.use(express.static(path.join(__dirname, "/clients/build")));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/clients/build', 'index.html'));
+});
 //!/* ---------------------------------- Route --------------------------------- */
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
