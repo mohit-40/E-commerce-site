@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Link, useParams } from "react-router-dom"
-import { Upload } from '@mui/icons-material'
+import { ArrowDownward, ArrowUpward, Upload } from '@mui/icons-material'
 import Chart from '../../Component/Chart/Chart'
 import { productData } from "../../DummyData"
 import styled from 'styled-components'
@@ -35,7 +35,40 @@ const Top = styled.div`
 const Left = styled.div`
 	flex: 2;
 	min-width: 300px;
+	display:flex;
+	flex-wrap:wrap
 `
+const Box = styled.div`
+	flex:1;
+	min-width:150px;    /* for wrap */
+	margin:1rem 1rem;
+	padding: 1rem;
+	border-radius:10px;
+	cursor:pointer;
+	-webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  	box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
+	display: flex;
+	flex-direction: column;
+
+`
+const BoxTop = styled.div``
+const BoxTopTitle = styled.div`
+	font-size: 2rem;
+	font-weight: 600;
+`
+const BoxCenter = styled.div`
+	display: flex;
+	align-items: center;
+	margin:15px 0;
+	`
+const BoxAmount = styled.div`
+	font-size: 2.0rem;
+	font-weight: 700;
+	margin-right: 10px;
+	white-space: nowrap;
+` 	
+
 const Right = styled.div`
 	flex:1;
 	-webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -143,6 +176,7 @@ const UpdateButton = styled.button`
 `
 
 
+
 const Product = () => {
 	const params = useParams();
 	const productId = params.productId;
@@ -161,31 +195,7 @@ const Product = () => {
 		}
 		fetchProduct();
 	}, [productId])
-
-	//product stats 
-	const MONTHS = useMemo(() => ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Agu", "Sep", "Oct", "Nov", "Dec",], []);
-	const [productStats, setProductStats] = useState({});
-	useEffect(() => {
-		const getStats = async () => {
-			try {
-				const res = await userRequest.get("orders/income?pid=" + productId);
-				const list = res.data.sort((a, b) => {
-					return a._id - b._id
-				})
-				list.map((item) =>
-					setProductStats((prev) => [
-						...prev,
-						{ name: MONTHS[item._id - 1], Sales: item.total },
-					])
-				);
-			} catch (err) {
-				console.log(err);
-			}
-		};
-		getStats();
-	}, [productId, MONTHS]);
-
-
+ 
 	// handle form 
 	const [file, setFile] = useState("");
 	const [input, setInput] = useState({});
@@ -231,6 +241,21 @@ const Product = () => {
 		console.log(input);
 	}
 
+		//geting prouct total order
+		const [totalOrder, setTotalOrder] = useState(0);
+		useEffect(() => {
+			const getCost = async () => {
+				try {
+					const res = await userRequest.get("/order/product/stats/"+productId+"/get");
+					setTotalOrder(res.data);
+					console.log(res.data);
+				} catch (error) {
+					console.log(error.message);
+				}
+			}
+			getCost();
+		}, [productId])
+			
 	return (
 		<Container>
 			<HeadingSection>
@@ -239,7 +264,37 @@ const Product = () => {
 			</HeadingSection>
 			<Top>
 				<Left>
-					<Chart title="Sales Performance" xDataKey="name" lineDataKey="Sales" data={productStats} height="300" />
+					{/* <Chart title="Sales Performance" xDataKey="name" lineDataKey="Sales" data={productStats} height="300" /> */}
+					<Box>
+						<BoxTop>
+							<BoxTopTitle>Total order</BoxTopTitle>
+						</BoxTop>
+						<BoxCenter>
+							<BoxAmount>{totalOrder}</BoxAmount>
+						</BoxCenter>
+					</Box>
+					<Box>
+						<BoxTop>
+							<BoxTopTitle>Sales</BoxTopTitle>
+						</BoxTop>
+						<BoxCenter>
+							<BoxAmount>₹{totalOrder*product.price}</BoxAmount>
+						</BoxCenter>
+					</Box>
+					<Box>
+						<BoxTop>
+							<BoxTopTitle>Profit</BoxTopTitle>
+						</BoxTop>
+						<BoxCenter>
+							<BoxAmount>₹{totalOrder*product.price-totalOrder*product.cost}</BoxAmount>
+							%{Math.floor(  (((totalOrder*product.price) - (totalOrder*product.cost))/(totalOrder*product.price)) *100 )}{" "}
+								{((totalOrder*product.price - totalOrder*product.cost)/totalOrder*product.cost) *100 < 0 ? (
+									<ArrowDownward style={{color:"red"}} />
+								) : (
+									<ArrowUpward style={{color:"green"}} />
+								)}  
+						</BoxCenter>
+					</Box>
 				</Left>
 				<Right>
 					<RightTop>
@@ -255,7 +310,7 @@ const Product = () => {
 						</ProductDetail>
 						<ProductDetail>
 							<Key>Sales:</Key>
-							<Value>{product?.sale}</Value>
+							<Value>₹{totalOrder*product.price}</Value>
 						</ProductDetail>
 						<ProductDetail>
 							<Key>Active: </Key>

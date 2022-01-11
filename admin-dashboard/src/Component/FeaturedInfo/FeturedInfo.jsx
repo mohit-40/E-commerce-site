@@ -108,8 +108,8 @@ const FeturedInfo = () => {
 							<BoxTopTitle>Profit</BoxTopTitle>
 							<BoxIncrement>
 								<BoxAmount> Rs {parameter[0]?.totalAmount - cost}</BoxAmount>
-								%{Math.floor(  ((parameter[0]?.totalAmount - cost)/cost) *100 )}{" "}
-								{((parameter[0]?.totalAmount - cost)/cost) *100 < 0 ? (
+								%{Math.floor(  ((parameter[0]?.totalAmount - cost)/parameter[0]?.totalAmount) *100 )}{" "}
+								{((parameter[0]?.totalAmount - cost)/parameter[0]?.totalAmount) *100 < 0 ? (
 									<ArrowDownward style={{color:"red"}} />
 								) : (
 									<ArrowUpward style={{color:"green"}} />

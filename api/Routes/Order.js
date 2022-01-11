@@ -69,10 +69,10 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
 
 // get total income and orders
 router.get("/income/stats/get", verifyTokenAndAdmin, async (req, res) => { 
-	const productId = req.query.pid;
-	var prevMonth = new Date();
-	prevMonth.setDate(0);
-	prevMonth.setDate(1);
+	// const productId = req.query.pid;
+	// var prevMonth = new Date();
+	// prevMonth.setDate(0);
+	// prevMonth.setDate(1);
 	try {
 		const income = await Order.aggregate([
 			{
@@ -95,11 +95,25 @@ router.get("/income/stats/get", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //get total cost 
+router.get("/product/stats/:pid/get", async (req, res) => {
+	try {  
+		const orders = await Order.find({status:{$in:[ "delivered", "pending" , "cancelRequest"]} });
+		let quantity = 0;
+		for (const o of orders) {
+			for (const p of o.product) {
+				if(p.productId == req.params.pid){
+					quantity = quantity + p.quantity; 
+				}
+			}
+		}
+		res.status(200).json(quantity);
+	} catch (error) {
+		res.status(400).json(error.message);
+	}
+})
+//get product stats
 router.get("/cost/stats/get", async (req, res) => {
-	try { 
-		var prevMonth = new Date();
-		prevMonth.setDate(0);
-		prevMonth.setDate(1);
+	try {  
 		const orders = await Order.find({status:{$in:[ "delivered", "pending" , "cancelRequest"]} });
 		let cost = 0;
 		for (const o of orders) {

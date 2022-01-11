@@ -167,8 +167,7 @@ const User = () => {
 			try {
 				const res = await userRequest.get("/user/find/" + userId);
 				setUser(res.data);
-				setInput(res.data);
-				setFile(res.data.img);
+				setInput(res.data); 
 			} catch (error) {
 				console.log(error.message);
 			}
@@ -184,8 +183,7 @@ const User = () => {
 	}
 	const handleSubmit = async () => {
 		try {
-			if (file) {
-
+			if (file) { 
 				const fileName = Date.now() + file.name;
 				const imgRef = ref(storage, `/users/${user._id}/${fileName}`);
 				const uploadTask = uploadBytesResumable(imgRef, file);
@@ -205,7 +203,8 @@ const User = () => {
 				);
 			}
 			else {
-				const updatedUser = {
+				console.log("hello")
+				const updatedUser = { 
 					...input
 				}
 				await userRequest.put("/user/" + user._id, updatedUser);
