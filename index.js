@@ -6,8 +6,7 @@ const app=express();
 const mongoose=require('mongoose');
 const helmet=require('helmet');
 const morgan=require('morgan');
-const cors = require("cors")
-const path = require('path');
+const cors = require("cors") 
 
 //!including route file
 const authRoute=require('./Routes/Auth');
@@ -29,11 +28,14 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(cors());
 //! /* ----------------------------- setting static ----------------------------- */
-app.use(express.static(path.join(__dirname, "/clients/build")));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/clients/build', 'index.html'));
-});
+if (process.env.NODE_ENV === "production") {
+	const path = require("path")
+	app.use(express.static(path.join(__dirname, "/clients/build")));
+  
+	app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, '/clients/build', 'index.html'));
+  });
+} 
 //!/* ---------------------------------- Route --------------------------------- */
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
