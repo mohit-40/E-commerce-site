@@ -7,7 +7,7 @@ const mongoose=require('mongoose');
 const helmet=require('helmet');
 const morgan=require('morgan');
 const cors = require("cors")
-const path = require("path");
+const path = require('path');
 
 //!including route file
 const authRoute=require('./Routes/Auth');
