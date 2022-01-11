@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Add, Remove } from '@material-ui/icons'
-import axios from 'axios'
-import { userRequest } from '../../requestMethod'
+import { Add, Remove } from '@material-ui/icons' 
+import { publicRequest, userRequest } from '../../requestMethod'
 import {useDispatch, useSelector} from "react-redux"
 import { deleteItem, updateItem } from '../../redux/exportAllAction'
 import {Link} from "react-router-dom"
@@ -72,7 +71,7 @@ function CartItem({ cartItem }) {
 	useEffect(()=>{
 		const fetchProduct= async()=>{
 			try {
-				const res = await axios.get("/product/"+cartItem.productId)
+				const res = await publicRequest.get("/product/"+cartItem.productId)
 				setProduct(res.data);
 			} catch (error) {
 				console.log(error.message);

@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import StripeCheckout from "react-stripe-checkout"; 
 import CartItem from '../CartItem/CartItem';
-import { userRequest } from '../../requestMethod';
-import axios from 'axios';
+import { publicRequest, userRequest } from '../../requestMethod'; 
 import { clearCart } from '../../redux/exportAllAction';
 
 const Bottom = styled.div`
@@ -76,7 +75,7 @@ function CartBottom() {
 					setTotalPrice(res.data);
 				}
 				else {
-					const res = await axios.post(`/cart/price` , {userCartItems: cartItems});
+					const res = await publicRequest.post(`/cart/price` , {userCartItems: cartItems});
 					setTotalPrice(res.data);
 				}
 			} catch (error) {

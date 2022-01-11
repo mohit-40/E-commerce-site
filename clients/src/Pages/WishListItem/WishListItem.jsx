@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import axios from 'axios'
+import styled from 'styled-components' 
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from "react-router-dom"
-import { userRequest } from '../../requestMethod'
+import { publicRequest, userRequest } from '../../requestMethod'
 import { deleteWlItem } from '../../redux/wishList/wishListAction'
 
 const Product = styled.div`
@@ -49,7 +48,7 @@ function WishListItem({ wishListItem }) {
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
-				const res = await axios.get("/product/" + wishListItem.productId)
+				const res = await publicRequest.get("/product/" + wishListItem.productId)
 				setProduct(res.data);
 			} catch (error) {
 				console.log(error.message);

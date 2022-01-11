@@ -13,9 +13,8 @@ import Login from "./Pages/Login/Login"
 import Register from "./Pages/Register/Register"
 import Cart from "./Pages/Cart/Cart"
 import Profile from "./Pages/Profile/Profile"
-import Orders from "./Pages/Orders/Orders"
-import axios from 'axios';
-import { userRequest } from './requestMethod';
+import Orders from "./Pages/Orders/Orders" 
+import { publicRequest, userRequest } from './requestMethod';
 import jwtDecode from "jwt-decode"
 import { useEffect } from 'react';
 import { setCart } from './redux/exportAllAction';
@@ -29,7 +28,7 @@ function App() {
   const refreshToken = async () => {
     try {
       const REFRESH_TOKEN = localStorage.getItem("refreshToken")
-      const res = await axios.post("/auth/refresh/" + currentUserId, { refreshToken: REFRESH_TOKEN });
+      const res = await publicRequest.post("/auth/refresh/" + currentUserId, { refreshToken: REFRESH_TOKEN });
       localStorage.setItem("accessToken", res.data.accessToken)
       console.log("accesstoken updated")
       return res.data;

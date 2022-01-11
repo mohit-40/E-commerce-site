@@ -8,8 +8,7 @@ import NewsLetter from '../../Component/NewsLetter/NewsLetter'
 import Footer from '../../Component/Footer/Footer'
 import Announcement from '../../Component/Announcement/Announcement'
 import { userRequest } from '../../requestMethod';
-import CartItem from '../CartItem/CartItem';
-import axios from 'axios';
+import CartItem from '../CartItem/CartItem'; 
 import CartBottom from '../CartBottom/CartBottom'
 import WishListBottom from '../WishListBottom/WishListBottom'
 

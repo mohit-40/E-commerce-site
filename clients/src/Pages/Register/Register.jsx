@@ -1,9 +1,9 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'; 
 import styled from 'styled-components'
 import Navbar from '../../Component/Navbar/Navbar'
+import { publicRequest } from '../../requestMethod';
 
 const Container = styled.div`
 	width:100vw;
@@ -67,7 +67,7 @@ const Register = () => {
 		if(detail.comfirmPassword !== detail.password ) setError("password and comfirm password do not match")
 		else{
 			try {
-				const res = await axios.post("/auth/register", detail);
+				const res = await publicRequest.post("/auth/register", detail);
 				history.push("/login");
 			} catch (error) {
 				setError(error.message)

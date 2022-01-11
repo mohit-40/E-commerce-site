@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router'
-import axios from 'axios'
+import { useHistory, useParams } from 'react-router' 
 import styled from 'styled-components'
 import { useSelector, useDispatch } from "react-redux"
 import { addItem } from "../../redux/exportAllAction"
@@ -10,7 +9,7 @@ import Navbar from '../../Component/Navbar/Navbar'
 import Announcement from '../../Component/Announcement/Announcement'
 import Footer from '../../Component/Footer/Footer'
 import NewsLetter from '../../Component/NewsLetter/NewsLetter'
-import { userRequest } from '../../requestMethod'
+import { publicRequest, userRequest } from '../../requestMethod'
 import { addWlItem } from '../../redux/wishList/wishListAction'
 
 
@@ -132,7 +131,7 @@ const Product = () => {
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
-				const res = await axios.get("/product/" + productId);
+				const res = await publicRequest.get("/product/" + productId);
 				setProduct(res.data);
 			}
 			catch (err) {

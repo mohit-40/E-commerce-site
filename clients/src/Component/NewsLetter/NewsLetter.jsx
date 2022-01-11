@@ -1,8 +1,8 @@
 import React from 'react'
 import { Send } from "@material-ui/icons";
 import styled from 'styled-components'
-import { useState } from 'react';
-import axios from "axios"
+import { useState } from 'react'; 
+import { publicRequest } from '../../requestMethod';
 
 const Container=styled.div`
 	box-sizing: border-box;
@@ -57,7 +57,7 @@ const NewsLetter = () => {
 	const [status, setStatus] =useState("");
 	const handleSubmit =async()=>{
 		try { 
-			email && await axios.post("/email/newsletter",{email:email});
+			email && await publicRequest.post("/email/newsletter",{email:email});
 			setEmail("");
 			setStatus("subcribed to newsletter successfully");
 		} catch (error) {

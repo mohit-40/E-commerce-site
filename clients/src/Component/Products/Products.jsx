@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
-import axios from 'axios'
+import { useHistory } from 'react-router' 
 import { Link } from 'react-router-dom'
 import {
 	FavoriteBorderOutlined,
@@ -13,7 +12,7 @@ import styled from 'styled-components'
 
 import { useDispatch, useSelector } from "react-redux"
 import { addItem } from '../../redux/exportAllAction';
-import { userRequest } from '../../requestMethod';
+import { publicRequest, userRequest } from '../../requestMethod';
 import { addWlItem } from '../../redux/wishList/wishListAction';
 
 const Container = styled.div``
@@ -102,7 +101,7 @@ const Products = ({ sort, filter, category }) => {
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
-				const res = category ? await axios.get("/product?category=" + category) : await axios.get("/product/");
+				const res = category ? await publicRequest.get("/product?category=" + category) : await publicRequest.get("/product/");
 				setAllProduct(res.data);
 				setFilterProduct(res.data);
 			}
