@@ -4,8 +4,7 @@ const dotenv=require('dotenv').config();
 const express=require("express");
 const app=express();
 const mongoose=require('mongoose');
-const helmet=require('helmet');
-const morgan=require('morgan');
+const helmet=require('helmet'); 
 const cors = require("cors") 
 
 //!including route file
@@ -28,14 +27,16 @@ app.use(helmet());
 app.use(cors());
 //! /* ----------------------------- setting static ----------------------------- */
 if (process.env.NODE_ENV === "production") {
+	console.log("in production")
 	const path = require("path")
 	app.use(express.static(path.join(__dirname, "/clients/build")));
 	
 	app.get('*', (req, res) => {
 		res.sendFile(path.join(__dirname, '/clients/build', 'index.html'));
 	});
-} 
-else{
+}
+if (process.env.NODE_ENV != "production") {
+	const morgan = require("morgan");
 	app.use(morgan("common"));
 }
 //!/* ---------------------------------- Route --------------------------------- */
