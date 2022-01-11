@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import axios from "axios"
+import styled from 'styled-components' 
 import { storage } from '../../firebase/firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { publicRequest } from '../../../../clients/src/requestMethod';
 
 const Container=styled.div`
 	margin:1rem;
@@ -94,7 +94,7 @@ const CreateUser = () => {
 							...input,
 							img:downloadURL
 						}
-						const res = await axios.post("/auth/register" , newUser );
+						const res = await publicRequest.post("/auth/register" , newUser );
 						setStatus("new user create");
 						setInput("");
 						const resetStatus = setInterval(() => {
@@ -111,7 +111,7 @@ const CreateUser = () => {
 				const newUser = {
 					...input, 
 				}
-				const res = await axios.post("/auth/register" , newUser );
+				const res = await publicRequest.post("/auth/register" , newUser );
 				setStatus("new user create");
 				setInput("");
 				const resetStatus = setInterval(() => {

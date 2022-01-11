@@ -11,10 +11,9 @@ import CreateProduct from './Pages/CreateProduct/CreateProduct'
 import ProductList from './Pages/ProductList/ProductList'
 import styled from 'styled-components'
 import Transaction from './Pages/Transaction/Transaction';
-import Login from './Pages/Login.jsx/Login';
-import axios from "axios"
+import Login from './Pages/Login.jsx/Login'; 
 import {useSelector} from "react-redux"
-import { userRequest } from './requestMethod';
+import { userRequest,publicRequest } from './requestMethod';
 import jwtDecode from "jwt-decode"
 import OrderDetail from './Pages/OrderDetail/OrderDetail';
 import CancelRequest from './Pages/CancelRequest/CancelRequest';
@@ -35,7 +34,7 @@ function App() {
   const refreshToken = async () => {
     try {
       const REFRESH_TOKEN = localStorage.getItem("refreshToken")
-      const res = await axios.post("/auth/refresh/" + currentUserId, { refreshToken: REFRESH_TOKEN });
+      const res = await publicRequest.post("/auth/refresh/" + currentUserId, { refreshToken: REFRESH_TOKEN });
       localStorage.setItem("accessToken", res.data.accessToken)
       console.log("accesstoken updated")
       return res.data;
