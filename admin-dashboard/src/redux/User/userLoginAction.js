@@ -1,4 +1,4 @@
-import { publicRequest } from "../../../../clients/src/requestMethod";
+import {publicRequest} from "../../requestMethod"
 import { LOGIN_FAIL, LOGIN_START, LOGIN_SUCCESS } from "./userType"; 
 
 export const loginStart=()=>({

@@ -1,5 +1,5 @@
 import { LOGIN_FAIL, LOGIN_START, LOGIN_SUCCESS } from "./userType"; 
-
+import {publicRequest} from "../../requestMethod"
 export const loginStart=()=>({
 	type:LOGIN_START
 })

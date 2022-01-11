@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components' 
 import { storage } from '../../firebase/firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { publicRequest } from '../../../../clients/src/requestMethod';
+import { publicRequest } from '../../requestMethod';
 
 const Container=styled.div`
 	margin:1rem;
