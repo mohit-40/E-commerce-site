@@ -25,20 +25,18 @@ mongoose.connect(process.env.MONGO_URL).then(()=>console.log("connected to mongo
 //!/* ------------------------------- middleware ------------------------------- */
 app.use(express.json())
 app.use(helmet());
+app.use(morgan("common"));
 app.use(cors());
 //! /* ----------------------------- setting static ----------------------------- */
 if (process.env.NODE_ENV === "production") {
 	console.log("in production")
 	const path = require("path")
-	app.use(express.static(path.join(__dirname, "/clients/build")));
+	app.use(express.static(path.join(__dirname, "/client/build")));
 	
 	app.get('*', (req, res) => {
-		res.sendFile(path.join(__dirname, '/clients/build', 'index.html'));
+		res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
 	});
-}
-if (process.env.NODE_ENV !== "production") {
-	// app.use(morgan("common"));
-}
+} 
 //!/* ---------------------------------- Route --------------------------------- */
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
