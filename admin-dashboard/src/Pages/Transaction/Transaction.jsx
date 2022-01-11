@@ -9,4 +9,4 @@ const Transaction = () => {
 	)
 }
 
-export default Transaction
+export default Transaction;
