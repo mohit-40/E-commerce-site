@@ -4,6 +4,7 @@ const dotenv=require('dotenv').config();
 const express=require("express");
 const app=express();
 const mongoose=require('mongoose');
+const morgan = require("morgan");
 const helmet=require('helmet'); 
 const cors = require("cors") 
 
@@ -36,8 +37,7 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 if (process.env.NODE_ENV !== "production") {
-	const morgan = require("morgan");
-	app.use(morgan("common"));
+	// app.use(morgan("common"));
 }
 //!/* ---------------------------------- Route --------------------------------- */
 app.use("/api/auth",authRoute);
