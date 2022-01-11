@@ -107,7 +107,6 @@ const Products = ({ sort, filter, category }) => {
 			}
 			catch (error) {
 				console.log(error)
-				history.push("/error");
 			}
 		}
 		fetchProduct();
@@ -178,9 +177,9 @@ const Products = ({ sort, filter, category }) => {
 			<Wrapper>
 
 				{
-					filterProduct.length === 0 ? <h1>No product found in this category. New product will be added soon.</h1>
+					filterProduct?.length === 0 ? <h1>No product found in this category. New product will be added soon.</h1>
 						:
-						filterProduct.map((item) => {
+						filterProduct?.map((item) => {
 							return (
 								<Item key={item._id}>
 									<ImageContainer>

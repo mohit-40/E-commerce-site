@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.join(__dirname, '/clients/build', 'index.html'));
 	});
 }
-if (process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV !== "production") {
 	const morgan = require("morgan");
 	app.use(morgan("common"));
 }
@@ -50,5 +50,5 @@ app.use("/api/wishList",wishListRoute);
 app.use("/api/email",emailRoute);
 //!/* ---------------------------- listening to port --------------------------- */
 app.listen(port , ()=>{
-	console.log("server running on port "+port );
+	console.log("server running on port "+process.env.PORT||8800 );
 });
