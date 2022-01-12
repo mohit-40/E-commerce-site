@@ -26,6 +26,15 @@ mongoose.connect(process.env.MONGO_URL).then(()=>console.log("connected to mongo
 app.use(express.json())
 app.use(helmet());
 app.use(cors());
+//!/* ---------------------------------- Route --------------------------------- */
+app.use("/api/auth",authRoute);
+app.use("/api/user",userRoute);
+app.use("/api/cart",cartRoute);
+app.use("/api/order",orderRoute);
+app.use("/api/product",productRoute);
+app.use("/api/checkout",stripeRoute);
+app.use("/api/wishList",wishListRoute);
+app.use("/api/email",emailRoute);
 //! /* ----------------------------- setting static ----------------------------- */
 if (process.env.NODE_ENV === "production") {
 	console.log("in production")
@@ -39,15 +48,6 @@ if (process.env.NODE_ENV === "production") {
 else{
 	app.use(morgan("common"));
 }
-//!/* ---------------------------------- Route --------------------------------- */
-app.use("/api/auth",authRoute);
-app.use("/api/user",userRoute);
-app.use("/api/cart",cartRoute);
-app.use("/api/order",orderRoute);
-app.use("/api/product",productRoute);
-app.use("/api/checkout",stripeRoute);
-app.use("/api/wishList",wishListRoute);
-app.use("/api/email",emailRoute);
 //!/* ---------------------------- listening to port --------------------------- */
 app.listen(port , ()=>{
 	console.log("server running on port "+process.env.PORT||8800 );
