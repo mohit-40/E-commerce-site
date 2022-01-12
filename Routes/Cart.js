@@ -6,7 +6,7 @@ const {verifyToken, verifyTokenAndAuthorization , verifyTokenAndAdmin} =require(
 
 
 // create cartItem
-router.post("/",verifyTokenAndAuthorization,async(req,res)=>{
+router.post("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 	try {
 		const newCartItem =await new CartItem(req.body);
 		const cartItem = await newCartItem.save();
