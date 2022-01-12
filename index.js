@@ -5,7 +5,6 @@ const express=require("express");
 const app=express();
 const mongoose=require('mongoose');
 const morgan = require("morgan");
-const helmet=require('helmet'); 
 const cors = require("cors") 
 
 //!including route file
@@ -26,6 +25,8 @@ mongoose.connect(process.env.MONGO_URL).then(()=>console.log("connected to mongo
 app.use(express.json())
 app.use(cors());
 
+// this is remove due to content security policy error 
+// const helmet=require('helmet'); 
 // app.use(helmet());
 // app.use(
 // 	helmet.contentSecurityPolicy({
@@ -35,6 +36,21 @@ app.use(cors());
 // 	  }
 // 	})
 //   )
+//in html use meta but better to write in directive in helmet here 
+{/* <meta 
+  http-equiv="Content-Security-Policy" 
+  content=
+    " 
+      default-src 'none';
+      script-src 'self' 'unsafe-inline' http://www.google-analytics.com/analytics https://checkout.stripe.com/checkout.js;
+      font-src 'self' https://fonts.gstatic.com https://use.fontawesome.com;
+      connect-src 'self' https://shophify.herokuapp.com';
+      img-src * 'self' data: https:;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      media-src 'self';
+      frame-src 'self' ;
+    "
+  >  */}
 //!/* ---------------------------------- Route --------------------------------- */
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
