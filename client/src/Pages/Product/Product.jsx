@@ -153,7 +153,7 @@ const Product = () => {
 				date:new Date().getTime()
 			}
 			if(currentUserId){
-				const res = await userRequest.post("/cart", item);
+				const res = await userRequest.post("/cart/"+currentUserId, item);
 				dispatch(addItem(res.data))
 			} 
 			else{ 
