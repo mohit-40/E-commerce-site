@@ -59,7 +59,7 @@ const Categories = () => {
 					return(
 						<Item key={category.id}>
 							<ImageContainer>
-								<Image src={category.img}/>
+								{/* <Image src={category.img}/> */}
 							</ImageContainer>
 							<InfoContainer>
 								<Title>{category.title}</Title>
