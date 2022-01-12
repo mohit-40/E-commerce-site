@@ -103,8 +103,8 @@ const Products = ({ sort, filter, category }) => {
 			try {
 				const res = category ? await publicRequest.get("/product?category=" + category) : await publicRequest.get("/product/");
 				setAllProduct(res.data);
-				console.log("in fetchproduct of products");
 				setFilterProduct(res.data);
+				console.log("in fetchproduct of products");
 			}
 			catch (error) {
 				console.log(error)
