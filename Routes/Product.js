@@ -43,6 +43,7 @@ router.get("/:id", async(req,res)=>{
 
 //get all product 
 router.get("/", async(req,res)=>{
+	console.info("het i finallly got here it mean something is good here and we can do this");
 	const queryNew=req.query.new;
 	const queryCategory=req.query.category;
 	try {
