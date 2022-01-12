@@ -16,6 +16,7 @@ import { addWlItem } from '../../redux/wishList/wishListAction'
 const Container = styled.div``
 const Wrappaer = styled.div`
 	display: flex;
+	flex-wrap:wrap;
 	justify-content: center;
 `
 const ImageContainer = styled.div`

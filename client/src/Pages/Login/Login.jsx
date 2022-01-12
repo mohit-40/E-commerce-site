@@ -64,7 +64,7 @@ const Login = () => {
 			<Wrapper>
 				<Title>SIGN IN</Title>
 				<Form>
-					<Input placeholder="Username" required onChange={ (e)=> setEmail(e.target.value)}  />
+					<Input placeholder="Email" required onChange={ (e)=> setEmail(e.target.value)}  />
 					<Input placeholder="Password" type="password" required onChange={ (e)=> setPassword(e.target.value)} />
 					<Button type="signin" onClick={handleSubmit}>{userState.isLoading? "loading" :"SIGN IN" }</Button>
 					{ userState.error && "something went wrong ..." }
