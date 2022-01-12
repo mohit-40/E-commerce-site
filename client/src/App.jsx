@@ -74,8 +74,7 @@ function App() {
 		const fetchWishList = async()=>{
 			try {
 				const res = await userRequest.get("/wishList/"+currentUserId);	
-        const wishListItems = res.data;
-        console.log("in fetchwishlist of app jsx");
+        const wishListItems = res.data; 
 				dispatch(setItem(wishListItems));
 			} catch (error) {
 				console.log(error.message)

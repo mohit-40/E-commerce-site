@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGO_URL).then(()=>console.log("connected to mongo
 app.use(express.json())
 app.use(cors());
 
-// this is remove due to content security policy error 
+//* helmet is remove due to content security policy error 
 // const helmet=require('helmet'); 
 // app.use(helmet());
 // app.use(
@@ -36,7 +36,7 @@ app.use(cors());
 // 	  }
 // 	})
 //   )
-//in html use meta but better to write in directive in helmet here 
+//*in html use meta but better to write in directive in helmet here 
 {/* <meta 
   http-equiv="Content-Security-Policy" 
   content=
@@ -51,6 +51,10 @@ app.use(cors());
       frame-src 'self' ;
     "
   >  */}
+  //* in env varibel of heroku write this 
+  //INLINE_RUNTIME_CHUNK=false
+
+
 //!/* ---------------------------------- Route --------------------------------- */
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
