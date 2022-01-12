@@ -25,7 +25,6 @@ mongoose.connect(process.env.MONGO_URL).then(()=>console.log("connected to mongo
 //!/* ------------------------------- middleware ------------------------------- */
 app.use(express.json())
 app.use(helmet());
-app.use(morgan("common"));
 app.use(cors());
 //! /* ----------------------------- setting static ----------------------------- */
 if (process.env.NODE_ENV === "production") {
@@ -37,6 +36,9 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
 	});
 } 
+else{
+	app.use(morgan("common"));
+}
 //!/* ---------------------------------- Route --------------------------------- */
 app.use("/api/auth",authRoute);
 app.use("/api/user",userRoute);
