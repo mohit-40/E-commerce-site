@@ -59,6 +59,7 @@ router.post('/login',async(req,res)=>{
 
 //refreshToken
 router.post("/refresh/:id",async (req,res)=>{
+	console.info("in backend for refresh token ")
 	try {
 		const refreshToken=req.body.refreshToken;
 		if(!refreshToken) return res.status(400).json("you are not authenticated");
