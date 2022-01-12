@@ -102,8 +102,8 @@ const Products = ({ sort, filter, category }) => {
 		const fetchProduct = async () => {
 			try {
 				const res = category ? await publicRequest.get("/product?category=" + category) : await publicRequest.get("/product/");
-				console.log("in fetchproduct of products");
 				setAllProduct(res.data);
+				console.log("in fetchproduct of products");
 				setFilterProduct(res.data);
 			}
 			catch (error) {
