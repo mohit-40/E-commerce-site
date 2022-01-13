@@ -2,4 +2,4 @@
 
 https://shophify.herokuapp.com/
 
-https://shophify-admin.herokuapp.com/
+admin panel= https://shophify-admin.herokuapp.com/
