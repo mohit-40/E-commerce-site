@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const saltRounds =10;
 
 //get the user 
-router.get("/find/:id",verifyTokenAndAdmin, async(req,res)=>{
+router.get("/find/:id",verifyTokenAndAuthorization, async(req,res)=>{
 	try{
 		const user = await User.findById(req.params.id);
 		const {password,...other}=user._doc;
