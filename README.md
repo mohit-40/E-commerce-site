@@ -1,10 +1,10 @@
 # FASHION STORE
 
-▪ A full stack E-Commerce web application where the user can buy and sell product online.
+▪ A full stack E-Commerce web application where the user can buy and sell product online.<br />
 ▪ It allows the user to search products by category and filter products accordingly. Users can add the product to 
-their cart or favorite and can make payments using a card.
+their cart or favorite and can make payments using a card.<br />
 ▪ From the admin dashboard, the admin can view orders detail, create or update products, and process 
-cancellation requests.
+cancellation requests.<br />
 ▪ Technology Used: HTML, CSS, JavaScript, React.js, Node.js, MongoDB, Redux, JWT, Firebase storage, Stripe.
 
 
