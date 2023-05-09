@@ -1,0 +1,11 @@
+* {
+	margin: 0;
+	font-family: 'Urbanist', sans-serif;
+	/* color: rgba(13, 81, 228, 0.836); */
+  }
+
+.text-link {
+    color: inherit;
+    text-decoration: inherit;
+}
+
